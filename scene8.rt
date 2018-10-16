@@ -1,0 +1,34 @@
+camera {
+position 0 8 0
+angles -10 0
+}
+
+light {
+position 0 10 25
+color 255 255 255
+}
+
+light {
+position 0 -10 20
+color 255 255 255
+}
+
+cylinder {
+position 0 0 0
+angles 0 0
+color 20 60 255
+radius 12
+}
+
+cone {
+center 0 0 60
+angles 0 0
+pi_divider 8
+color 255 60 20
+}
+
+sphere {
+center 0 0 30
+radius 4
+color 20 255 255
+} 

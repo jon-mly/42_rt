@@ -1,0 +1,296 @@
+camera {
+position 0 0 -40
+angles 0 0
+}
+
+LEFT CLUSTER :
+
+light {
+color 124 40 100
+position -60 50 51
+}
+light {
+color 0 35 193
+position -60 30 51
+}
+light {
+color 67 149 118
+position -60 10 51
+}
+light {
+color 221 198 75
+position -60 -10 51
+}
+light {
+color 194 85 34
+position -60 -30 51
+}
+light {
+color 197 43 28
+position -60 -50 51
+}
+
+sphere {
+center -60 50 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center -60 30 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center -60 10 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center -60 -10 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center -60 -30 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center -60 -50 60
+color 0 0 0 
+radius 5
+}
+
+
+MIDDLE LEFT CLUSTER :
+
+light {
+color 124 40 100
+position -30 50 51
+}
+light {
+color 0 35 193
+position -30 30 51
+}
+light {
+color 67 149 118
+position -30 10 51
+}
+light {
+color 221 198 75
+position -30 -10 51
+}
+light {
+color 194 85 34
+position -30 -30 51
+}
+light {
+color 197 43 28
+position -30 -50 51
+}
+
+sphere {
+center -30 50 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center -30 30 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center -30 10 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center -30 -10 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center -30 -30 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center -30 -50 60
+color 0 0 0 
+radius 5
+}
+
+
+CENTER CLUSTER :
+
+light {
+color 124 40 100
+position 0 50 51
+}
+light {
+color 0 35 193
+position 0 30 51
+}
+light {
+color 67 149 118
+position 0 10 51
+}
+light {
+color 221 198 75
+position 0 -10 51
+}
+light {
+color 194 85 34
+position 0 -30 51
+}
+light {
+color 197 43 28
+position 0 -50 51
+}
+
+sphere {
+center 0 50 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center 0 30 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center 0 10 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center 0 -10 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center 0 -30 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center 0 -50 60
+color 0 0 0 
+radius 5
+}
+
+MIDDLE RIGHT CLUSTER :
+
+light {
+color 124 40 100
+position 30 50 51
+}
+light {
+color 0 35 193
+position 30 30 51
+}
+light {
+color 67 149 118
+position 30 10 51
+}
+light {
+color 221 198 75
+position 30 -10 51
+}
+light {
+color 194 85 34
+position 30 -30 51
+}
+light {
+color 197 43 28
+position 30 -50 51
+}
+
+sphere {
+center 30 50 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center 30 30 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center 30 10 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center 30 -10 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center 30 -30 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center 30 -50 60
+color 0 0 0 
+radius 5
+}
+
+RIGHT CLUSTER :
+
+light {
+color 124 40 100
+position 60 50 51
+}
+light {
+color 0 35 193
+position 60 30 51
+}
+light {
+color 67 149 118
+position 60 10 51
+}
+light {
+color 221 198 75
+position 60 -10 51
+}
+light {
+color 194 85 34
+position 60 -30 51
+}
+light {
+color 197 43 28
+position 60 -50 51
+}
+
+sphere {
+center 60 50 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center 60 30 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center 60 10 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center 60 -10 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center 60 -30 60
+color 0 0 0 
+radius 5
+}
+sphere {
+center 60 -50 60
+color 0 0 0 
+radius 5
+}

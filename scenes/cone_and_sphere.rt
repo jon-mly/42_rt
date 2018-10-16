@@ -1,0 +1,41 @@
+'
+SCENE:
+- a camera placed inside or under an object
+- an object
+- a single light out or over of the object
+
+GOAL OF THE SCENE :
+- confirm that a light on a side an object cant
+be seen from the other side, nor does affect the color in
+the object
+'
+
+CAMERA :
+
+camera {
+position 10 0 0
+angles 0 30
+}
+
+LIGHTS :
+
+light {
+position 0 6 18
+color 255 255 255
+}
+
+OBJECTS :
+
+sphere {
+center 0 0 20
+color 20 50 150
+radius 2
+}
+
+
+cone {
+center 0 0 20
+color 20 50 150
+pi_divider 16
+angles 20 40
+}

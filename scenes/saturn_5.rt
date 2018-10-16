@@ -1,0 +1,303 @@
+# CAMERA
+
+camera {
+position 0 -70 40
+angles 20 0
+}
+
+# ===============
+# LIGHTS
+# ===============
+
+# MAIN LIGHT
+
+light {
+type AMBIANT
+color 40 40 150
+power 600
+direction -1 -1 3
+}
+
+# PROJECTORS
+
+light {
+type PROJECTOR
+color 255 255 255
+direction -2 8 1
+position 30 -89 180
+angle 50
+power 1200
+}
+
+light {
+type PROJECTOR
+color 255 255 255
+direction -3 0 5
+position 30 -89 180
+angle 40
+power 800
+}
+
+light {
+type PROJECTOR
+color 255 255 255
+direction 2 8 1
+position -30 -89 180
+angle 50
+power 1200
+}
+
+light {
+type PROJECTOR
+color 255 255 255
+direction 3 0 5
+position -30 -89 180
+angle 40
+power 800
+}
+
+# ================
+# SCENE
+# ================
+
+# ROCKET BODY
+
+cylinder {
+finite
+covered
+point 0 -80 200
+color 255 255 255
+diffuse 100
+reflect 20
+radius 10
+height 100
+angles 0 -90
+}
+
+cone {
+finite
+center 0 47 200
+pi_divider 9
+color 80 80 80
+diffuse 100
+reflect 20
+height 27
+angles 0 90
+}
+
+cylinder {
+finite
+point 0 26 200
+radius 7
+height 35
+angles 0 -90
+color 255 255 255
+diffuse 100
+reflect 20
+}
+
+cone {
+finite
+center 0 80 200
+color 80 80 80
+pi_divider 9
+height 19
+diffuse 100
+reflect 20
+angles 0 90
+}
+
+cylinder {
+finite
+point 0 68 200
+radius 4
+height 13
+angles 0 -90
+color 255 255 255
+diffuse 100
+reflect 20
+}
+
+cone {
+finite
+center 0 92 200
+color 80 80 80
+pi_divider 9
+height 11
+diffuse 100
+reflect 20
+angles 0 90
+}
+
+cylinder {
+finite
+point 0 85 200
+radius 2
+height 10
+angles 0 -90
+color 255 255 255
+diffuse 100
+reflect 20
+}
+
+cone {
+finite
+center 0 101 200
+color 255 255 255
+pi_divider 10
+height 6
+diffuse 100
+reflect 20
+angles 0 90
+}
+
+cylinder {
+finite
+point 0 98 200
+radius 1
+height 13
+angles 0 -90
+color 255 255 255
+diffuse 100
+reflect 20
+}
+
+cone {
+finite
+center 0 116 200
+color 255 255 255
+pi_divider 16
+height 5
+diffuse 100
+reflect 20
+angles 0 90
+}
+
+# BOOSTER PODS
+
+cone {
+finite
+covered
+center 8 -68 200
+color 80 80 80
+pi_divider 8
+height 12
+diffuse 100
+reflect 20
+angles 0 90
+}
+
+cone {
+finite
+covered
+center -8 -68 200
+color 80 80 80
+pi_divider 8
+height 12
+diffuse 100
+reflect 20
+angles 0 90
+}
+
+cone {
+finite
+covered
+center 0 -68 208
+color 80 80 80
+pi_divider 8
+height 12
+diffuse 100
+reflect 20
+angles 0 90
+}
+
+cone {
+finite
+covered
+center 0 -68 192
+color 80 80 80
+pi_divider 8
+height 12
+diffuse 100
+reflect 20
+angles 0 90
+}
+
+# BOOSTERS
+
+cone {
+finite
+center 0 -73 192
+color 40 40 40
+pi_divider 10
+height 12
+diffuse 100
+reflect 0
+angles 0 90
+}
+
+cone {
+finite
+center 0 -73 208
+color 40 40 40
+pi_divider 10
+height 12
+diffuse 100
+reflect 0
+angles 0 90
+}
+
+cone {
+finite
+center 8 -73 200
+color 40 40 40
+pi_divider 10
+height 12
+diffuse 100
+reflect 0
+angles 0 90
+}
+
+cone {
+finite
+center -8 -73 200
+color 40 40 40
+pi_divider 10
+height 12
+diffuse 100
+reflect 0
+angles 0 90
+}
+
+cone {
+finite
+center 0 -73 200
+color 40 40 40
+pi_divider 10
+height 12
+diffuse 100
+reflect 0
+angles 0 90
+}
+
+# ROCKET BASE
+
+plane {
+point 0 -100 0
+normal 0 1 0
+color 10 160 10
+diffuse 70
+reflect 0
+}
+
+cylinder {
+finite
+covered
+point 0 -100 200
+radius 100
+angles 0 -90
+height 10
+color 20 20 20
+diffuse 80
+reflect 0
+}

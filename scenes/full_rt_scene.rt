@@ -1,0 +1,161 @@
+# theme 255 255 255
+# power 40
+
+camera {
+position 0 2 -40
+angles 0 0
+}
+
+light {
+type AMBIANT
+position 10 4 0
+color 255 255 255
+direction 4 -3 2
+power 500
+}
+
+light {
+type PROJECTOR
+color 255 255 255
+position 15 7 0
+direction -5 -1 2
+angle 90
+power 600
+}
+
+sphere {
+center 20 0 0
+radius 4
+color 100 0 0
+diffuse 100
+reflect 60
+brillance 100
+refraction_index 130
+transparency 0
+}
+
+sphere {
+center -20 0 0
+radius 4
+color 0 100 0
+diffuse 100
+reflect 60
+brillance 100
+refraction_index 100
+transparency 0
+}
+
+sphere {
+center 0 0 -20
+radius 4
+color 0 0 1000
+diffuse 0
+reflect 60
+brillance 100
+refraction_index 100
+transparency 100
+}
+
+# sphere {
+# center 0 7 0
+# radius 10
+# color 100 0 0
+# diffuse 10
+# reflect 40
+# brillance 100
+# refraction_index 130
+# transparency 100
+# }
+
+# cylinder {
+# finite
+# covered
+# height 6
+# radius 6
+# angles 130 -140
+# color 255 20 20
+# position 0 -2 0
+# diffuse 30
+# reflect 40
+# refraction_index 130
+# transparency 60
+# brillance 100
+# }
+
+# cylinder {
+# finite
+# covered
+# height 8
+# radius 3
+# angles 0 -90
+# color 200 200 200
+# position 0 -2 0
+# diffuse 100
+# reflect 10
+# }
+
+cone {
+# finite
+# covered
+height 10
+pi_divider 4
+angles 0 80
+color 200 200 0
+center 0 6 0
+diffuse 100
+reflect 80
+brillance 30
+refraction_index 100
+transparency 0
+}
+
+# rectangle {
+# point -20 0 0
+# angles 0 0
+# color 0 180 120
+# width 40
+# height 1
+# diffuse 100
+# reflect 0
+# }
+
+# triangle {
+# point 0 10 0
+# first_vector 10 3 8
+# second_vector 0 20 48
+# color 0 0 0
+# diffuse 100
+# brillance 100
+# reflect 100
+# }
+
+# disc {
+# point 0 4 0
+# normal 0 1 0
+# color 255 0 0
+# diffuse 100
+# reflect 100
+# radius 6
+# }
+
+plane {
+point 0 -5 0
+normal 0 1 0
+color 0 0 0
+diffuse 100
+brillance 0
+transparency 0
+refraction_index 100
+reflect 40
+}
+
+plane {
+point 0 -5 60
+normal 0 0 1
+color 200 0 200
+diffuse 100
+brillance 0
+transparency 0
+refraction_index 100
+reflect 40
+}

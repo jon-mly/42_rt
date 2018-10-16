@@ -1,0 +1,52 @@
+SCENE:
+- a camera normally placed
+- a plane
+- an object that can contain something (as opposed
+to a plane)
+- a single light contained in the object
+
+GOAL OF THE SCENE :
+- confirm that a light inside an object can't
+have an effect on the others objects
+
+CAMERA :
+
+camera {
+position 5 10 0
+angles 0 0
+}
+
+LIGHTS :
+
+light {
+position 5 10 30
+color 255 255 255
+}
+
+OBJECTS :
+
+plane {
+point 0 -20 0
+normal 0 1 0
+color 150 0 30
+}
+
+#sphere {
+center 5 10 50
+color 20 50 150
+radius 5
+}
+
+cylinder {
+position 5 10 50
+color 20 50 150
+radius 5
+angles 0 0
+}
+
+#cone {
+center 5 10 60
+color 20 50 150
+pi_divider 30
+angles 0 0
+}

@@ -1,0 +1,57 @@
+SCENE TEST
+
+# CAMERA
+
+camera {
+position -2 20 -60
+angles 0 0
+}
+
+# LIGHTS
+
+#light {
+position -10 20 -30
+color 255 255 255
+}
+
+light {
+position 10 5 -30
+color 190 190 190
+}
+
+light {
+position -20 6 -22
+color 190 190 190
+}
+
+#light {
+position 0 40 6
+color 190 190 190
+}
+
+# OBJECTS
+
+sphere {
+radius 9
+center 10 13 -4
+color 80 80 80
+}
+
+plane {
+point 0 0 10
+normal 0 0 -1
+color 50 50 50
+}
+
+plane {
+point 0 0 0
+normal 0 1 0
+color 20 120 40
+}
+
+cylinder {
+position -15 3 -13
+radius 4
+angles 0 90
+color 20 10 120
+}

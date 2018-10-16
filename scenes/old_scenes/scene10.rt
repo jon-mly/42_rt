@@ -1,0 +1,38 @@
+# camera {
+# position 0 30 0
+# angles -90 90
+# }
+
+# camera {
+# position 0 0 -50
+# angles 0 0
+# }
+
+camera {
+position 50 0 0
+angles 0 90
+}
+
+light {
+position 0 6 0
+color 255 255 255 
+}
+
+light {
+position -2 -5 -7
+color 255 255 255 
+}
+
+# cylinder {
+# position 0 0 0
+# radius 10
+# angles 90 90
+# color 200 200 200
+# }
+
+cone {
+center 0 0 0
+pi_divider 5
+angles 0 0
+color 200 200 200
+}

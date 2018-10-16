@@ -1,0 +1,43 @@
+SCENE : SAMPLE SCENE
+
+camera {
+position 0 80 -40
+angles -30 80
+}
+
+light {
+position -18 20 -25
+color 255 255 255
+}
+
+plane {
+point 0 0 10
+normal 0 0 1
+color 10 150 255
+}
+
+plane {
+point 0 -20 0
+normal 0 1 0
+color 255 255 100
+}
+
+#cone {
+center -10 10 30
+pi_divider 10
+angles 30 -20
+color 255 45 120
+}
+
+cylinder {
+point -10 10 30
+radius 3
+angles 30 -20
+color 255 45 120
+}
+
+sphere {
+radius 12
+center -50 20 0
+color 130 255 130
+}
