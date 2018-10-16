@@ -1,4 +1,4 @@
-NAME = rtv1
+NAME = rt
 ASSOCIATED_REP = $(NAME).dSYM
 
 LIBFT_REP = libft/
