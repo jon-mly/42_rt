@@ -20,7 +20,7 @@ color 255 255 255
 position 15 7 0
 direction -5 -1 2
 angle 90
-power 200
+power 400
 }
 
 sphere {
@@ -45,16 +45,16 @@ refraction_index 100
 transparency 0
 }
 
-# sphere {
-# center 0 0 -20
-# radius 6
-# color 0 0 0
-# diffuse 10
-# reflect 60
-# brillance 100
-# refraction_index 100
-# transparency 80
-# }
+sphere {
+center 0 0 -20
+radius 6
+color 0 0 0
+diffuse 10
+reflect 20
+brillance 100
+refraction_index 100
+transparency 80
+}
 
 # sphere {
 # center 0 7 0
