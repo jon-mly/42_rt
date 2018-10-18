@@ -6,66 +6,66 @@ position 0 2 -40
 angles 0 0
 }
 
-light {
-type AMBIANT
-position 10 4 0
-color 255 255 255
-direction 4 -3 2
-power 400
-}
+# light {
+# type AMBIANT
+# position 10 4 0
+# color 255 255 255
+# direction 4 -3 2
+# power 400
+# }
 
 light {
 type PROJECTOR
 color 255 255 255
-position 15 7 0
+position 20 7 -3
 direction -5 -1 2
-angle 90
-power 400
-}
-
-sphere {
-center 20 0 0
-radius 4
-color 100 0 0
-diffuse 100
-reflect 60
-brillance 100
-refraction_index 130
-transparency 0
-}
-
-sphere {
-center -20 0 0
-radius 4
-color 0 100 0
-diffuse 100
-reflect 60
-brillance 100
-refraction_index 100
-transparency 0
-}
-
-sphere {
-center 0 0 -20
-radius 6
-color 0 0 50
-diffuse 10
-reflect 20
-brillance 100
-refraction_index 100
-transparency 90
+angle 80
+power 800
 }
 
 # sphere {
-# center 0 7 0
-# radius 10
+# center 20 0 0
+# radius 4
 # color 100 0 0
-# diffuse 10
-# reflect 40
+# diffuse 100
+# reflect 60
 # brillance 100
 # refraction_index 130
-# transparency 100
+# transparency 0
 # }
+
+# sphere {
+# center -20 0 0
+# radius 4
+# color 0 100 0
+# diffuse 100
+# reflect 60
+# brillance 100
+# refraction_index 100
+# transparency 0
+# }
+
+# sphere {
+# center 0 0 -20
+# radius 6
+# color 0 0 50
+# diffuse 10
+# reflect 20
+# brillance 100
+# refraction_index 100
+# transparency 90
+# }
+
+sphere {
+center 0 7 0
+radius 3
+color 100 0 0
+diffuse 10
+reflect 40
+brillance 100
+refraction_index 100
+transparency 80
+}
 
 # cylinder {
 # finite
@@ -99,14 +99,14 @@ cone {
 # covered
 height 10
 pi_divider 4
-angles 0 80
+angles 0 90
 color 200 200 0
-center 0 6 0
+center 0 7 0
 diffuse 20
 reflect 80
-brillance 30
+brillance 100
 refraction_index 100
-transparency 90
+transparency 50
 }
 
 # rectangle {
@@ -152,7 +152,7 @@ reflect 100
 plane {
 point 0 -5 60
 normal 0 0 1
-color 200 0 200
+color 10 180 200
 diffuse 100
 brillance 0
 transparency 0
