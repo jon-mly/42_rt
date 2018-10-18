@@ -3,9 +3,9 @@
 # define NULL 0
 # define MAX_REFLECTION_ITER 3
 # define MAX_REFRACTION_ITER 6
-# define MAX_DEPTH 6
+# define MAX_DEPTH 7
 # define ALIASING 1
-# define EPSILON 0.02
+# define EPSILON 0.0008
 
 typedef enum	e_object_type
 {
@@ -1138,10 +1138,9 @@ t_color			specular_light_for_intersection(t_object light_ray, t_object ray,
 		: 100.0 * (100.0 / light.power);
 		distance = 1;
 	reflected = reflected_vector(incident, shape_normal(ray, object));
-	intensity = pow(fmax(dot_product(reflected, ray.direction), 0), (int)(object.brillance * 100)) * object.brillance;
+	intensity = pow(fmax(dot_product(reflected, ray.direction), 0), (int)(object.brillance * 100)) * pow(object.brillance, 2);
 	if (light.typpe == PROJECTOR)
 		intensity *= (1 / (1 - cos(light.angle))) * dot_product(light.direction, light_ray.direction) - (cos(light.angle) / (1 - cos(light.angle)));
-	// printf("intensity : %.2f\n", intensity);
 	specular.r = projector_color_coord(intensity, distance, object.color.r, light.color.r);
 	specular.g = projector_color_coord(intensity, distance, object.color.g, light.color.g);
 	specular.b = projector_color_coord(intensity, distance, object.color.b, light.color.b);
@@ -1290,11 +1289,9 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 			{
 				added_color = get_color_on_intersection(ray, &obj[closest_object_index], scene, light, obj);
 				added_color = fade_color(added_color, ray.transparency);
-				// if (!ponctual && obj[closest_object_index].reflection > 0)
-				// {
-				// 	added_color = add_color(added_color, reflected_raytracing(scene, obj, light,
-				// 		init_reflected_ray(ray, obj[closest_object_index], obj[closest_object_index].reflection), 1));
-				// }
+				if (!ponctual && obj[closest_object_index].reflection > 0)
+					added_color = add_color(added_color, reflected_raytracing(scene, obj, light,
+						init_reflected_ray(ray, obj[closest_object_index], obj[closest_object_index].reflection), 1));
 			}
 			colorout = add_color(colorout, added_color);
 		}
@@ -1360,14 +1357,14 @@ t_color			reflected_raytracing(global t_scene *scene, global t_object *obj, glob
 			added_color = get_color_on_intersection(ray, &obj[closest_object_index], scene, light, obj);
 			added_color = fade_color(added_color, ray.reflection);
 			colorout = add_color(colorout, added_color);
-			// if (!ponctual && obj[closest_object_index].transparency > 0)
-			// {
-			// 	added_color = add_color(added_color, refracted_raytracing(scene, obj, light,
-			// 		init_refracted_ray(ray, obj[closest_object_index],
-			// 		obj[closest_object_index].refraction, obj[closest_object_index].transparency), 1));
-			// }
+			if (!ponctual && obj[closest_object_index].transparency > 0)
+				added_color = add_color(added_color, refracted_raytracing(scene, obj, light,
+					init_refracted_ray(ray, obj[closest_object_index],
+					obj[closest_object_index].refraction, obj[closest_object_index].transparency), 1));
 		}
-			colorout = add_color(colorout, added_color);
+		if (closest_object_index == -1 || obj[closest_object_index].reflection == 0)
+			return (colorout);
+		colorout = add_color(colorout, added_color);
 		ray = init_reflected_ray(ray, obj[closest_object_index], ray.reflection);
 	}
 	return (colorout);
