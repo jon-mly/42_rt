@@ -11,7 +11,7 @@ type AMBIANT
 position 10 4 0
 color 255 255 255
 direction 4 -3 2
-power 200
+power 400
 }
 
 light {
@@ -48,12 +48,12 @@ transparency 0
 sphere {
 center 0 0 -20
 radius 6
-color 0 0 0
+color 0 0 50
 diffuse 10
 reflect 20
 brillance 100
 refraction_index 100
-transparency 80
+transparency 90
 }
 
 # sphere {
@@ -146,7 +146,7 @@ diffuse 100
 brillance 0
 transparency 0
 refraction_index 100
-reflect 10
+reflect 100
 }
 
 plane {
@@ -157,5 +157,5 @@ diffuse 100
 brillance 0
 transparency 0
 refraction_index 100
-reflect 10
+reflect 0
 }

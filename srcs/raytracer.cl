@@ -3,7 +3,7 @@
 # define NULL 0
 # define MAX_REFLECTION_ITER 3
 # define MAX_REFRACTION_ITER 6
-# define MAX_DEPTH 4
+# define MAX_DEPTH 6
 # define ALIASING 1
 # define EPSILON 0.02
 
@@ -125,7 +125,7 @@ t_color			get_color_on_intersection(t_object ray, global t_object *closest_objec
 t_object		intersect_object(t_object ray, t_object object);
 t_vector		normalize_vector(t_vector vec);
 t_vector		vector_points(t_point p1, t_point p2);
-t_object		init_ray(int x, int y, t_camera camera, float aliasing_variation);
+t_object		init_primary_ray(int x, int y, t_camera camera, float aliasing_variation);
 t_vector	vect_rotate_x(t_vector vector, float angle, int inverse);
 t_vector	vect_rotate_y(t_vector vector, float angle, int inverse);
 t_vector	vect_rotate_z(t_vector vector, float angle, int inverse);
@@ -175,18 +175,18 @@ t_vector	cross_product(t_vector vect_1, t_vector vect_2);
 t_object		triangle_intersection(t_object ray, t_object triangle);
 t_object		parallelogram_intersection(t_object ray, t_object parallelogram);
 t_object		init_reflected_ray(t_object original_ray, t_object intersected_object, float previous_reflection);
-t_color			reflected_raytracing(global t_scene *scene, global t_object *obj, global t_light *light,
-	t_object ray, t_color colorout);
 t_vector		refracted_vector(t_object object, t_object ray, float next_refraction_index);
 t_object		init_refracted_ray(t_object original_ray, t_object intersected_object,
 	float next_refraction, float next_transparency);
 t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, global t_light *light,
-	t_object ray);
+	t_object ray, int ponctual);
 t_vector	sum_vectors(t_vector vect1, t_vector vect2);
-// int			test_ray_collision(t_object *ray, global t_object *obj, global t_scene *scene);
 t_color			primary_ray(global t_scene *scene, global t_object *obj,
 	global t_light *light, t_object ray, int depth, int refraction);
-
+t_color		fade_color(t_color color, float multiplier);
+t_color			reflected_raytracing(global t_scene *scene, global t_object *obj, global t_light *light,
+	t_object ray, int ponctual);
+// t_color		average_color(t_color c1, t_color c2);t_color		average_color(t_color c1, t_color c2)
 
 
 /*
@@ -352,6 +352,34 @@ t_vector	cross_product(t_vector vect_1, t_vector vect_2)
 	cross.z = vect_1.x * vect_2.y - vect_1.y * vect_2.x;
 	return (cross);
 }
+
+t_color		fade_color(t_color color, float multiplier)
+{
+	color.r *= multiplier;
+	color.g *= multiplier;
+	color.b *= multiplier;
+	color.a *= multiplier;
+	return (color);
+}
+
+// t_color		average_color(t_color c1, t_color c2)
+// {
+// 	int		r;
+// 	int		g;
+// 	int		b;
+// 	int		a;
+// 	t_color final_color;
+
+// 	r = (c1.r + c2.r) / 2;
+// 	g = (c1.g + c2.g) / 2;
+// 	b = (c1.b + c2.r) / 2;
+// 	a = (c1.a + c2.a) / 2;
+// 	final_color.r = (unsigned char)r;
+// 	final_color.g = (unsigned char)g;
+// 	final_color.b = (unsigned char)b;
+// 	final_color.a = (unsigned char)a;
+// 	return (final_color);
+// }
 
 /*
 ** Solves a quadratic equation but with the aim of returning a distance, which
@@ -1225,7 +1253,7 @@ t_object		init_refracted_ray(t_object original_ray, t_object intersected_object,
 }
 
 t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, global t_light *light,
-	t_object ray)
+	t_object ray, int ponctual)
 {
 	int					object_index;
 	int 				closest_object_index;
@@ -1233,10 +1261,12 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 	t_color				added_color;
 	t_color				colorout;
 	int					iter_count;
+	int					max_iterations;
 
 	iter_count = -1;
+	max_iterations = (ponctual) ? 1 : MAX_DEPTH;
 	colorout = color(0, 0, 0, 0);
-	while (++iter_count < MAX_REFRACTION_ITER) {
+	while (++iter_count < max_iterations * 2) {
 		added_color = color(0, 0, 0, 0);
 		closest_object_index = -1;
 		object_index = -1;
@@ -1256,19 +1286,21 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 		{
 			ray.norm = closest_distance;
 			ray.intersectiion = point_from_vector(ray.origin, ray.direction, closest_distance);
-			// if (iter_count % 2 == 1)
-			// {
+			if (iter_count % 2 == 1)
+			{
 				added_color = get_color_on_intersection(ray, &obj[closest_object_index], scene, light, obj);
-				added_color.r *= ray.transparency;
-				added_color.g *= ray.transparency;
-				added_color.b *= ray.transparency;
-				added_color.a *= ray.transparency;
-			// }
+				added_color = fade_color(added_color, ray.transparency);
+				// if (!ponctual && obj[closest_object_index].reflection > 0)
+				// {
+				// 	added_color = add_color(added_color, reflected_raytracing(scene, obj, light,
+				// 		init_reflected_ray(ray, obj[closest_object_index], obj[closest_object_index].reflection), 1));
+				// }
+			}
+			colorout = add_color(colorout, added_color);
 		}
-		colorout = add_color(colorout, added_color);
-		if (obj[closest_object_index].transparency == 0)
+		if (closest_object_index == -1 || obj[closest_object_index].transparency == 0)
 			return (colorout);
-		if (iter_count % 2 == 0)
+		if (iter_count % 2 == 1)
 			ray = init_refracted_ray(ray, obj[closest_object_index],
 				1, ray.transparency);
 		else
@@ -1294,11 +1326,58 @@ t_object		init_reflected_ray(t_object original_ray, t_object intersected_object,
 	return (ray);
 }
 
+t_color			reflected_raytracing(global t_scene *scene, global t_object *obj, global t_light *light,
+	t_object ray, int ponctual)
+{
+	int					object_index;
+	int 				closest_object_index;
+	float				closest_distance;
+	t_color				added_color;
+	int					iter_count;
+	t_color				colorout;
+	int					max_iterations;
+
+	iter_count = -1;
+	max_iterations = (ponctual) ? 1 : MAX_DEPTH;
+	colorout = color(0, 0, 0, 0);
+	while (++iter_count < MAX_DEPTH) {
+		added_color = color(0, 0, 0, 0);
+		closest_object_index = -1;
+		object_index = -1;
+		while (++object_index < scene->objects_count)
+		{
+			ray = intersect_object(ray, obj[object_index]);
+			if (ray.intersect && ((closest_object_index != -1 && ray.norm < closest_distance) || closest_object_index == -1) && ray.norm > EPSILON)
+			{
+				closest_object_index = object_index;
+				closest_distance = ray.norm;
+			}
+		}
+		if (closest_object_index != -1)
+		{
+			ray.norm = closest_distance;
+			ray.intersectiion = point_from_vector(ray.origin, ray.direction, closest_distance);
+			added_color = get_color_on_intersection(ray, &obj[closest_object_index], scene, light, obj);
+			added_color = fade_color(added_color, ray.reflection);
+			colorout = add_color(colorout, added_color);
+			// if (!ponctual && obj[closest_object_index].transparency > 0)
+			// {
+			// 	added_color = add_color(added_color, refracted_raytracing(scene, obj, light,
+			// 		init_refracted_ray(ray, obj[closest_object_index],
+			// 		obj[closest_object_index].refraction, obj[closest_object_index].transparency), 1));
+			// }
+		}
+			colorout = add_color(colorout, added_color);
+		ray = init_reflected_ray(ray, obj[closest_object_index], ray.reflection);
+	}
+	return (colorout);
+}
+
 /*
 ** ========== INITIAL INTERSECTION
 */
 
-t_object		init_ray(int x, int y, t_camera camera, float aliasing_variation)
+t_object		init_primary_ray(int x, int y, t_camera camera, float aliasing_variation)
 {
 	t_object	ray;
 	t_point		projector_point;
@@ -1327,9 +1406,12 @@ t_color			primary_ray(global t_scene *scene, global t_object *obj,
 	int 				closest_object_index;
 	float				closest_distance;
 	t_color				colorout;
-	t_color				added_color;
+	t_color				refracted_color;
+	t_color				reflected_color;
 
 	colorout = (t_color){0, 0, 0, 0};
+	reflected_color = (t_color){0, 0, 0, 0};
+	refracted_color = (t_color){0, 0, 0, 0};
 	closest_object_index = -1;
 	object_index = -1;
 	while (++object_index < scene->objects_count)
@@ -1346,29 +1428,15 @@ t_color			primary_ray(global t_scene *scene, global t_object *obj,
 		ray.norm = closest_distance;
 		ray.intersectiion = point_from_vector(ray.origin, ray.direction, closest_distance);
 		colorout = get_color_on_intersection(ray, &obj[closest_object_index], scene, light, obj);
-		if (depth < MAX_DEPTH)
-		{
-			if (obj[closest_object_index].reflection > 0)
-			{
-				added_color = primary_ray(scene, obj, light, init_reflected_ray(ray, obj[closest_object_index], ray.refraction), depth + 1, 0);
-				added_color.r *= obj[closest_object_index].reflection;
-				added_color.g *= obj[closest_object_index].reflection;
-				added_color.b *= obj[closest_object_index].reflection;
-				added_color.a *= obj[closest_object_index].reflection;
-				colorout = add_color(colorout, added_color);
-			}
-			if (obj[closest_object_index].transparency > 0)
-			{
-				added_color = primary_ray(scene, obj, light,
-					init_refracted_ray(ray, obj[closest_object_index],
-						obj[closest_object_index].refraction, obj[closest_object_index].transparency), depth + 1, 1);
-				added_color.r *= obj[closest_object_index].transparency;
-				added_color.g *= obj[closest_object_index].transparency;
-				added_color.b *= obj[closest_object_index].transparency;
-				added_color.a *= obj[closest_object_index].transparency;
-				colorout = add_color(colorout, added_color);
-			}
-		}
+
+		if (obj[closest_object_index].reflection > 0)
+			reflected_color = reflected_raytracing(scene, obj, light,
+				init_reflected_ray(ray, obj[closest_object_index], 1), 0);
+		if (obj[closest_object_index].transparency > 0)
+			refracted_color = refracted_raytracing(scene, obj, light,
+				init_refracted_ray(ray, obj[closest_object_index],
+					obj[closest_object_index].refraction, 1), 0);
+		colorout = add_color(colorout, average_color(refracted_color, reflected_color));
 	}
 	return (colorout);
 }
@@ -1387,7 +1455,7 @@ t_color			raytracing(global t_scene *scene, global t_camera *camera, global t_ob
 	x = get_global_id(0);
 	y = get_global_id(1);
 	idx = get_global_size(0) * get_global_id(1) + get_global_id(0);
-	ray = init_ray(x, y, *camera, aliasing_variation);
+	ray = init_primary_ray(x, y, *camera, aliasing_variation);
 	return (primary_ray(scene, obj, light, ray, 0, 0));
 }
 
