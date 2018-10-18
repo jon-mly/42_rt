@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:58:44 by aabelque          #+#    #+#             */
-/*   Updated: 2018/09/07 11:33:16 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/10/17 18:27:05 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@ void			opencl_draw(t_opencl *opcl, t_env *e)
 			&opcl->structlight);
 	opcl->err = clEnqueueNDRangeKernel(opcl->commands, opcl->kernel,
 			2, NULL, opcl->imgxy, NULL, 0, NULL, NULL);
+	printf("err: %d\n", opcl->err);
 	opcl->err = clEnqueueReadImage(opcl->commands, opcl->output,
 			CL_TRUE, opcl->region, opcl->origin, 0, 0, e->img_str,
 			0, NULL, NULL);
-			printf("err: %d\n", opcl->err);
+	write(1, "ICI\n", 4);
+	printf("err: %d\n", opcl->err);
 }

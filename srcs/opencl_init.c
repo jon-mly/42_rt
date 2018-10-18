@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/18 11:30:12 by aabelque          #+#    #+#             */
-/*   Updated: 2018/09/10 16:05:39 by jmlynarc         ###   ########.fr       */
+/*   Updated: 2018/10/17 18:27:05 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void				set_opencl_env(t_opencl *opcl)
 {
-	opcl->dev_type = CL_DEVICE_TYPE_CPU;
+	opcl->dev_type = CL_DEVICE_TYPE_GPU;
 	opcl->err = 0;
 	opcl->platform_id = NULL;
 	opcl->device_id = 0;

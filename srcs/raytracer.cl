@@ -778,27 +778,54 @@ t_object		parallelogram_intersection(t_object ray, t_object parallelogram)
 t_object			intersect_object(t_object ray, t_object object)
 {
 	if (object.typpe == SPHERE)
+{
+		printf("Oui\n");
 		ray = sphere_intersection(ray, object);
+}
 	else if (object.typpe == PLANE)
+{
+		printf("Oui1\n");
 		ray = plane_intersection(ray, object);
+}
 	else if (object.typpe == CYLINDER)
+{
+		printf("Oui2\n");
 		ray = (object.finite) 
 			? finite_cylinder_intersection(ray, object) 
 			: cylinder_intersection(ray, object);
+}
 	else if (object.typpe == CONE)
+{
+		printf("Oui3\n");
 		ray = (object.finite)
 			? finite_cone_intersection(ray, object)
 			: cone_intersection(ray, object);
+}
 	else if (object.typpe == DISC)
+{
+		printf("Oui4\n");
 		ray = disc_intersection(ray, object);
+}
 	else if (object.typpe == RECTANGLE)
+{
+		printf("Oui5\n");
 		ray = rectangle_intersection(ray, object);
+}
 	else if (object.typpe == TRIANGLE)
+{
+		printf("Oui6\n");
 		ray = triangle_intersection(ray, object);
+}
 	else if (object.typpe == PARALLELOGRAM)
+{
+		printf("Oui6\n");
 		ray = parallelogram_intersection(ray, object);
+}
 	if (ray.intersect)
+{
+		printf("Oui7\n");
 		ray.intersectiion = point_from_vector(ray.origin, ray.direction, ray.norm);
+}
 	return (ray);
 }
 
@@ -1385,15 +1412,17 @@ t_color			raytracing(global t_scene *scene, global t_camera *camera, global t_ob
 	object_index = -1;
 	while (++object_index < scene->objects_count)
 	{
-		if (x == 0 && y == 0)
-			printf("%s : %.2f\n", obj[object_index].name, obj[object_index].transparency);
+		//if (x == 0 && y == 0)
+		//	printf("%s : %.2f\n", obj[object_index].name, obj[object_index].transparency);
 		ray = intersect_object(ray, obj[object_index]);
+		printf("Here4\n");
 		if (ray.intersect && ((closest_object_index != -1 && ray.norm < closest_distance) || closest_object_index == -1) && ray.norm > EPSILON)
 		{
 			closest_object_index = object_index;
 			closest_distance = ray.norm;
 		}
 	}
+	printf("Here4\n");
 	if (closest_object_index != -1)
 	{
 		ray.norm = closest_distance;
@@ -1430,7 +1459,11 @@ __kernel void				pixel_raytracing_gpu(__write_only image2d_t out, global t_scene
 	{
 		aliasing_variation = (double)aliasing_iter / (double)ALIASING;
 		if (aliasing_iter == 0)
+{
 			average = raytracing(scene, camera, obj, light, aliasing_variation);
+			if (x == 0 && y == 0)
+				printf("LA\n");
+}
 		else
 			average = average_color(average, raytracing(scene, camera, obj, light, aliasing_variation));
 	}
