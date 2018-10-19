@@ -3,9 +3,9 @@
 # define NULL 0
 # define MAX_REFLECTION_ITER 3
 # define MAX_REFRACTION_ITER 6
-# define MAX_DEPTH 7
+# define MAX_DEPTH 5
 # define ALIASING 1
-# define EPSILON 0.0008
+# define EPSILON 0.002
 # define BLACK (t_color){0, 0, 0, 0}
 
 typedef enum	e_object_type
@@ -175,7 +175,8 @@ t_object		rectangle_intersection(t_object ray, t_object rectangle);
 t_vector	cross_product(t_vector vect_1, t_vector vect_2);
 t_object		triangle_intersection(t_object ray, t_object triangle);
 t_object		parallelogram_intersection(t_object ray, t_object parallelogram);
-t_object		init_reflected_ray(t_object original_ray, t_object intersected_object, float previous_reflection);
+// t_object		init_reflected_ray(t_object original_ray, t_object intersected_object, float previous_reflection);
+t_object		init_reflected_ray(t_object original_ray, t_object intersected_object);
 t_vector		refracted_vector(t_object object, t_object ray, float next_refraction_index);
 t_object		init_refracted_ray(t_object original_ray, t_object intersected_object,
 	float next_refraction, float next_transparency);
@@ -359,10 +360,13 @@ t_vector	cross_product(t_vector vect_1, t_vector vect_2)
 
 t_color		fade_color(t_color color, float multiplier)
 {
-	color.r *= multiplier;
-	color.g *= multiplier;
-	color.b *= multiplier;
-	color.a *= multiplier;
+	color.r = (unsigned char)((float)color.r * multiplier);
+	color.g = (unsigned char)((float)color.g * multiplier);
+	color.b = (unsigned char)((float)color.b * multiplier);
+	color.a = (unsigned char)((float)color.a * multiplier);
+	// color.g = multiplier;
+	// color.b = multiplier;
+	// color.a = multiplier;
 	return (color);
 }
 
@@ -959,53 +963,6 @@ int			color_to_int(t_color color)
 ** ========== LIGHTING
 */
 
-
-// t_object	init_omni_light_ray(t_light light, t_object ray, t_object object)
-// {
-// 	t_object		light_ray;
-// 	t_vector	direction;
-
-// 	light_ray.origin = light.posiition;
-// 	direction = vector_points(light_ray.origin, ray.intersectiion);
-// 	light_ray.norm = vector_norm(direction);
-// 	light_ray.direction = normalize_vector(direction);
-// 	light_ray.intersect = FALSE;
-// 	light_ray.color = BLACK;
-// 	return (light_ray);
-// }
-
-// t_object	init_ambiant_light_ray(t_light light, t_object ray, t_object object)
-// {
-// 	t_object		light_ray;
-// 	t_vector		ray_direction;
-
-// 	ray_direction = (t_vector){
-// 		.x = -light.direction.x,
-// 		.y = -light.direction.y,
-// 		.z = -light.direction.z,
-// 	};
-// 	light_ray.origin = ray.intersectiion;
-// 	light_ray.direction = ray_direction;
-// 	light_ray.intersect = FALSE;
-// 	light_ray.color = BLACK;
-// 	return (light_ray);
-// }
-
-// t_object	init_projector_light_ray(t_light light, t_object ray, t_object object)
-// {
-// 	t_object		light_ray;
-// 	t_vector	direction;
-
-// 	light_ray.origin = light.posiition;
-// 	direction = vector_points(light_ray.origin, ray.intersectiion);
-// 	light_ray.norm = vector_norm(direction);
-// 	light_ray.direction = normalize_vector(direction);
-// 	light_ray.intersect = FALSE;
-// 	light_ray.color = BLACK;
-// 	return (light_ray);
-// }
-
-
 /*
 ** Supposing there is no object between the light and the intersection, the
 ** color on this point is calculated, based on the angle between the normal
@@ -1074,9 +1031,6 @@ t_color			omni_light_for_intersection(t_object light_ray, t_object ray, t_object
 	if (cosinus >= 0)
 		return (BLACK);
 	distance = points_norm(ray.intersectiion, light_ray.origin) * (100.0 / light.power);
-	// color.r = omni_color_coord(cosinus, distance, object.color.r, light.color.r) * object.diffuse;
-	// color.g = omni_color_coord(cosinus, distance, object.color.g, light.color.g) * object.diffuse;
-	// color.b = omni_color_coord(cosinus, distance, object.color.b, light.color.b) * object.diffuse;
 	color.r = omni_color_coord(cosinus, distance, object.color.r, light_ray.color.r) * object.diffuse;
 	color.g = omni_color_coord(cosinus, distance, object.color.g, light_ray.color.g) * object.diffuse;
 	color.b = omni_color_coord(cosinus, distance, object.color.b, light_ray.color.b) * object.diffuse;
@@ -1105,9 +1059,6 @@ t_color			projector_light_for_intersection(t_object light_ray, t_object ray, t_o
 	if (cosinus >= 0)
 		return (BLACK);
 	intensity = -cosinus * intensity;
-	// color.r = projector_color_coord(intensity, distance, object.color.r, light.color.r) * object.diffuse;
-	// color.g = projector_color_coord(intensity, distance, object.color.g, light.color.g) * object.diffuse;
-	// color.b = projector_color_coord(intensity, distance, object.color.b, light.color.b) * object.diffuse;
 	color.r = projector_color_coord(intensity, distance, object.color.r, light_ray.color.r) * object.diffuse;
 	color.g = projector_color_coord(intensity, distance, object.color.g, light_ray.color.g) * object.diffuse;
 	color.b = projector_color_coord(intensity, distance, object.color.b, light_ray.color.b) * object.diffuse;
@@ -1136,7 +1087,6 @@ t_color			specular_light_for_intersection(t_object light_ray, t_object ray,
 
 	if (light.typpe == PROJECTOR && dot_product(light_ray.direction, light.direction) < cos(light.angle))
 		return (BLACK);
-	// incident = (light.typpe != AMBIANT) ? scale_vector(light_ray.direction, -1) : light_ray.direction;
 	incident = scale_vector(light_ray.direction, -1);
 	distance = (light.typpe != AMBIANT)
 		? points_norm(ray.intersectiion, light_ray.origin) * (100.0 / light.power)
@@ -1146,9 +1096,6 @@ t_color			specular_light_for_intersection(t_object light_ray, t_object ray,
 	intensity = pow(fmax(dot_product(reflected, ray.direction), 0), (int)(object.brillance * 100)) * pow(object.brillance, 2);
 	if (light.typpe == PROJECTOR)
 		intensity *= (1 / (1 - cos(light.angle))) * dot_product(light.direction, light_ray.direction) - (cos(light.angle) / (1 - cos(light.angle)));
-	// specular.r = projector_color_coord(intensity, distance, object.color.r, light.color.r);
-	// specular.g = projector_color_coord(intensity, distance, object.color.g, light.color.g);
-	// specular.b = projector_color_coord(intensity, distance, object.color.b, light.color.b);
 	specular.r = projector_color_coord(intensity, distance, object.color.r, light_ray.color.r);
 	specular.g = projector_color_coord(intensity, distance, object.color.g, light_ray.color.g);
 	specular.b = projector_color_coord(intensity, distance, object.color.b, light_ray.color.b);
@@ -1235,7 +1182,6 @@ t_object	light_ray_from_shadow_ray(t_object shadow_ray, t_light light)
 
 	light_ray = shadow_ray;
 	light_ray.direction = scale_vector(shadow_ray.direction, -1);
-	// light_ray.direction = scale_vector(light_ray.direction, (light.typpe == AMBIANT) ? 1 : -1);
 	light_ray.origin = (light.typpe == AMBIANT) ? shadow_ray.origin : light.posiition;
 	return (light_ray);
 }
@@ -1284,56 +1230,27 @@ t_color			get_color_on_intersection(t_object ray, global t_object *closest_objec
 	return (coloration);
 }
 
-// t_color			get_color_on_intersection(t_object ray, global t_object *closest_object, global t_scene *scene, global t_light *light, global t_object *obj)
-// {
-// 	t_object	light_ray;
-// 	int			light_index;
-// 	int			object_index;
-// 	float		norm;
-// 	t_color		coloration;
-// 	int 		is_direct_hit;
+/*
+** If the ray does not reach any object and extends infinitely, depending on its proximity
+** with a light, a glare effect is generated.
+*/
 
-// 	light_index = -1;
-// 	coloration = ambiant_color(*scene, *closest_object);
-// 	while (++light_index < scene->lights_count)
-// 	{
-// 		is_direct_hit = 1;
-// 		if (light[light_index].typpe == OMNI)
-// 			light_ray = init_omni_light_ray(light[light_index], ray, *closest_object);
-// 		else if (light[light_index].typpe == AMBIANT)
-// 			light_ray = init_ambiant_light_ray(light[light_index], ray, *closest_object);
-// 		else if (light[light_index].typpe == PROJECTOR)
-// 			light_ray = init_projector_light_ray(light[light_index], ray, *closest_object);
-// 		norm = light_ray.norm;
-// 		object_index = -1;
-// 		while (++object_index < scene->objects_count && is_direct_hit)
-// 		{
-// 			light_ray = intersect_object(light_ray,
-// 					obj[object_index]);
-// 			if (light[light_index].typpe != AMBIANT && hit_test(closest_object, &obj[object_index], light_ray, norm))
-// 				is_direct_hit = 0;
-// 			else if (light[light_index].typpe == AMBIANT && light_ray.intersect)
-// 			{
-// 				if (closest_object == &obj[object_index] && light_ray.norm > EPSILON)
-// 					is_direct_hit = 0;
-// 				else if (closest_object != &obj[object_index] && light_ray.norm > 0)
-// 					is_direct_hit = 0;
-// 			}
-// 		}
-// 		if (is_direct_hit)
-// 		{
-// 			coloration = add_color(coloration, diffuse_light_for_intersection(light_ray, ray, *closest_object, light[light_index]));
-// 			coloration = add_color(coloration, specular_light_for_intersection(light_ray, ray, *closest_object, light[light_index]));
-// 		}
-// 	}
-// 	return (coloration);
-// }
+t_color			get_direct_light_glare(t_object ray, global t_light *lights)
+{
+
+}
 
 /*
 ** ==================================================================
 ** INTERSECTION
 ** ==================================================================
 */
+
+/*
+** ========== GLARE EFFECT
+*/
+
+// t_color			direct_light_raytracing(t_ray )
 
 /*
 ** ========== REFRACTED LIGHT
@@ -1345,11 +1262,9 @@ t_object		init_refracted_ray(t_object original_ray, t_object intersected_object,
 	t_object		ray;
 
 	ray.norm = -1;
-	// FIXME: does not take account of the refraction index.
 	ray.direction = refracted_vector(original_ray, intersected_object, next_refraction);
 	ray.origin = point_from_vector(original_ray.intersectiion, ray.direction, EPSILON);
 	ray.intersect = FALSE;
-	// FIXME: this is essentially wrong
 	ray.transparency = next_transparency;
 	ray.refraction = next_refraction;
 	return (ray);
@@ -1389,14 +1304,14 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 		{
 			ray.norm = closest_distance;
 			ray.intersectiion = point_from_vector(ray.origin, ray.direction, closest_distance);
-			if (iter_count % 2 == 1)
-			{
+			// if (iter_count % 2 == 1)
+			// {
 				added_color = get_color_on_intersection(ray, &obj[closest_object_index], scene, light, obj);
 				added_color = fade_color(added_color, ray.transparency);
 				if (!ponctual && obj[closest_object_index].reflection > 0)
 					added_color = add_color(added_color, reflected_raytracing(scene, obj, light,
-						init_reflected_ray(ray, obj[closest_object_index], obj[closest_object_index].reflection), 1));
-			}
+						init_reflected_ray(ray, obj[closest_object_index]), 1));
+			// }
 			colorout = add_color(colorout, added_color);
 		}
 		if (closest_object_index == -1 || obj[closest_object_index].transparency == 0)
@@ -1415,7 +1330,7 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 ** ========== REFLECTED LIGHT
 */
 
-t_object		init_reflected_ray(t_object original_ray, t_object intersected_object, float previous_reflection)
+t_object		init_reflected_ray(t_object original_ray, t_object intersected_object)
 {
 	t_object	ray;
 
@@ -1423,7 +1338,7 @@ t_object		init_reflected_ray(t_object original_ray, t_object intersected_object,
 	ray.direction = normalize_vector(ray.direction);
 	ray.origin = point_from_vector(original_ray.intersectiion, ray.direction, EPSILON);
 	ray.intersect = FALSE;
-	ray.reflection = intersected_object.reflection * previous_reflection;
+	ray.reflection = intersected_object.reflection * original_ray.reflection;
 	return (ray);
 }
 
@@ -1459,17 +1374,17 @@ t_color			reflected_raytracing(global t_scene *scene, global t_object *obj, glob
 			ray.norm = closest_distance;
 			ray.intersectiion = point_from_vector(ray.origin, ray.direction, closest_distance);
 			added_color = get_color_on_intersection(ray, &obj[closest_object_index], scene, light, obj);
-			added_color = fade_color(added_color, ray.reflection);
-			colorout = add_color(colorout, added_color);
+			// colorout = add_color(colorout, added_color);
 			if (!ponctual && obj[closest_object_index].transparency > 0)
 				added_color = add_color(added_color, refracted_raytracing(scene, obj, light,
 					init_refracted_ray(ray, obj[closest_object_index],
 					obj[closest_object_index].refraction, obj[closest_object_index].transparency), 1));
+			added_color = fade_color(added_color, ray.reflection);
 		}
+		colorout = add_color(colorout, added_color);
 		if (closest_object_index == -1 || obj[closest_object_index].reflection == 0)
 			return (colorout);
-		colorout = add_color(colorout, added_color);
-		ray = init_reflected_ray(ray, obj[closest_object_index], ray.reflection);
+		ray = init_reflected_ray(ray, obj[closest_object_index]);
 	}
 	return (colorout);
 }
@@ -1529,15 +1444,14 @@ t_color			primary_ray(global t_scene *scene, global t_object *obj,
 		ray.norm = closest_distance;
 		ray.intersectiion = point_from_vector(ray.origin, ray.direction, closest_distance);
 		colorout = get_color_on_intersection(ray, &obj[closest_object_index], scene, light, obj);
-
 		if (obj[closest_object_index].reflection > 0)
 			reflected_color = reflected_raytracing(scene, obj, light,
-				init_reflected_ray(ray, obj[closest_object_index], 1), 0);
+				init_reflected_ray(ray, obj[closest_object_index]), 0);
 		if (obj[closest_object_index].transparency > 0)
 			refracted_color = refracted_raytracing(scene, obj, light,
 				init_refracted_ray(ray, obj[closest_object_index],
-					obj[closest_object_index].refraction, 1), 0);
-		colorout = add_color(colorout, average_color(refracted_color, reflected_color));
+					obj[closest_object_index].refraction, obj[closest_object_index].transparency), 0);
+		colorout = add_color(colorout, add_color(refracted_color, reflected_color));
 	}
 	return (colorout);
 }
