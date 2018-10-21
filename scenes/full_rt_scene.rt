@@ -53,7 +53,7 @@ diffuse 2
 reflect 5
 brillance 100
 refraction_index 100
-transparency 100
+transparency 80
 }
 
 # sphere {
@@ -146,7 +146,7 @@ diffuse 100
 brillance 10
 transparency 0
 refraction_index 100
-reflect 3
+reflect 30
 }
 
 plane {

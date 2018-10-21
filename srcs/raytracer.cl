@@ -1,6 +1,5 @@
 # define TRUE 1
 # define FALSE 0
-# define NULL 0
 # define MAX_REFLECTION_ITER 3
 # define MAX_REFRACTION_ITER 6
 # define MAX_DEPTH 5
@@ -1235,10 +1234,10 @@ t_color			get_color_on_intersection(t_object ray, global t_object *closest_objec
 ** with a light, a glare effect is generated.
 */
 
-t_color			get_direct_light_glare(t_object ray, global t_light *lights)
-{
+// t_color			get_direct_light_glare(t_object ray, global t_light *lights)
+// {
 
-}
+// }
 
 /*
 ** ==================================================================
@@ -1374,7 +1373,6 @@ t_color			reflected_raytracing(global t_scene *scene, global t_object *obj, glob
 			ray.norm = closest_distance;
 			ray.intersectiion = point_from_vector(ray.origin, ray.direction, closest_distance);
 			added_color = get_color_on_intersection(ray, &obj[closest_object_index], scene, light, obj);
-			// colorout = add_color(colorout, added_color);
 			if (!ponctual && obj[closest_object_index].transparency > 0)
 				added_color = add_color(added_color, refracted_raytracing(scene, obj, light,
 					init_refracted_ray(ray, obj[closest_object_index],
