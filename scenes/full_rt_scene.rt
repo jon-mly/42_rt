@@ -53,7 +53,7 @@ diffuse 2
 reflect 5
 brillance 100
 refraction_index 100
-transparency 80
+transparency 100
 }
 
 # sphere {
@@ -94,20 +94,20 @@ transparency 80
 # reflect 10
 # }
 
-# cone {
-# # finite
-# # covered
-# height 10
-# pi_divider 6
-# angles 0 90
-# color 255 255 255
-# center 0 10 0
-# diffuse 10
-# reflect 10
-# brillance 100
-# refraction_index 102
-# transparency 98
-# }
+cone {
+# finite
+# covered
+height 10
+pi_divider 6
+angles 0 90
+color 255 255 255
+center 0 10 0
+diffuse 10
+reflect 10
+brillance 100
+refraction_index 100
+transparency 98
+}
 
 # rectangle {
 # point -20 0 0
@@ -141,7 +141,7 @@ transparency 80
 plane {
 point 0 -5 0
 normal 0 1 0
-color 220 220 220
+color 220 0 0
 diffuse 100
 brillance 10
 transparency 0

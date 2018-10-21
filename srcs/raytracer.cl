@@ -921,21 +921,15 @@ t_vector		refracted_vector(t_object ray, t_object object, float next_refraction_
 	opposed_direction = scale_vector(ray.direction, -1);
 	refraction_indexes_ratio = ray.refraction / next_refraction_index;
 	if (fabs(refraction_indexes_ratio - 1) < EPSILON)
-		return ray.direction;
+		return (ray.direction);
 	incident_cos = 1.0 - pow(refraction_indexes_ratio, 2) * (1.0 - pow(dot_product(normal, ray.direction), 2));
-	// incident_cos = pow(dot_product(normal, opposed_direction), 2);
-	// printf("ratio : %.2f, cos : %.2f\n", refraction_indexes_ratio, incident_cos);
-	// refracted = scale_vector(ray.direction, refraction_indexes_ratio);
-	// normal = scale_vector(normal, incident_cos + refraction_indexes_ratio
-	// 	* dot_product(ray.direction, normal));
-	// refracted.x -= normal.x;
-	// refracted.y -= normal.y;
-	// refracted.z -= normal.z;
 	refracted = scale_vector(ray.direction, refraction_indexes_ratio);
 	refracted = sum_vectors(refracted, scale_vector(normal, -1 * refraction_indexes_ratio * dot_product(ray.direction, normal)));
 	refracted = sum_vectors(refracted, scale_vector(normal, -1 * sqrt(incident_cos)));
 	return (normalize_vector(refracted));
 }
+
+
 
 
 /*
@@ -955,6 +949,7 @@ int			color_to_int(t_color color)
 	a = (int)color.a;
 	return (a << 24 | r << 16 | g << 8 | b);
 }
+
 
 
 
@@ -1260,12 +1255,12 @@ t_object		init_refracted_ray(t_object original_ray, t_object intersected_object,
 {
 	t_object		ray;
 
-	ray.norm = -1;
 	ray.direction = refracted_vector(original_ray, intersected_object, next_refraction);
 	ray.origin = point_from_vector(original_ray.intersectiion, ray.direction, EPSILON);
 	ray.intersect = FALSE;
 	ray.transparency = next_transparency;
 	ray.refraction = next_refraction;
+	ray.reflection = intersected_object.reflection * original_ray.reflection;
 	return (ray);
 }
 
@@ -1281,9 +1276,13 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 	int					max_iterations;
 
 	iter_count = -1;
-	max_iterations = (ponctual) ? 1 : MAX_DEPTH;
+	// max_iterations = (ponctual) ? 1 : MAX_DEPTH;
+	max_iterations = MAX_DEPTH;
 	colorout = BLACK;
 	while (++iter_count < max_iterations * 2) {
+		if (ponctual)
+			printf("%d, %d, at %d : %.2f, %.2f, %.2f\n", get_global_id(0), get_global_id(1), iter_count, ray.direction.x, ray.direction.y, ray.direction.z);
+		
 		added_color = BLACK;
 		closest_object_index = -1;
 		object_index = -1;
@@ -1321,6 +1320,8 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 		else
 			ray = init_refracted_ray(ray, obj[closest_object_index],
 				obj[closest_object_index].refraction, obj[closest_object_index].transparency);
+
+		
 	}
 	return (colorout);
 }
@@ -1338,6 +1339,8 @@ t_object		init_reflected_ray(t_object original_ray, t_object intersected_object)
 	ray.origin = point_from_vector(original_ray.intersectiion, ray.direction, EPSILON);
 	ray.intersect = FALSE;
 	ray.reflection = intersected_object.reflection * original_ray.reflection;
+	ray.refraction = intersected_object.refraction;
+	ray.transparency = intersected_object.transparency;
 	return (ray);
 }
 
@@ -1374,9 +1377,13 @@ t_color			reflected_raytracing(global t_scene *scene, global t_object *obj, glob
 			ray.intersectiion = point_from_vector(ray.origin, ray.direction, closest_distance);
 			added_color = get_color_on_intersection(ray, &obj[closest_object_index], scene, light, obj);
 			if (!ponctual && obj[closest_object_index].transparency > 0)
+			{
+				printf("%d, %d, at -1 : %.2f, %.2f, %.2f before\n", get_global_id(0), get_global_id(1), ray.direction.x, ray.direction.y, ray.direction.z);
+
 				added_color = add_color(added_color, refracted_raytracing(scene, obj, light,
 					init_refracted_ray(ray, obj[closest_object_index],
 					obj[closest_object_index].refraction, obj[closest_object_index].transparency), 1));
+			}
 			added_color = fade_color(added_color, ray.reflection);
 		}
 		colorout = add_color(colorout, added_color);
