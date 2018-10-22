@@ -23,38 +23,38 @@ angle 80
 power 300
 }
 
-# sphere {
-# center 20 0 0
-# radius 4
-# color 100 0 0
-# diffuse 100
-# reflect 60
-# brillance 100
-# refraction_index 130
-# transparency 0
-# }
+sphere {
+center 20 0 0
+radius 4
+color 100 0 0
+diffuse 100
+reflect 60
+brillance 100
+refraction_index 130
+transparency 0
+}
 
-# sphere {
-# center -20 0 0
-# radius 4
-# color 0 100 0
-# diffuse 100
-# reflect 60
-# brillance 100
-# refraction_index 100
-# transparency 0
-# }
+sphere {
+center -20 0 0
+radius 4
+color 0 100 0
+diffuse 100
+reflect 60
+brillance 100
+refraction_index 100
+transparency 0
+}
 
-# sphere {
-# center 0 2 -40
-# radius 4
-# color 255 255 255
-# diffuse 2
-# reflect 5
-# brillance 100
-# refraction_index 100
-# transparency 100
-# }
+sphere {
+center 0 2 -40
+radius 4
+color 255 255 255
+diffuse 2
+reflect 5
+brillance 100
+refraction_index 100
+transparency 100
+}
 
 # sphere {
 # center 0 7 0
@@ -95,8 +95,8 @@ power 300
 # }
 
 # cone {
-# finite
-# covered
+# # finite
+# # covered
 # height 10
 # pi_divider 6
 # angles -20 110
@@ -109,20 +109,20 @@ power 300
 # transparency 60
 # }
 
-cone {
-finite
-# covered
-height 10
-pi_divider 6
-angles -130 -140
-color 20 255 0
-center 0 -2 -20
-diffuse 40
-reflect 10
-brillance 0
-refraction_index 100
-transparency 60
-}
+# cone {
+# finite
+# # covered
+# height 10
+# pi_divider 6
+# angles -130 -140
+# color 20 255 0
+# center 0 -2 -20
+# diffuse 40
+# reflect 10
+# brillance 0
+# refraction_index 100
+# transparency 60
+# }
 
 # rectangle {
 # point -20 0 0
@@ -157,11 +157,11 @@ plane {
 point 0 -5 0
 normal 0 1 0
 color 220 0 0
-diffuse 100
+diffuse 20
 brillance 10
-transparency 0
+transparency 70
 refraction_index 100
-reflect 30
+reflect 100
 }
 
 plane {
