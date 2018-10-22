@@ -4,7 +4,7 @@
 # define MAX_REFRACTION_ITER 6
 # define MAX_DEPTH 5
 # define ALIASING 1
-# define EPSILON 0.002
+# define EPSILON 0.001
 # define BLACK (t_color){0, 0, 0, 0}
 
 typedef enum	e_object_type
