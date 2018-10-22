@@ -95,6 +95,7 @@ typedef struct			s_color
 
 typedef struct			s_object
 {
+	int					id;
 	t_color				color;
 	t_point				center;
 	t_point				point;
@@ -288,7 +289,8 @@ int						hit_test(t_object *clt_obj, t_object *obj,
 t_object        parse_object(int fd, t_object *object);
 t_object		*expand_objects(t_object *objects, int previous_count);
 t_vector	point_from_vector(t_point origin, t_vector direction, float norm);
-t_scene        create_dependant_objects(t_object object, int fd, t_scene scene);
+// t_scene        create_dependant_objects(t_object object, int fd, t_scene scene);
+t_scene       create_dependant_objects(t_object object, int fd, t_scene scene, int id);
 t_vector		rotate_cylinder_angles(t_object cylinder, t_vector vect,
 			int reverse);
 t_vector		rotate_cone_angles(t_object cone, t_vector vect,

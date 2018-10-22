@@ -75,6 +75,7 @@ typedef struct	s_light
 
 typedef struct			s_object
 {
+	int					id;
 	t_color				color;
 	t_point				center;
 	t_point				point;
@@ -167,7 +168,7 @@ t_color			specular_light_for_intersection(t_object light_ray, t_object ray,
 	t_object object, t_light light);
 t_color			raytracing(global t_scene *scene, global t_camera *camera, global t_object *obj, global t_light *light, float aliasing_variation);
 t_color		average_color(t_color c1, t_color c2);
-int			maximize_color_value(int color_value);
+unsigned char	maximize_color_value(int color_value);
 t_vector	rotate_vector_angles(t_object reference, t_vector vect,
 			int reverse);
 t_object		rectangle_intersection(t_object ray, t_object rectangle);
@@ -193,6 +194,7 @@ t_object	light_ray_from_shadow_ray(t_object shadow_ray, t_light light);
 int			colors_are_equals(t_color c1, t_color c2);
 t_color			filter_light_through_object(t_color initial_color, t_object object);
 t_object		init_primary_ray(int x, int y, t_camera camera, float aliasing_variation, int horizontal);
+float			fresnel_reflection_index(float n1, float n2, float cos_alpha, float cos_beta);
 
 
 /*
@@ -498,10 +500,13 @@ float		points_norm(t_point p1, t_point p2)
 	return (distance);
 }
 
-int			maximize_color_value(int color_value)
+unsigned char	maximize_color_value(int color_value)
 {
+	float		ratio_value;
+
+	ratio_value = (float)(color_value) / 255.0;
 	return ((int)(fmax(fmin((float)color_value, (float)255), 0)));
-	// return ((int)(((1 - exp((float)(-0.0050 * color_value))) * 255)));
+	// return ((unsigned char)(((1 - exp((float)(-1.1 * ratio_value))) * 255)));
 }
 
 
@@ -931,6 +936,28 @@ t_vector		refracted_vector(t_object ray, t_object object, float next_refraction_
 	return (normalize_vector(refracted));
 }
 
+/*
+** Returns the ratio "Fr" of light that should be reflected on a transparent surface.
+** The quantity of light that is refracted is equal to 1 - Fr.
+** The parameters are as follows :
+** - n1 : the refraction index of the incident middle (where the incident ray is),
+** - n2 : the refraction index of the refracted middle (where the refracted ray will be),
+** - cos_alpha : the cosinus of the angle between the incident ray and the normal on its
+** side,
+** - cos_beta : the cosinus of the angle betwenn the refracted ray and the normal on its
+** side.
+*/
+
+float			fresnel_reflection_index(float n1, float n2, float cos_alpha, float cos_beta)
+{
+	float		parralel_index;
+	float		perpendicular_index;
+
+	parralel_index = pow((n2 * cos_alpha - n1 * cos_beta) / (n2 * cos_alpha + n1 * cos_beta), 2);
+	perpendicular_index = pow((n1 * cos_beta - n2 * cos_alpha) / (n1 * cos_beta + n2 * cos_alpha), 2);
+	return (0.5 * (parralel_index + perpendicular_index));
+}
+
 
 
 
@@ -1003,9 +1030,6 @@ t_color			ambiant_light_for_intersection(t_object light_ray, t_object ray, t_obj
 	if (cosinus <= 0)
 		return (BLACK);
 	distance = 100.0 * (100.0 / light.power);
-	// color.r = omni_color_coord(-cosinus, distance, object.color.r, light.color.r);
-	// color.g = omni_color_coord(-cosinus, distance, object.color.g, light.color.g);
-	// color.b = omni_color_coord(-cosinus, distance, object.color.b, light.color.b);
 	color.r = omni_color_coord(-cosinus, distance, object.color.r, light_ray.color.r);
 	color.g = omni_color_coord(-cosinus, distance, object.color.g, light_ray.color.g);
 	color.b = omni_color_coord(-cosinus, distance, object.color.b, light_ray.color.b);
@@ -1276,11 +1300,15 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 	t_color				colorout;
 	int					iter_count;
 	int					max_iterations;
+	int					inside_object;
+	int					current_object_id;
 
 	iter_count = -1;
 	// max_iterations = (ponctual) ? 1 : MAX_DEPTH;
 	max_iterations = MAX_DEPTH;
 	colorout = BLACK;
+	current_object_id = -1;
+	inside_object = FALSE;
 	while (++iter_count < max_iterations * 2) {
 		added_color = BLACK;
 		closest_object_index = -1;
@@ -1299,6 +1327,13 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 		// the other side of the same object.
 		if (closest_object_index != -1)
 		{
+			if (inside_object && current_object_id == obj[closest_object_index].id)
+				inside_object = FALSE;
+			else if (!inside_object)
+			{
+				current_object_id = obj[closest_object_index].id;
+				inside_object = TRUE;
+			}
 			ray.norm = closest_distance;
 			ray.intersectiion = point_from_vector(ray.origin, ray.direction, closest_distance);
 			added_color = get_color_on_intersection(ray, &obj[closest_object_index], scene, light, obj);
@@ -1310,7 +1345,7 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 		}
 		if (closest_object_index == -1 || obj[closest_object_index].transparency == 0)
 			return (colorout);
-		if (iter_count % 2 == 1)
+		if (!inside_object)
 			ray = init_refracted_ray(ray, obj[closest_object_index],
 				1, ray.transparency);
 		else
