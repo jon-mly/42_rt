@@ -68,6 +68,7 @@ typedef enum			e_light_type
 
 typedef enum			e_texture
 {
+	NONE,
 	CHECKER,
 	CIRCLE
 }						t_texture;

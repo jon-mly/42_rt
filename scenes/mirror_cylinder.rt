@@ -1,8 +1,8 @@
 CAMERA :
 
 camera {
-position 0 2 -60
-angles 0 0
+position 0 40 -60
+angles -30 0
 }
 
 LIGHTS :
@@ -18,25 +18,40 @@ OBJECTS :
 
 rectangle {
 point -40 0 -60
-angles 0 5
+angles 0 0
 color 0 180 120
 width 80
 height 120
 diffuse 35
-reflect 100
+reflect 20
 transparency 10
 refraction_index 133
 brillance 100
+texture CIRCLE
 }
 
-cylinder {
-radius 5
-angles 90 -80
-color 200 200 200
-position -10 0 30
-diffuse 10
-reflect 100
-transparency 0
-refraction_index 100
+rectangle {
+point -40 0 20
+angles 0 -70
+color 180 0 40
+width 80
+height 120
+diffuse 35
+reflect 20
+transparency 10
+refraction_index 133
 brillance 100
+texture CIRCLE
 }
+
+# cylinder {
+# radius 5
+# angles 90 -80
+# color 200 200 200
+# position -10 0 30
+# diffuse 10
+# reflect 100
+# transparency 0
+# refraction_index 100
+# brillance 100
+# }

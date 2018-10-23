@@ -1,8 +1,8 @@
 # define TRUE 1
 # define FALSE 0
 # define MAX_DEPTH 5
-# define ALIASING 1
-# define EPSILON 0.0001
+# define ALIASING 3
+# define EPSILON 0.001
 # define BLACK (t_color){0, 0, 0, 0}
 
 typedef enum	e_object_type
@@ -26,6 +26,7 @@ typedef enum	e_light_type
 
 typedef enum			e_texture
 {
+	NONE,
 	CHECKER,
 	CIRCLE
 }						t_texture;
@@ -200,6 +201,10 @@ int			colors_are_equals(t_color c1, t_color c2);
 t_color			filter_light_through_object(t_color initial_color, t_object object);
 t_object		init_primary_ray(int x, int y, t_camera camera, float aliasing_variation, int horizontal);
 float			fresnel_reflection_index(float n1, float n2, float cos_alpha, float cos_beta);
+t_color			textured_color_if_needed(t_object object, t_point intersection);
+t_color			checker_texture_color(t_object object, t_point intersection);
+int			is_texture_even(int value);
+t_color			circles_horizontal_color(t_object object, t_point intersection);
 
 
 /*
@@ -408,25 +413,13 @@ t_color		average_color(t_color c1, t_color c2)
 	return (final);
 }
 
-
-// t_color		average_color(t_color c1, t_color c2)
-// {
-// 	int		r;
-// 	int		g;
-// 	int		b;
-// 	int		a;
-// 	t_color final_color;
-
-// 	r = (c1.r + c2.r) / 2;
-// 	g = (c1.g + c2.g) / 2;
-// 	b = (c1.b + c2.r) / 2;
-// 	a = (c1.a + c2.a) / 2;
-// 	final_color.r = (unsigned char)r;
-// 	final_color.g = (unsigned char)g;
-// 	final_color.b = (unsigned char)b;
-// 	final_color.a = (unsigned char)a;
-// 	return (final_color);
-// }
+int			is_texture_even(int value)
+{
+	if (value >= 0)
+		return (value % 2 == 0);
+	else
+		return ((value) % 2 == 0);
+}
 
 /*
 ** Solves a quadratic equation but with the aim of returning a distance, which
@@ -882,6 +875,74 @@ t_object			intersect_object(t_object ray, t_object object)
 	return (ray);
 }
 
+/*
+** ========== PROCEDURAL TEXTURES
+*/
+
+t_color			checker_texture_color(t_object object, t_point intersection)
+{
+	t_color		alternate;
+	t_point		adjusted;
+	int			x_even;
+	int			y_even;
+	int			z_even;
+
+	alternate = color(0, 0, 0, 0);
+	adjusted = scale_vector(intersection, 1.0 / 4.0);
+	x_even = is_texture_even((int)(adjusted.x < -EPSILON) ? adjusted.x - 1 : adjusted.x);
+	y_even = is_texture_even((int)(adjusted.y < -EPSILON) ? adjusted.y - 1 : adjusted.y);
+	z_even = is_texture_even((int)(adjusted.z < -EPSILON) ? adjusted.z - 1 : adjusted.z);
+	if (z_even)
+	{
+		if ((x_even && y_even)
+			|| (!x_even && !y_even))
+			return (object.color);
+		return (alternate);
+	}
+	else
+	{
+		if ((x_even && y_even)
+			|| (!x_even && !y_even))
+			return (alternate);
+		return (object.color);
+	}
+}
+
+t_color			circles_horizontal_color(t_object object, t_point intersection)
+{
+	t_color		alternate;
+	t_point		adjusted;
+	// int			y_even;
+	int			distance;
+
+	alternate = color(0, 0, 0, 0);
+	adjusted = scale_vector(intersection, 1.0 / 6.0);
+	// y_even = is_texture_even((int)(adjusted.y < -EPSILON) ? adjusted.y - 1 : adjusted.y);
+	distance = (int)sqrt((adjusted.x * adjusted.x + adjusted.z * adjusted.z));
+	// if (y_even)
+	// {
+		if (distance % 2 == 0)
+			return (object.color);
+		return (alternate);
+	// }
+	// else
+	// {
+	// 	if (distance % 2 == 0)
+	// 		return (alternate);
+	// 	return (object.color);
+	// }
+	// return (object.color);
+}
+
+t_color			textured_color_if_needed(t_object object, t_point intersection)
+{
+	if (object.texture_type == CHECKER)
+		return (checker_texture_color(object, intersection));
+	else if (object.texture_type == CIRCLE)
+		return (circles_horizontal_color(object, intersection));
+	return (object.color);
+}
+
 
 /*
 ** ========== SPECULAR VECTOR CALCULATION
@@ -1227,6 +1288,7 @@ t_color			get_color_on_intersection(t_object ray, global t_object *closest_objec
 	int			object_index;
 	float		norm;
 	t_color		coloration;
+	t_object	intersected_object;
 	int 		light_goes_through;
 
 	light_index = -1;
@@ -1248,9 +1310,11 @@ t_color			get_color_on_intersection(t_object ray, global t_object *closest_objec
 		}
 		if (light_goes_through)
 		{
+			intersected_object = *closest_object;
+			intersected_object.color = textured_color_if_needed(intersected_object, ray.intersectiion);
 			light_ray = light_ray_from_shadow_ray(shadow_ray, light[light_index]);
-			coloration = add_color(coloration, diffuse_light_for_intersection(light_ray, ray, *closest_object, light[light_index]));
-			coloration = add_color(coloration, specular_light_for_intersection(light_ray, ray, *closest_object, light[light_index]));
+			coloration = add_color(coloration, diffuse_light_for_intersection(light_ray, ray, intersected_object, light[light_index]));
+			coloration = add_color(coloration, specular_light_for_intersection(light_ray, ray, intersected_object, light[light_index]));
 		}
 	}
 	return (coloration);

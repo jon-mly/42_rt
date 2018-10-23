@@ -59,6 +59,13 @@ t_object        parse_object(int fd, t_object *object)
 			object->height = (float)ft_atoi(line[1]);
 		else if (line_len(line) == 2 && ft_strequ(line[0], "width"))
 			object->width = (float)ft_atoi(line[1]);
+		else if (line_len(line) == 2 && ft_strequ(line[0], "texture"))
+		{
+			if (ft_strequ(line[1], "CHECKER"))
+				object->texture_type = CHECKER;
+			else if (ft_strequ(line[1], "CIRCLE"))
+				object->texture_type = CIRCLE;
+		}
 		clear_line(line);
 	}
 	clear_line(line);
