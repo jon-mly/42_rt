@@ -54,18 +54,21 @@ t_camera					set_camera(int fd, t_env *env)
 {
 	t_camera	camera;
 	char		**line;
+	double		len;
 
 	camera = get_default_camera_parameters(env);
-	while ((line = split_new_line(fd)) && ft_strequ(line[0], "}") == FALSE)
+	while ((line = split_new_line(fd)) && line[0] != NULL)
 	{
-		if (line_len(line) == 4 && ft_strequ(line[0], "position"))
-			camera.spot = point(ft_atoi(line[1]), ft_atoi(line[2]),
-				ft_atoi(line[3]));
-		else if (line_len(line) == 3 && ft_strequ(line[0], "angles"))
+		len = line_len(line);
+		if (len == 4 && ft_strequ(line[0], "\t[position]"))
+			camera.spot = point((float)ft_atof(line[1]), (float)ft_atof(line[2]),
+				(float)ft_atof(line[3]));
+		else if (len == 3 && ft_strequ(line[0], "\t[angles]"))
 		{
-			camera.x_angle = degrees_to_radian(ft_atoi(line[1]));
-			camera.y_angle = degrees_to_radian(ft_atoi(line[2]));
+			camera.x_angle = degrees_to_radian((float)ft_atof(line[1]));
+			camera.y_angle = degrees_to_radian((float)ft_atof(line[2]));
 		}
+		printf("%f||%f||%f\n", camera.spot.x, camera.spot.y, camera.spot.z);
 		clear_line(line);
 	}
 	clear_line(line);

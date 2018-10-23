@@ -20,6 +20,7 @@ t_camera	init_camera(t_env *env)
 {
 	t_camera	camera;
 
+	printf("toto1\n");
 	camera.width = 1.5;
 	camera.height = 1;
 	camera.plane_dist = 0.8;

@@ -51,7 +51,7 @@ t_env			*init_env(char *file_name)
 	env->img_str = NULL;
 	env->win_ptr = NULL;
 	setup_window(env);
-	env->camera = init_camera(env);
+	//env->camera = init_camera(env);
 	env->scene = create_scene(env, file_name, fd);
 	return (env);
 }

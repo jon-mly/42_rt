@@ -161,8 +161,8 @@ typedef struct			s_scene
 	t_light				*lights;
 	int					objects_count;
 	int					lights_count;
-	t_color		theme;
-	float		power;
+	t_color				theme;
+	float				power;
 }						t_scene;
 
 typedef	struct			s_opencl
@@ -285,17 +285,18 @@ void					ft_ocl_kernel_error(const int ret, const size_t index);
 size_t					file_len(int fd);
 int						hit_test(t_object *clt_obj, t_object *obj,
 		t_object l_ray, float norm);
-t_object        parse_object(int fd, t_object *object);
-t_object		*expand_objects(t_object *objects, int previous_count);
-t_vector	point_from_vector(t_point origin, t_vector direction, float norm);
-t_scene        create_dependant_objects(t_object object, int fd, t_scene scene);
-t_vector		rotate_cylinder_angles(t_object cylinder, t_vector vect,
-			int reverse);
-t_vector		rotate_cone_angles(t_object cone, t_vector vect,
-			int reverse);
-t_vector		rotate_vector_angles(t_object reference, t_vector vect,
-			int reverse);
-t_vector	cross_product(t_vector vect_1, t_vector vect_2);
+t_object        		parse_object(int fd, t_object *object);
+t_object				*expand_objects(t_object *objects, int previous_count);
+t_vector				point_from_vector(t_point origin, t_vector direction, float norm);
+t_scene					create_dependant_objects(t_object object, int fd, t_scene scene);
+t_vector				rotate_cylinder_angles(t_object cylinder, t_vector vect,
+		int reverse);
+t_vector				rotate_cone_angles(t_object cone, t_vector vect,
+		int reverse);
+t_vector				rotate_vector_angles(t_object reference, t_vector vect,
+		int reverse);
+t_vector				cross_product(t_vector vect_1, t_vector vect_2);
+double					ft_atof(const char *str);
 
 
 #endif

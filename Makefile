@@ -34,6 +34,7 @@ SRCS = main.c \
 		error_gpu.c \
 		$(HELPER_REP)constructors.c \
 		$(HELPER_REP)math_tools.c \
+		$(HELPER_REP)ft_atof.c \
 		$(HELPER_REP)math_tools2.c \
 		$(HELPER_REP)parser_helper.c \
 		$(HELPER_REP)lighting_helper.c \

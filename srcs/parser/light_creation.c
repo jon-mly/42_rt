@@ -64,22 +64,22 @@ t_light				*add_light(int fd, t_light *existing_lights, int count)
 	new_light.posiition = point(0, 0, 0);
 	new_light.color = color(255, 255, 255, 0);
 	new_light.power = 100.0;
-	while ((line = split_new_line(fd)) && ft_strequ(line[0], "}") == FALSE)
+	while ((line = split_new_line(fd)) && line[0] != NULL)
 	{
-		if (line_len(line) == 4 && ft_strequ(line[0], "position"))
-			new_light.posiition = point(ft_atoi(line[1]), ft_atoi(line[2]),
-							ft_atoi(line[3]));
-		else if (line_len(line) == 4 && ft_strequ(line[0], "color"))
-			new_light.color = color(ft_atoi(line[1]), ft_atoi(line[2]),
-						ft_atoi(line[3]), 0);
-		else if (line_len(line) == 4 && ft_strequ(line[0], "direction"))
-			new_light.direction = normalize_vector(vector(ft_atoi(line[1]), ft_atoi(line[2]),
-							ft_atoi(line[3])));
-		else if (line_len(line) == 2 && ft_strequ(line[0], "power"))
-			new_light.power = fmax(ft_atoi(line[1]), 0);
-		else if (line_len(line) == 2 && ft_strequ(line[0], "angle"))
-			new_light.angle = degrees_to_radian(fmax(fmin(ft_atoi(line[1]), 90), 0));
-		else if (line_len(line) == 2 && ft_strequ(line[0], "type"))
+		if (line_len(line) == 4 && ft_strequ(line[0], "\t[position]"))
+			new_light.posiition = point((float)ft_atof(line[1]), (float)ft_atof(line[2]),
+							(float)ft_atof(line[3]));
+		else if (line_len(line) == 4 && ft_strequ(line[0], "\t[color]"))
+			new_light.color = color((float)(float)ft_atof(line[1]), (float)ft_atof(line[2]),
+						(float)ft_atof(line[3]), 0);
+		else if (line_len(line) == 4 && ft_strequ(line[0], "\t[direction]"))
+			new_light.direction = normalize_vector(vector((float)ft_atof(line[1]), (float)ft_atof(line[2]),
+							(float)ft_atof(line[3])));
+		else if (line_len(line) == 2 && ft_strequ(line[0], "\t[power]"))
+			new_light.power = fmax((float)ft_atof(line[1]), 0);
+		else if (line_len(line) == 2 && ft_strequ(line[0], "\t[angle]]"))
+			new_light.angle = degrees_to_radian(fmax(fmin((float)ft_atof(line[1]), 90), 0));
+		else if (line_len(line) == 2 && ft_strequ(line[0], "\t[type]"))
 		{
 			if (ft_strequ(line[1], "OMNI"))
 				new_light.typpe = OMNI;
