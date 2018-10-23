@@ -66,6 +66,12 @@ typedef enum			e_light_type
 	PROJECTOR
 }						t_light_type;
 
+typedef enum			e_texture
+{
+	CHECKER,
+	CIRCLE
+}						t_texture;
+
 /*
 ** ======= structures
 */
@@ -119,6 +125,7 @@ typedef struct			s_object
 	float				height;
 	float				width;
 	t_object_type		typpe;
+	t_texture			texture_type;
 	int					intersect;
 	int					finite;
 	int					covered;

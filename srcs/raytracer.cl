@@ -1,10 +1,8 @@
 # define TRUE 1
 # define FALSE 0
-# define MAX_REFLECTION_ITER 3
-# define MAX_REFRACTION_ITER 6
 # define MAX_DEPTH 5
 # define ALIASING 1
-# define EPSILON 0.001
+# define EPSILON 0.0001
 # define BLACK (t_color){0, 0, 0, 0}
 
 typedef enum	e_object_type
@@ -25,6 +23,12 @@ typedef enum	e_light_type
 	AMBIANT,
 	PROJECTOR
 }				t_light_type;
+
+typedef enum			e_texture
+{
+	CHECKER,
+	CIRCLE
+}						t_texture;
 
 typedef struct	s_vector
 {
@@ -99,6 +103,7 @@ typedef struct			s_object
 	float				height;
 	float				width;
 	t_object_type		typpe;
+	t_texture			texture_type;
 	int					intersect;
 	int					finite;
 	int					covered;
@@ -1239,6 +1244,7 @@ t_color			get_color_on_intersection(t_object ray, global t_object *closest_objec
 				|| (light[light_index].typpe != AMBIANT && hit_test(closest_object, &obj[object_index], shadow_ray, norm))))
 				shadow_ray.color = filter_light_through_object(shadow_ray.color, obj[object_index]);
 			light_goes_through = (!(colors_are_equals(shadow_ray.color, BLACK)));
+			// TODO: change direction of light 
 		}
 		if (light_goes_through)
 		{
@@ -1465,9 +1471,9 @@ t_color			primary_ray(global t_scene *scene, global t_object *obj,
 	t_color				refracted_color;
 	t_color				reflected_color;
 
-	colorout = (t_color){0, 0, 0, 0};
-	reflected_color = (t_color){0, 0, 0, 0};
-	refracted_color = (t_color){0, 0, 0, 0};
+	colorout = BLACK;
+	reflected_color = BLACK;
+	refracted_color = BLACK;
 	closest_object_index = -1;
 	object_index = -1;
 	while (++object_index < scene->objects_count)
