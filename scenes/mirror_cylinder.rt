@@ -27,21 +27,21 @@ reflect 20
 transparency 10
 refraction_index 133
 brillance 100
-texture CIRCLE
+texture DOTS_REVERTED_CROWN
 }
 
 rectangle {
-point -40 0 20
+point -40 -120 20
 angles 0 -70
 color 180 0 40
 width 80
-height 120
+height 180
 diffuse 35
 reflect 20
 transparency 10
 refraction_index 133
 brillance 100
-texture CIRCLE
+texture DOTS
 }
 
 # cylinder {

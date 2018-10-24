@@ -70,7 +70,12 @@ typedef enum			e_texture
 {
 	NONE,
 	CHECKER,
-	CIRCLE
+	HORIZONTAL_CIRCLE,
+	VERTICAL_CIRCLE,
+	DOTS,
+	DOTS_REVERTED,
+	DOTS_CROWN,
+	DOTS_REVERTED_CROWN
 }						t_texture;
 
 /*

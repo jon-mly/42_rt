@@ -4,6 +4,10 @@
 # define ALIASING 3
 # define EPSILON 0.001
 # define BLACK (t_color){0, 0, 0, 0}
+# define CIRCLES_WIDTH 6.0
+# define CHECKER_WIDTH 4.0
+# define DOTS_WIDTH 1.0
+# define DOTS_SPREAD 3.0
 
 typedef enum	e_object_type
 {
@@ -28,7 +32,12 @@ typedef enum			e_texture
 {
 	NONE,
 	CHECKER,
-	CIRCLE
+	HORIZONTAL_CIRCLE,
+	VERTICAL_CIRCLE,
+	DOTS,
+	DOTS_REVERTED,
+	DOTS_CROWN,
+	DOTS_REVERTED_CROWN
 }						t_texture;
 
 typedef struct	s_vector
@@ -204,7 +213,9 @@ float			fresnel_reflection_index(float n1, float n2, float cos_alpha, float cos_
 t_color			textured_color_if_needed(t_object object, t_point intersection);
 t_color			checker_texture_color(t_object object, t_point intersection);
 int			is_texture_even(int value);
-t_color			circles_horizontal_color(t_object object, t_point intersection);
+t_color			circles_color(t_object object, t_point intersection, int horizontal);
+t_color		interpolate_color(t_color c1, t_color c2, float ratio);
+t_color			dots_color(t_object object, t_point intersection, int invert_gradient, int reverse);
 
 
 /*
@@ -369,6 +380,21 @@ t_vector	cross_product(t_vector vect_1, t_vector vect_2)
 	cross.y = vect_1.z * vect_2.x - vect_1.x * vect_2.z;
 	cross.z = vect_1.x * vect_2.y - vect_1.y * vect_2.x;
 	return (cross);
+}
+
+/*
+** =========== COLORS CALCULATION
+*/
+
+t_color		interpolate_color(t_color c1, t_color c2, float ratio)
+{
+	t_color		result;
+
+	result.r = fmin(fmax(c1.r * (1 - ratio) + c2.r * ratio, 0), 255);
+	result.g = fmin(fmax(c1.g * (1 - ratio) + c2.g * ratio, 0), 255);
+	result.b = fmin(fmax(c1.b * (1 - ratio) + c2.b * ratio, 0), 255);
+	result.a = fmin(fmax(c1.a * (1 - ratio) + c2.a * ratio, 0), 255);
+	return (result);
 }
 
 t_color		fade_color(t_color color, float multiplier)
@@ -888,7 +914,7 @@ t_color			checker_texture_color(t_object object, t_point intersection)
 	int			z_even;
 
 	alternate = color(0, 0, 0, 0);
-	adjusted = scale_vector(intersection, 1.0 / 4.0);
+	adjusted = scale_vector(intersection, 1.0 / CHECKER_WIDTH);
 	x_even = is_texture_even((int)(adjusted.x < -EPSILON) ? adjusted.x - 1 : adjusted.x);
 	y_even = is_texture_even((int)(adjusted.y < -EPSILON) ? adjusted.y - 1 : adjusted.y);
 	z_even = is_texture_even((int)(adjusted.z < -EPSILON) ? adjusted.z - 1 : adjusted.z);
@@ -908,38 +934,69 @@ t_color			checker_texture_color(t_object object, t_point intersection)
 	}
 }
 
-t_color			circles_horizontal_color(t_object object, t_point intersection)
+t_color			circles_color(t_object object, t_point intersection, int horizontal)
 {
 	t_color		alternate;
 	t_point		adjusted;
-	// int			y_even;
 	int			distance;
 
 	alternate = color(0, 0, 0, 0);
-	adjusted = scale_vector(intersection, 1.0 / 6.0);
-	// y_even = is_texture_even((int)(adjusted.y < -EPSILON) ? adjusted.y - 1 : adjusted.y);
-	distance = (int)sqrt((adjusted.x * adjusted.x + adjusted.z * adjusted.z));
-	// if (y_even)
-	// {
-		if (distance % 2 == 0)
-			return (object.color);
-		return (alternate);
-	// }
-	// else
-	// {
-	// 	if (distance % 2 == 0)
-	// 		return (alternate);
-	// 	return (object.color);
-	// }
-	// return (object.color);
+	adjusted = scale_vector(intersection, 1.0 / CIRCLES_WIDTH);
+	if (horizontal)
+		distance = (int)sqrt((adjusted.x * adjusted.x + adjusted.z * adjusted.z));
+	else
+		distance = (int)sqrt((adjusted.x * adjusted.x + adjusted.y * adjusted.y));
+	if (distance % 2 == 0)
+		return (object.color);
+	return (alternate);
+}
+
+t_color			dots_color(t_object object, t_point intersection, int invert_gradient, int reverse)
+{
+	float		norm;
+	t_color		internal_color;
+	t_color		external_color;
+	t_point		closest_dot;
+
+	closest_dot = (t_point){round(intersection.x / DOTS_SPREAD) * DOTS_SPREAD,
+		round(intersection.y / DOTS_SPREAD) * DOTS_SPREAD,
+		round(intersection.z / DOTS_SPREAD) * DOTS_SPREAD};
+	if (reverse)
+	{
+		external_color = object.color;
+		internal_color = color(0, 0, 0, 0);
+	}
+	else
+	{
+		internal_color = object.color;
+		external_color = color(0, 0, 0, 0);
+	}
+	norm = points_norm(intersection, closest_dot);
+	if (norm <= DOTS_WIDTH / 2)
+		return (internal_color);
+	else if (norm <= DOTS_WIDTH)
+	{
+		if (invert_gradient)
+			return (interpolate_color(internal_color, external_color,
+				1 - ((norm - DOTS_WIDTH / 2) / (DOTS_WIDTH / 2))));
+		else
+			return (interpolate_color(internal_color, external_color,
+				(norm - DOTS_WIDTH / 2) / (DOTS_WIDTH / 2)));
+	}
+	return (external_color);
 }
 
 t_color			textured_color_if_needed(t_object object, t_point intersection)
 {
 	if (object.texture_type == CHECKER)
 		return (checker_texture_color(object, intersection));
-	else if (object.texture_type == CIRCLE)
-		return (circles_horizontal_color(object, intersection));
+	else if (object.texture_type == HORIZONTAL_CIRCLE || object.texture_type == VERTICAL_CIRCLE)
+		return (circles_color(object, intersection, object.texture_type == VERTICAL_CIRCLE));
+	else if (object.texture_type == DOTS || object.texture_type == DOTS_CROWN
+		|| object.texture_type == DOTS_REVERTED || object.texture_type == DOTS_REVERTED_CROWN)
+		return (dots_color(object, intersection,
+			object.texture_type == DOTS_CROWN || object.texture_type == DOTS_REVERTED_CROWN,
+			object.texture_type == DOTS_REVERTED || object.texture_type == DOTS_REVERTED_CROWN));
 	return (object.color);
 }
 

@@ -63,8 +63,18 @@ t_object        parse_object(int fd, t_object *object)
 		{
 			if (ft_strequ(line[1], "CHECKER"))
 				object->texture_type = CHECKER;
-			else if (ft_strequ(line[1], "CIRCLE"))
-				object->texture_type = CIRCLE;
+			else if (ft_strequ(line[1], "HORIZONTAL_CIRCLE"))
+				object->texture_type = HORIZONTAL_CIRCLE;
+			else if (ft_strequ(line[1], "VERTICAL_CIRCLE"))
+				object->texture_type = VERTICAL_CIRCLE;
+			else if (ft_strequ(line[1], "DOTS"))
+				object->texture_type = DOTS;
+			else if (ft_strequ(line[1], "DOTS_REVERTED"))
+				object->texture_type = DOTS_REVERTED;
+			else if (ft_strequ(line[1], "DOTS_CROWN"))
+				object->texture_type = DOTS_CROWN;
+			else if (ft_strequ(line[1], "DOTS_REVERTED_CROWN"))
+				object->texture_type = DOTS_REVERTED_CROWN;
 		}
 		clear_line(line);
 	}
