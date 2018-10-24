@@ -60,6 +60,7 @@ static t_scene		extend_scene(int fd, t_scene scene, char **line, t_env *env)
 		scene.objects = expand_objects(scene.objects, scene.objects_count);
 		scene.objects[scene.objects_count - 1] = add_new_object(fd, line[0]);
 		scene.objects[scene.objects_count - 1].id = scene.objects_count - 1;
+		scene.objects[scene.objects_count - 1].index = scene.objects_count - 1;
 		if (scene.objects[scene.objects_count - 1].finite && scene.objects[scene.objects_count - 1].covered)
 			scene = create_dependant_objects(scene.objects[scene.objects_count - 1], fd, scene,
 			scene.objects_count - 1);

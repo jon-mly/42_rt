@@ -108,6 +108,7 @@ typedef struct			s_color
 typedef struct			s_object
 {
 	int					id;
+	int					index;
 	t_color				color;
 	t_point				center;
 	t_point				point;

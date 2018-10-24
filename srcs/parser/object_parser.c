@@ -78,6 +78,7 @@ t_object        parse_object(int fd, t_object *object)
 		}
 		clear_line(line);
 	}
+	object->color.a = 255.0 * object->transparency;
 	clear_line(line);
     return (*object);
 }
