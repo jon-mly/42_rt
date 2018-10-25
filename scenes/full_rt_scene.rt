@@ -2,26 +2,26 @@ theme 0 0 0
 power 100
 
 camera {
-position 0 7 -50
-angles 0 0
+position 25 7 -80
+angles 0 10
 }
 
 light {
 type AMBIANT
 position 10 4 0
 color 255 255 255
-direction 3 -2 2
-power 800
+direction 0 -2 4
+power 600
 }
 
-# light {
-# type OMNI
-# color 255 255 255
-# position 20 7 -3
-# direction -5 -1 2
-# angle 80
-# power 300
-# }
+light {
+type OMNI
+color 255 255 255
+position 20 7 -3
+direction -5 -1 2
+angle 80
+power 300
+}
 
 # sphere {
 # center 20 0 0
@@ -47,26 +47,27 @@ power 800
 # }
 
 sphere {
-center 0 10 -20
-radius 8
-color 255 255 255
-diffuse 10
-reflect 10
+center 0 20 -10
+radius 18
+color 255, 165, 0
+diffuse 100
+reflect 100
 brillance 100
 refraction_index 100
-transparency 10
-texture HORIZONTAL_CIRCLE
+transparency 0
+texture CHECKER
 }
 
 # sphere {
-# center 0 7 0
-# radius 3
+# center 20 7 -3
+# radius 5
 # color 200 0 0
-# diffuse 30
+# diffuse 60
 # reflect 40
-# brillance 100
+# brillance 0
 # refraction_index 100
-# transparency 70
+# transparency 0
+# texture DOTS_REVERTED
 # }
 
 # cylinder {
@@ -158,21 +159,21 @@ texture HORIZONTAL_CIRCLE
 plane {
 point 0 -5 0
 normal 0 1 0
-color 220 0 0
+color 0 191 255
 diffuse 100
 brillance 10
 transparency 0
 refraction_index 100
-reflect 30
+reflect 40
 }
 
 plane {
 point 0 -5 60
 normal 0 0 1
-color 10 180 200
-diffuse 100
-brillance 0
+color 0 0 0
+diffuse 20
+brillance 30
 transparency 0
 refraction_index 100
-reflect 0
+reflect 100
 }
