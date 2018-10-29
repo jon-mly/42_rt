@@ -17,10 +17,10 @@ power 600
 light {
 type OMNI
 color 255 255 255
-position 20 7 -3
+position -20 7 -3
 direction -5 -1 2
 angle 80
-power 300
+power 200
 }
 
 # sphere {
@@ -55,7 +55,7 @@ reflect 100
 brillance 100
 refraction_index 100
 transparency 0
-texture CHECKER
+texture DOTS
 }
 
 # sphere {
@@ -168,7 +168,7 @@ reflect 40
 }
 
 plane {
-point 0 -5 60
+point 0 -5 30
 normal 0 0 1
 color 0 0 0
 diffuse 20

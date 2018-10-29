@@ -1,14 +1,14 @@
 # define TRUE 1
 # define FALSE 0
-# define MAX_DEPTH 5
-# define ALIASING 1
+# define MAX_DEPTH 3
+# define ALIASING 3
 # define EPSILON 0.001
 # define BLACK (t_color){0, 0, 0, 0}
 # define TRANSPARENT (t_color){255, 255, 255, 255}
 # define CIRCLES_WIDTH 2.3
 # define CHECKER_WIDTH 20.0
-# define DOTS_WIDTH 0.4
-# define DOTS_SPREAD 1.0
+# define DOTS_WIDTH 1.5
+# define DOTS_SPREAD 3.5
 
 typedef enum	e_object_type
 {
@@ -396,6 +396,7 @@ t_color		interpolate_color(t_color c1, t_color c2, float ratio)
 {
 	t_color		result;
 
+	// printf("Ratio : %.2f\n", ratio * 100);
 	result.r = fmin(fmax(c1.r * (1 - ratio) + c2.r * ratio, 0), 255);
 	result.g = fmin(fmax(c1.g * (1 - ratio) + c2.g * ratio, 0), 255);
 	result.b = fmin(fmax(c1.b * (1 - ratio) + c2.b * ratio, 0), 255);
@@ -1013,6 +1014,7 @@ t_object		object_with_local_parameters(t_object object, t_color local_color)
 	local_object = object;
 	local_object.color = local_color;
 	local_object.transparency = (float)fmax(object.transparency, (float)(local_color.a / 255.0));
+	local_object.reflection = object.reflection;
 	// local_object.reflection = object.reflection * (1 - local_object.transparency);
 	return (local_object);
 }
@@ -1385,14 +1387,11 @@ t_color			get_color_on_intersection(t_object ray, int closest_object_index, t_ob
 				shadow_ray.intersectiion = point_from_vector(shadow_ray.origin, shadow_ray.direction, shadow_ray.norm);
 				object_inbetween = object_with_local_parameters(obj[object_index], textured_color_if_needed(obj[object_index], shadow_ray.intersectiion));
 				shadow_ray.color = filter_light_through_object(shadow_ray.color, object_inbetween);
-				// shadow_ray.origin = point_from_vector(shadow_ray.origin, shadow_ray.direction, shadow_ray.norm + EPSILON);
-				// object_index = -1;
 			}
 			light_goes_through = (!(colors_are_equals(shadow_ray.color, BLACK)));
 		}
 		if (light_goes_through)
 		{
-			// intersected_object.color = textured_color_if_needed(obj[object_index], ray.intersectiion);
 			light_ray = light_ray_from_shadow_ray(shadow_ray, light[light_index]);
 			coloration = add_color(coloration, diffuse_light_for_intersection(light_ray, ray, intersected_object, light[light_index]));
 			coloration = add_color(coloration, specular_light_for_intersection(light_ray, ray, intersected_object, light[light_index]));
@@ -1456,7 +1455,6 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 	t_object			intersected_object;
 
 	iter_count = -1;
-	// max_iterations = (ponctual) ? 1 : MAX_DEPTH;
 	max_iterations = MAX_DEPTH;
 	colorout = BLACK;
 	current_object_id = -1;
@@ -1524,7 +1522,7 @@ t_object		init_reflected_ray(t_object original_ray, t_object intersected_object)
 	ray.direction = normalize_vector(ray.direction);
 	ray.origin = point_from_vector(original_ray.intersectiion, ray.direction, EPSILON);
 	ray.intersect = FALSE;
-	ray.reflection = intersected_object.reflection * original_ray.reflection;
+	ray.reflection = intersected_object.reflection * original_ray.reflection * (1 - intersected_object.transparency);
 	ray.refraction = intersected_object.refraction;
 	ray.transparency = intersected_object.transparency;
 	return (ray);
@@ -1543,7 +1541,7 @@ t_color			reflected_raytracing(global t_scene *scene, global t_object *obj, glob
 	t_object			intersected_object;
 
 	iter_count = -1;
-	max_iterations = (ponctual) ? 1 : MAX_DEPTH;
+	max_iterations = (ponctual) ? 2 : MAX_DEPTH;
 	colorout = BLACK;
 	while (++iter_count < max_iterations) {
 		added_color = BLACK;
@@ -1566,7 +1564,7 @@ t_color			reflected_raytracing(global t_scene *scene, global t_object *obj, glob
 			intersected_object = object_with_local_parameters(obj[closest_object_index],
 				textured_color_if_needed(obj[closest_object_index], ray.intersectiion));
 			added_color = get_color_on_intersection(ray, intersected_object.index, intersected_object, scene, light, obj);
-			added_color = fade_color(added_color, ray.reflection * (1 - ray.transparency));
+			added_color = fade_color(added_color, ray.reflection);
 			if (!ponctual && intersected_object.transparency > 0)
 				added_color = add_color(added_color, refracted_raytracing(scene, obj, light,
 					init_refracted_ray(ray, intersected_object,
