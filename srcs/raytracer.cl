@@ -382,6 +382,68 @@ t_vector	cross_product(t_vector vect_1, t_vector vect_2)
 	return (cross);
 }
 
+t_color		fade_color(t_color color, float multiplier)
+{
+	color.r = (unsigned char)((float)color.r * multiplier);
+	color.g = (unsigned char)((float)color.g * multiplier);
+	color.b = (unsigned char)((float)color.b * multiplier);
+	color.a = (unsigned char)((float)color.a * multiplier);
+	// color.g = multiplier;
+	// color.b = multiplier;
+	// color.a = multiplier;
+	return (color);
+}
+
+int			colors_are_equals(t_color c1, t_color c2)
+{
+	return (c1.r == c2.r
+		&& c1.g == c2.g
+		&& c1.b == c2.b
+		&& c1.a == c2.a);
+}
+
+t_color 	add_color(t_color base, t_color overlay)
+{
+	t_color 	final;
+
+	final.r = maximize_color_value(base.r + overlay.r);
+	final.g = maximize_color_value(base.g + overlay.g);
+	final.b = maximize_color_value(base.b + overlay.b);
+	final.a = maximize_color_value(base.a + overlay.a);
+	return (final);
+}
+
+t_color		average_color(t_color c1, t_color c2)
+{
+	t_color		final;
+
+	final.r = (c1.r + c2.r) / 2;
+	final.g = (c1.g + c2.g) / 2;
+	final.b = (c1.b + c2.b) / 2;
+	final.a = (c1.a + c2.a) / 2;
+	return (final);
+}
+
+
+// t_color		average_color(t_color c1, t_color c2)
+// {
+// 	int		r;
+// 	int		g;
+// 	int		b;
+// 	int		a;
+// 	t_color final_color;
+
+// 	r = (c1.r + c2.r) / 2;
+// 	g = (c1.g + c2.g) / 2;
+// 	b = (c1.b + c2.r) / 2;
+// 	a = (c1.a + c2.a) / 2;
+// 	final_color.r = (unsigned char)r;
+// 	final_color.g = (unsigned char)g;
+// 	final_color.b = (unsigned char)b;
+// 	final_color.a = (unsigned char)a;
+// 	return (final_color);
+// }
+
 /*
 ** =========== COLORS CALCULATION
 */
