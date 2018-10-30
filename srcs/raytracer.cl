@@ -1,11 +1,13 @@
 # define TRUE 1
 # define FALSE 0
-# define MAX_REFLECTION_ITER 3
-# define MAX_REFRACTION_ITER 6
 # define MAX_DEPTH 5
-# define ALIASING 1
+# define ALIASING 3
 # define EPSILON 0.001
 # define BLACK (t_color){0, 0, 0, 0}
+# define CIRCLES_WIDTH 6.0
+# define CHECKER_WIDTH 4.0
+# define DOTS_WIDTH 1.0
+# define DOTS_SPREAD 3.0
 
 typedef enum	e_object_type
 {
@@ -25,6 +27,18 @@ typedef enum	e_light_type
 	AMBIANT,
 	PROJECTOR
 }				t_light_type;
+
+typedef enum			e_texture
+{
+	NONE,
+	CHECKER,
+	HORIZONTAL_CIRCLE,
+	VERTICAL_CIRCLE,
+	DOTS,
+	DOTS_REVERTED,
+	DOTS_CROWN,
+	DOTS_REVERTED_CROWN
+}						t_texture;
 
 typedef struct	s_vector
 {
@@ -99,6 +113,7 @@ typedef struct			s_object
 	float				height;
 	float				width;
 	t_object_type		typpe;
+	t_texture			texture_type;
 	int					intersect;
 	int					finite;
 	int					covered;
@@ -195,6 +210,12 @@ int			colors_are_equals(t_color c1, t_color c2);
 t_color			filter_light_through_object(t_color initial_color, t_object object);
 t_object		init_primary_ray(int x, int y, t_camera camera, float aliasing_variation, int horizontal);
 float			fresnel_reflection_index(float n1, float n2, float cos_alpha, float cos_beta);
+t_color			textured_color_if_needed(t_object object, t_point intersection);
+t_color			checker_texture_color(t_object object, t_point intersection);
+int			is_texture_even(int value);
+t_color			circles_color(t_object object, t_point intersection, int horizontal);
+t_color		interpolate_color(t_color c1, t_color c2, float ratio);
+t_color			dots_color(t_object object, t_point intersection, int invert_gradient, int reverse);
 
 
 /*
@@ -422,6 +443,71 @@ t_color		average_color(t_color c1, t_color c2)
 // 	final_color.a = (unsigned char)a;
 // 	return (final_color);
 // }
+
+/*
+** =========== COLORS CALCULATION
+*/
+
+t_color		interpolate_color(t_color c1, t_color c2, float ratio)
+{
+	t_color		result;
+
+	result.r = fmin(fmax(c1.r * (1 - ratio) + c2.r * ratio, 0), 255);
+	result.g = fmin(fmax(c1.g * (1 - ratio) + c2.g * ratio, 0), 255);
+	result.b = fmin(fmax(c1.b * (1 - ratio) + c2.b * ratio, 0), 255);
+	result.a = fmin(fmax(c1.a * (1 - ratio) + c2.a * ratio, 0), 255);
+	return (result);
+}
+
+t_color		fade_color(t_color color, float multiplier)
+{
+	color.r = (unsigned char)((float)color.r * multiplier);
+	color.g = (unsigned char)((float)color.g * multiplier);
+	color.b = (unsigned char)((float)color.b * multiplier);
+	color.a = (unsigned char)((float)color.a * multiplier);
+	// color.g = multiplier;
+	// color.b = multiplier;
+	// color.a = multiplier;
+	return (color);
+}
+
+int			colors_are_equals(t_color c1, t_color c2)
+{
+	return (c1.r == c2.r
+		&& c1.g == c2.g
+		&& c1.b == c2.b
+		&& c1.a == c2.a);
+}
+
+t_color 	add_color(t_color base, t_color overlay)
+{
+	t_color 	final;
+
+	final.r = maximize_color_value(base.r + overlay.r);
+	final.g = maximize_color_value(base.g + overlay.g);
+	final.b = maximize_color_value(base.b + overlay.b);
+	final.a = maximize_color_value(base.a + overlay.a);
+	return (final);
+}
+
+t_color		average_color(t_color c1, t_color c2)
+{
+	t_color		final;
+
+	final.r = (c1.r + c2.r) / 2;
+	final.g = (c1.g + c2.g) / 2;
+	final.b = (c1.b + c2.b) / 2;
+	final.a = (c1.a + c2.a) / 2;
+	return (final);
+}
+
+int			is_texture_even(int value)
+{
+	if (value >= 0)
+		return (value % 2 == 0);
+	else
+		return ((value) % 2 == 0);
+}
 
 /*
 ** Solves a quadratic equation but with the aim of returning a distance, which
@@ -877,6 +963,105 @@ t_object			intersect_object(t_object ray, t_object object)
 	return (ray);
 }
 
+/*
+** ========== PROCEDURAL TEXTURES
+*/
+
+t_color			checker_texture_color(t_object object, t_point intersection)
+{
+	t_color		alternate;
+	t_point		adjusted;
+	int			x_even;
+	int			y_even;
+	int			z_even;
+
+	alternate = color(0, 0, 0, 0);
+	adjusted = scale_vector(intersection, 1.0 / CHECKER_WIDTH);
+	x_even = is_texture_even((int)(adjusted.x < -EPSILON) ? adjusted.x - 1 : adjusted.x);
+	y_even = is_texture_even((int)(adjusted.y < -EPSILON) ? adjusted.y - 1 : adjusted.y);
+	z_even = is_texture_even((int)(adjusted.z < -EPSILON) ? adjusted.z - 1 : adjusted.z);
+	if (z_even)
+	{
+		if ((x_even && y_even)
+			|| (!x_even && !y_even))
+			return (object.color);
+		return (alternate);
+	}
+	else
+	{
+		if ((x_even && y_even)
+			|| (!x_even && !y_even))
+			return (alternate);
+		return (object.color);
+	}
+}
+
+t_color			circles_color(t_object object, t_point intersection, int horizontal)
+{
+	t_color		alternate;
+	t_point		adjusted;
+	int			distance;
+
+	alternate = color(0, 0, 0, 0);
+	adjusted = scale_vector(intersection, 1.0 / CIRCLES_WIDTH);
+	if (horizontal)
+		distance = (int)sqrt((adjusted.x * adjusted.x + adjusted.z * adjusted.z));
+	else
+		distance = (int)sqrt((adjusted.x * adjusted.x + adjusted.y * adjusted.y));
+	if (distance % 2 == 0)
+		return (object.color);
+	return (alternate);
+}
+
+t_color			dots_color(t_object object, t_point intersection, int invert_gradient, int reverse)
+{
+	float		norm;
+	t_color		internal_color;
+	t_color		external_color;
+	t_point		closest_dot;
+
+	closest_dot = (t_point){round(intersection.x / DOTS_SPREAD) * DOTS_SPREAD,
+		round(intersection.y / DOTS_SPREAD) * DOTS_SPREAD,
+		round(intersection.z / DOTS_SPREAD) * DOTS_SPREAD};
+	if (reverse)
+	{
+		external_color = object.color;
+		internal_color = color(0, 0, 0, 0);
+	}
+	else
+	{
+		internal_color = object.color;
+		external_color = color(0, 0, 0, 0);
+	}
+	norm = points_norm(intersection, closest_dot);
+	if (norm <= DOTS_WIDTH / 2)
+		return (internal_color);
+	else if (norm <= DOTS_WIDTH)
+	{
+		if (invert_gradient)
+			return (interpolate_color(internal_color, external_color,
+				1 - ((norm - DOTS_WIDTH / 2) / (DOTS_WIDTH / 2))));
+		else
+			return (interpolate_color(internal_color, external_color,
+				(norm - DOTS_WIDTH / 2) / (DOTS_WIDTH / 2)));
+	}
+	return (external_color);
+}
+
+t_color			textured_color_if_needed(t_object object, t_point intersection)
+{
+	if (object.texture_type == CHECKER)
+		return (checker_texture_color(object, intersection));
+	else if (object.texture_type == HORIZONTAL_CIRCLE || object.texture_type == VERTICAL_CIRCLE)
+		return (circles_color(object, intersection, object.texture_type == VERTICAL_CIRCLE));
+	else if (object.texture_type == DOTS || object.texture_type == DOTS_CROWN
+		|| object.texture_type == DOTS_REVERTED || object.texture_type == DOTS_REVERTED_CROWN)
+		return (dots_color(object, intersection,
+			object.texture_type == DOTS_CROWN || object.texture_type == DOTS_REVERTED_CROWN,
+			object.texture_type == DOTS_REVERTED || object.texture_type == DOTS_REVERTED_CROWN));
+	return (object.color);
+}
+
 
 /*
 ** ========== SPECULAR VECTOR CALCULATION
@@ -1222,6 +1407,7 @@ t_color			get_color_on_intersection(t_object ray, global t_object *closest_objec
 	int			object_index;
 	float		norm;
 	t_color		coloration;
+	t_object	intersected_object;
 	int 		light_goes_through;
 
 	light_index = -1;
@@ -1239,12 +1425,15 @@ t_color			get_color_on_intersection(t_object ray, global t_object *closest_objec
 				|| (light[light_index].typpe != AMBIANT && hit_test(closest_object, &obj[object_index], shadow_ray, norm))))
 				shadow_ray.color = filter_light_through_object(shadow_ray.color, obj[object_index]);
 			light_goes_through = (!(colors_are_equals(shadow_ray.color, BLACK)));
+			// TODO: change direction of light 
 		}
 		if (light_goes_through)
 		{
+			intersected_object = *closest_object;
+			intersected_object.color = textured_color_if_needed(intersected_object, ray.intersectiion);
 			light_ray = light_ray_from_shadow_ray(shadow_ray, light[light_index]);
-			coloration = add_color(coloration, diffuse_light_for_intersection(light_ray, ray, *closest_object, light[light_index]));
-			coloration = add_color(coloration, specular_light_for_intersection(light_ray, ray, *closest_object, light[light_index]));
+			coloration = add_color(coloration, diffuse_light_for_intersection(light_ray, ray, intersected_object, light[light_index]));
+			coloration = add_color(coloration, specular_light_for_intersection(light_ray, ray, intersected_object, light[light_index]));
 		}
 	}
 	return (coloration);
@@ -1465,9 +1654,9 @@ t_color			primary_ray(global t_scene *scene, global t_object *obj,
 	t_color				refracted_color;
 	t_color				reflected_color;
 
-	colorout = (t_color){0, 0, 0, 0};
-	reflected_color = (t_color){0, 0, 0, 0};
-	refracted_color = (t_color){0, 0, 0, 0};
+	colorout = BLACK;
+	reflected_color = BLACK;
+	refracted_color = BLACK;
 	closest_object_index = -1;
 	object_index = -1;
 	while (++object_index < scene->objects_count)

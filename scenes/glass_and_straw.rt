@@ -1,7 +1,7 @@
 CAMERA :
 
 camera {
-position 0 0 -60
+position 0 -50 -20
 angles -18 0
 }
 
@@ -17,7 +17,7 @@ power 700
 OBJECTS :
 
 plane {
-point 0 -63 0
+point 0 -64 0
 direction 0 1 0
 color 50 50 50
 diffuse 100
@@ -38,7 +38,7 @@ reflect 10
 transparency 90
 refraction_index 133
 angles 0 -90
-position 0 -31 30
+position 0 -30 30
 }
 
 cylinder {
@@ -51,7 +51,7 @@ diffuse 1
 brillance 60
 reflect 10
 transparency 90
-refraction_index 133
+refraction_index 100
 angles 0 90
 position 0 -31 30
 }
@@ -61,13 +61,13 @@ pi_divider 3
 finite
 covered
 height 10
-center 0 -56 30
+center 0 -58 30
 color 255 255 255
-transparency 90
+transparency 0
 refraction_index 133
 reflect 10
 brillance 60
-diffuse 1
+diffuse 100
 angles 0 90
 } 
 
