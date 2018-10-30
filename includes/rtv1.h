@@ -75,8 +75,16 @@ typedef enum			e_texture
 	DOTS,
 	DOTS_REVERTED,
 	DOTS_CROWN,
-	DOTS_REVERTED_CROWN
+	DOTS_REVERTED_CROWN,
+	PERLIN
 }						t_texture;
+
+typedef enum			e_texture_algo
+{
+	NO_ALGO,
+	PROCEDURAL,
+	PERLIN_ALGO
+}						t_texture_algo;
 
 /*
 ** ======= structures
@@ -133,6 +141,7 @@ typedef struct			s_object
 	float				width;
 	t_object_type		typpe;
 	t_texture			texture_type;
+	t_texture_algo		texture_algo;
 	int					intersect;
 	int					finite;
 	int					covered;

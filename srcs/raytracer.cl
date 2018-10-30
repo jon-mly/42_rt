@@ -1,7 +1,7 @@
 # define TRUE 1
 # define FALSE 0
 # define MAX_DEPTH 3
-# define ALIASING 3
+# define ALIASING 1
 # define EPSILON 0.001
 # define BLACK (t_color){0, 0, 0, 0}
 # define TRANSPARENT (t_color){255, 255, 255, 255}
@@ -38,8 +38,16 @@ typedef enum			e_texture
 	DOTS,
 	DOTS_REVERTED,
 	DOTS_CROWN,
-	DOTS_REVERTED_CROWN
+	DOTS_REVERTED_CROWN,
+	PERLIN
 }						t_texture;
+
+typedef enum			e_texture_algo
+{
+	NO_ALGO,
+	PROCEDURAL,
+	PERLIN_ALGO
+}						t_texture_algo;
 
 typedef struct	s_vector
 {
@@ -116,6 +124,7 @@ typedef struct			s_object
 	float				width;
 	t_object_type		typpe;
 	t_texture			texture_type;
+	t_texture_algo		texture_algo;
 	int					intersect;
 	int					finite;
 	int					covered;
@@ -222,10 +231,59 @@ t_object		object_with_local_parameters(t_object object, t_color local_color);
 t_color			get_color_on_intersection(t_object ray, int closest_object_index, t_object intersected_object,
 	global t_scene *scene, global t_light *light, global t_object *obj);
 int				hit_test(t_object clt_obj, t_object obj, t_object l_ray, float norm);
+int				integer_part(float value);
+float		fractional_part(float value);
+t_vector		get_random_gradient(int int_x, int int_y, int int_z);
+float			perlin_polynom(float value);
+float		linear_interpolation(float a, float b, float ratio);
+float			get_perlin_noise_value(float x, float y, float z);
+float			perlin_noise(int octaves, float frequency, float persistence, t_point point);
+t_color			procedural_color(t_object object, t_point intersection);
+t_color			perlin_algo_texture_color(t_object object, t_point intersection);
+float			bounded_color_value(float color_value, float min_value, float max_value);
+t_color			perlin_color(t_object object, t_point intersection);
+
+__constant unsigned char hash_table[512] = {151,160,137,91,90,15,
+	131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
+	190, 6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,
+	88,237,149,56,87,174,20,125,136,171,168, 68,175,74,165,71,134,139,48,27,166,
+	77,146,158,231,83,111,229,122,60,211,133,230,220,105,92,41,55,46,245,40,244,
+	102,143,54, 65,25,63,161, 1,216,80,73,209,76,132,187,208, 89,18,169,200,196,
+	135,130,116,188,159,86,164,100,109,198,173,186, 3,64,52,217,226,250,124,123,
+	5,202,38,147,118,126,255,82,85,212,207,206,59,227,47,16,58,17,182,189,28,42,
+	223,183,170,213,119,248,152, 2,44,154,163, 70,221,153,101,155,167, 43,172,9,
+	129,22,39,253, 19,98,108,110,79,113,224,232,178,185, 112,104,218,246,97,228,
+	251,34,242,193,238,210,144,12,191,179,162,241, 81,51,145,235,249,14,239,107,
+	49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
+	138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180,151,
+	160,137,91,90,15,
+	131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
+	190, 6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,
+	88,237,149,56,87,174,20,125,136,171,168, 68,175,74,165,71,134,139,48,27,166,
+	77,146,158,231,83,111,229,122,60,211,133,230,220,105,92,41,55,46,245,40,244,
+	102,143,54, 65,25,63,161, 1,216,80,73,209,76,132,187,208, 89,18,169,200,196,
+	135,130,116,188,159,86,164,100,109,198,173,186, 3,64,52,217,226,250,124,123,
+	5,202,38,147,118,126,255,82,85,212,207,206,59,227,47,16,58,17,182,189,28,42,
+	223,183,170,213,119,248,152, 2,44,154,163, 70,221,153,101,155,167, 43,172,9,
+	129,22,39,253, 19,98,108,110,79,113,224,232,178,185, 112,104,218,246,97,228,
+	251,34,242,193,238,210,144,12,191,179,162,241, 81,51,145,235,249,14,239,107,
+	49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
+	138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180,
+};
+
+__constant t_vector perlin_vectors[16] = {
+    (t_vector){1,1,0}, (t_vector){-1,1,0}, (t_vector){1,-1,0}, (t_vector){-1,-1,0},
+    (t_vector){1,0,1}, (t_vector){-1,0,1}, (t_vector){1,0,-1}, (t_vector){-1,0,-1},
+    (t_vector){0,1,1}, (t_vector){0,-1,1}, (t_vector){0,1,-1}, (t_vector){0,-1,-1},
+    (t_vector){1,1,0}, (t_vector){-1,1,0}, (t_vector){0,-1,1}, (t_vector){0,-1,-1}};
 
 
 /*
 ** ========== MATHEMATIC HELPERS
+*/
+
+/*
+** COLORS
 */
 
 t_color		color(int r, int g, int b, int a)
@@ -238,6 +296,10 @@ t_color		color(int r, int g, int b, int a)
 	color.a = (unsigned char)a;
 	return (color);
 }
+
+/*
+** VECTORS
+*/
 
 t_vector	normalize_vector(t_vector vec)
 {
@@ -345,14 +407,6 @@ t_vector	vect_rotate_y(t_vector vector, float angle, int inverse)
 	return (rotated);
 }
 
-float		vector_norm(t_vector vec)
-{
-	float		norm;
-
-	norm = sqrt((float)(pow((float)vec.x, (float)2) + pow((float)vec.y, (float)2) + pow((float)vec.z, (float)2)));
-	return (norm);
-}
-
 t_vector	rotate_vector_angles(t_object reference, t_vector vect,
 			int reverse)
 {	if (!reverse)
@@ -368,16 +422,6 @@ t_vector	rotate_vector_angles(t_object reference, t_vector vect,
 	return (vect);
 }
 
-float		dot_product(t_vector vect_1, t_vector vect_2)
-{
-	float		product;
-
-	product = (vect_1.x * vect_2.x) +
-				(vect_1.y * vect_2.y) +
-				(vect_1.z * vect_2.z);
-	return (product);
-}
-
 t_vector	cross_product(t_vector vect_1, t_vector vect_2)
 {
 	t_vector	cross;
@@ -389,6 +433,56 @@ t_vector	cross_product(t_vector vect_1, t_vector vect_2)
 }
 
 /*
+** NUMBERS
+*/
+
+float		vector_norm(t_vector vec)
+{
+	float		norm;
+
+	norm = sqrt((float)(pow((float)vec.x, (float)2) + pow((float)vec.y, (float)2) + pow((float)vec.z, (float)2)));
+	return (norm);
+}
+
+float		dot_product(t_vector vect_1, t_vector vect_2)
+{
+	float		product;
+
+	product = (vect_1.x * vect_2.x) +
+				(vect_1.y * vect_2.y) +
+				(vect_1.z * vect_2.z);
+	return (product);
+}
+
+int			integer_part(float value)
+{
+	// return ((int)value);
+	if (value >= 0)
+		return ((int)value);
+	return ((int)value - 1);
+	// return ((int)value - (value < 0));
+}
+
+float		fractional_part(float value)
+{
+	float		integer_part;
+
+	// integer_part = (float)((int)value);
+	if (value >= 0)
+		integer_part = (float)((int)value);
+	else
+		integer_part = (float)((int)value - 1);
+	// integer_part = (float)((int)value - (value < 0));
+	return (value - integer_part);
+}
+
+float		linear_interpolation(float a, float b, float ratio)
+{
+	return (a + (b - a) * ratio);
+}
+
+
+/*
 ** =========== COLORS CALCULATION
 */
 
@@ -396,11 +490,10 @@ t_color		interpolate_color(t_color c1, t_color c2, float ratio)
 {
 	t_color		result;
 
-	// printf("Ratio : %.2f\n", ratio * 100);
-	result.r = fmin(fmax(c1.r * (1 - ratio) + c2.r * ratio, 0), 255);
-	result.g = fmin(fmax(c1.g * (1 - ratio) + c2.g * ratio, 0), 255);
-	result.b = fmin(fmax(c1.b * (1 - ratio) + c2.b * ratio, 0), 255);
-	result.a = fmin(fmax(c1.a * (1 - ratio) + c2.a * ratio, 0), 255);
+	result.r = fmin(fmax(c1.r + (c2.r - c1.r) * ratio, 0), 255);
+	result.g = fmin(fmax(c1.g + (c2.g - c1.g) * ratio, 0), 255);
+	result.b = fmin(fmax(c1.b + (c2.b - c1.b) * ratio, 0), 255);
+	result.a = fmin(fmax(c1.a + (c2.a - c1.a) * ratio, 0), 255);
 	return (result);
 }
 
@@ -410,9 +503,6 @@ t_color		fade_color(t_color color, float multiplier)
 	color.g = (unsigned char)((float)color.g * multiplier);
 	color.b = (unsigned char)((float)color.b * multiplier);
 	color.a = (unsigned char)((float)color.a * multiplier);
-	// color.g = multiplier;
-	// color.b = multiplier;
-	// color.a = multiplier;
 	return (color);
 }
 
@@ -444,6 +534,15 @@ t_color		average_color(t_color c1, t_color c2)
 	final.b = (c1.b + c2.b) / 2;
 	final.a = (c1.a + c2.a) / 2;
 	return (final);
+}
+
+float		bounded_color_value(float color_value, float min_value, float max_value)
+{
+	if (color_value < min_value)
+		return (min_value);
+	else if (color_value > max_value)
+		return (max_value);
+	return (color_value);
 }
 
 int			is_texture_even(int value)
@@ -537,7 +636,6 @@ unsigned char	maximize_color_value(int color_value)
 
 	ratio_value = (float)(color_value) / 255.0;
 	return ((int)(fmax(fmin((float)color_value, (float)255), 0)));
-	// return ((unsigned char)(((1 - exp((float)(-1.1 * ratio_value))) * 255)));
 }
 
 
@@ -576,8 +674,6 @@ t_vector		cone_normal(t_object ray, t_object cone)
 				distance))
 		normal_point = normal_point_2;
 	normal = vector_points(normal_point, distance);
-	// if ((!cone.finite || cone.covered) && revert_cone_normal(ray, cone))
-	// 	normal = vector_points(distance, normal_point);
 	if (dot_product(normalize_vector(normal), rotate_vector_angles(cone, ray.direction, 0)) > 0)
 		normal = vector_points(distance, normal_point);
 	normal = rotate_vector_angles(cone, normal, 1);
@@ -607,9 +703,6 @@ t_vector		cylinder_normal(t_object ray, t_object cylinder)
 	distance = rotate_vector_angles(cylinder, distance, 0);
 	normal_point = (t_point){0, 0, distance.z};
 	normal = vector_points(normal_point, distance);
-	// Could be removed since light inside a cylinder is not to be managed
-	// if ((!cylinder.finite || cylinder.covered) && revert_cylinder_normal(ray, cylinder))
-	// 	normal = vector_points(distance, normal_point);
 	if (dot_product(normalize_vector(normal), rotate_vector_angles(cylinder, ray.direction, 0)) > 0)
 		normal = vector_points(distance, normal_point);
 	normal = rotate_vector_angles(cylinder, normal, 1);
@@ -908,6 +1001,12 @@ t_object			intersect_object(t_object ray, t_object object)
 	return (ray);
 }
 
+/* 
+** ===================================================
+** ========== TEXTURES
+** ===================================================
+*/
+
 /*
 ** ========== PROCEDURAL TEXTURES
 */
@@ -993,7 +1092,120 @@ t_color			dots_color(t_object object, t_point intersection, int invert_gradient,
 	return (external_color);
 }
 
-t_color			textured_color_if_needed(t_object object, t_point intersection)
+/*
+** ========== TEXTURES USING PERLIN ALGORITHM
+*/
+
+t_vector		get_random_gradient(int int_x, int int_y, int int_z)
+{
+	int			hashed_random_value;
+
+	int_x = (int)hash_table[int_x];
+	int_y += (int)hash_table[int_x];
+	int_z += (int)hash_table[int_y];
+	hashed_random_value = hash_table[int_z];
+	// hashed_random_value = hash_table[int_z + hash_table[int_y + hash_table[int_x]]];
+	hashed_random_value %= 16;
+	// printf("%d\n", hashed_random_value);
+	// return ((t_vector){0, 0, 1});
+	return (perlin_vectors[hashed_random_value]);
+}
+
+float			perlin_polynom(float value)
+{
+	return (6.0 * pow(value, 5) - 15 * pow(value, 4) + 10 * pow(value, 3));
+}
+
+float			get_perlin_noise_value(float x, float y, float z)
+{
+	int			int_x;
+	int			int_y;
+	int			int_z;
+	float		square_noises[8];
+	float		polynomials_factors[3];
+	float		horizontal_interpolations[4];
+	float		vertical_interpolations[2];
+
+	int_x = integer_part(x) % 256;
+	int_y = integer_part(y) % 256;
+	int_z = integer_part(z) % 256;
+	x = fractional_part(x);
+	y = fractional_part(y);
+	z = fractional_part(z);
+
+	square_noises[0] = dot_product(get_random_gradient(int_x, int_y, int_z), (t_vector){x, y, z});
+	square_noises[1] = dot_product(get_random_gradient(int_x, int_y, int_z + 1), (t_vector){x, y, z - 1.0});
+	square_noises[2] = dot_product(get_random_gradient(int_x, int_y + 1, int_z), (t_vector){x, y - 1.0, z});
+	square_noises[3] = dot_product(get_random_gradient(int_x, int_y + 1, int_z + 1), (t_vector){x, y - 1.0, z - 1.0});
+	square_noises[4] = dot_product(get_random_gradient(int_x + 1, int_y, int_z), (t_vector){x - 1.0, y, z});
+	square_noises[5] = dot_product(get_random_gradient(int_x + 1, int_y, int_z + 1), (t_vector){x - 1.0, y, z - 1.0});
+	square_noises[6] = dot_product(get_random_gradient(int_x + 1, int_y + 1, int_z), (t_vector){x - 1.0, y - 1.0, z});
+	square_noises[7] = dot_product(get_random_gradient(int_x + 1, int_y + 1, int_z + 1), (t_vector){x - 1.0, y - 1.0, z - 1.0});
+
+	polynomials_factors[0] = perlin_polynom(x);
+	polynomials_factors[1] = perlin_polynom(y);
+	polynomials_factors[2] = perlin_polynom(z);
+
+	horizontal_interpolations[0] = linear_interpolation(square_noises[0], square_noises[4], polynomials_factors[0]);
+	horizontal_interpolations[1] = linear_interpolation(square_noises[2], square_noises[6], polynomials_factors[0]);
+	horizontal_interpolations[2] = linear_interpolation(square_noises[1], square_noises[5], polynomials_factors[0]);
+	horizontal_interpolations[3] = linear_interpolation(square_noises[3], square_noises[7], polynomials_factors[0]);
+
+	vertical_interpolations[0] = linear_interpolation(horizontal_interpolations[0], horizontal_interpolations[1], polynomials_factors[1]);
+	vertical_interpolations[1] = linear_interpolation(horizontal_interpolations[2], horizontal_interpolations[3], polynomials_factors[1]);
+
+	return (linear_interpolation(vertical_interpolations[0], vertical_interpolations[1], polynomials_factors[2]));
+}
+
+float			perlin_noise(int octaves, float frequency, float persistence, t_point point)
+{
+	float		noise;
+	float		amplitude;
+	float		geometric_limit;
+	float		offset;
+	int			octave;
+	t_point		values;
+
+	octave = -1;
+	amplitude = 1.0;
+	offset = 2048;
+	noise = 0;
+	while (++octave < octaves)
+	{
+		values = (t_point){point.x * frequency * offset / 2,
+			point.y * frequency * offset / 4,
+			point.z * frequency * offset / 8};
+		noise += get_perlin_noise_value(values.x, values.y, values.z) * amplitude;
+		amplitude *= persistence;
+		frequency *= 2;
+	}
+	geometric_limit = (1 - persistence) / (1 - amplitude);
+	// return ((noise * geometric_limit) / 2 + 0.5);
+	return (noise);
+}
+
+t_color			perlin_color(t_object object, t_point intersection)
+{
+	t_point		altered_coordinates;
+	t_color		color;
+	float		noise;
+
+	altered_coordinates = intersection;
+	// altered_coordinates = (t_point){intersection.x / 2, intersection.y / 2, intersection.z / 2};
+	noise = perlin_noise(8, 0.0004, 0.20, altered_coordinates);
+	// printf("%.2f\n", noise);
+	color.r = bounded_color_value((1 - noise) * 255, 0, 255);
+	color.g = bounded_color_value((1 - noise) * 255, 0, 255);
+	color.b = bounded_color_value((1 - noise) * 255, 0, 255);
+	color.a = 0;
+	return (color);
+}
+
+/*
+** ========== GLOBAL TEXTURING FUNCTIONS
+*/
+
+t_color			procedural_color(t_object object, t_point intersection)
 {
 	if (object.texture_type == CHECKER)
 		return (checker_texture_color(object, intersection));
@@ -1007,6 +1219,22 @@ t_color			textured_color_if_needed(t_object object, t_point intersection)
 	return (object.color);
 }
 
+t_color			perlin_algo_texture_color(t_object object, t_point intersection)
+{
+	if (object.texture_type == PERLIN)
+		return (perlin_color(object, intersection));
+	return (TRANSPARENT);
+}
+
+t_color			textured_color_if_needed(t_object object, t_point intersection)
+{
+	if (object.texture_algo == PROCEDURAL)
+		return (procedural_color(object, intersection));
+	else if (object.texture_algo == PERLIN_ALGO)
+		return (perlin_algo_texture_color(object, intersection));
+	return (object.color);
+}
+
 t_object		object_with_local_parameters(t_object object, t_color local_color)
 {
 	t_object	local_object;
@@ -1015,7 +1243,6 @@ t_object		object_with_local_parameters(t_object object, t_color local_color)
 	local_object.color = local_color;
 	local_object.transparency = (float)fmax(object.transparency, (float)(local_color.a / 255.0));
 	local_object.reflection = object.reflection;
-	// local_object.reflection = object.reflection * (1 - local_object.transparency);
 	return (local_object);
 }
 

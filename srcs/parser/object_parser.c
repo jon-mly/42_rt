@@ -75,10 +75,21 @@ t_object        parse_object(int fd, t_object *object)
 				object->texture_type = DOTS_CROWN;
 			else if (ft_strequ(line[1], "DOTS_REVERTED_CROWN"))
 				object->texture_type = DOTS_REVERTED_CROWN;
+			else if (ft_strequ(line[1], "PERLIN"))
+				object->texture_type = PERLIN;
 		}
 		clear_line(line);
 	}
 	object->color.a = 255.0 * object->transparency;
+	if (object->texture_type == CHECKER || object->texture_type == HORIZONTAL_CIRCLE
+		|| object->texture_type == VERTICAL_CIRCLE || object->texture_type == DOTS
+		|| object->texture_type == DOTS_REVERTED || object->texture_type == DOTS_CROWN
+		|| object->texture_type ==  DOTS_REVERTED_CROWN)
+		object->texture_algo = PROCEDURAL;
+	else if (object->texture_type == PERLIN)
+		object->texture_algo = PERLIN_ALGO;
+	else
+		object->texture_algo = NO_ALGO;
 	clear_line(line);
     return (*object);
 }
