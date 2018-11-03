@@ -19,7 +19,8 @@ typedef enum	e_object_type
 	DISC,
 	RECTANGLE,
 	TRIANGLE,
-	PARALLELOGRAM
+	PARALLELOGRAM,
+	HYPERBOLOID
 }				t_object_type;
 
 typedef enum	e_light_type
@@ -122,6 +123,9 @@ typedef struct			s_object
 	float				refraction;
 	float				height;
 	float				width;
+	float				rho;
+	float				sigma;
+	float				tau;
 	t_object_type		typpe;
 	t_texture			texture_type;
 	t_texture_algo		texture_algo;
@@ -242,6 +246,10 @@ t_color			procedural_color(t_object object, t_point intersection);
 t_color			perlin_algo_texture_color(t_object object, t_point intersection);
 float			bounded_color_value(float color_value, float min_value, float max_value);
 t_color			perlin_color(t_object object, t_point intersection);
+t_object			hyperboloid_intersection(t_object ray, t_object hyperboloid);
+t_vector		hyperboloid_normal(t_object ray, t_object hyperboloid);
+
+
 
 __constant unsigned char hash_table[512] = {151,160,137,91,90,15,
 	131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
@@ -709,6 +717,22 @@ t_vector		cylinder_normal(t_object ray, t_object cylinder)
 	return (normalize_vector(normal));
 }
 
+t_vector		hyperboloid_normal(t_object ray, t_object hyperboloid)
+{
+	t_vector	normal;
+	t_vector	distance;
+
+	distance = vector_points(hyperboloid.center, ray.intersectiion);
+	distance = rotate_vector_angles(hyperboloid, distance, 0);
+	normal = (t_vector){
+		distance.x,
+		distance.y,
+		-pow(hyperboloid.rho / hyperboloid.sigma, 2) * distance.z
+	};
+	normal = rotate_vector_angles(hyperboloid, normal, 1);
+	return (normalize_vector(normal));
+}
+
 t_vector		plane_normal(t_object ray, t_object plane)
 {
 	t_vector	normal;
@@ -754,6 +778,8 @@ t_vector			shape_normal(t_object ray, t_object object)
 		return (plane_normal(ray, object));
 	else if (object.typpe == CYLINDER)
 		return (cylinder_normal(ray, object));
+	else if (object.typpe == HYPERBOLOID)
+		return (hyperboloid_normal(ray, object));
 	else
 		return (cone_normal(ray, object));
 }
@@ -921,6 +947,28 @@ t_object		finite_cylinder_intersection(t_object ray, t_object cylinder)
 	return (ray);
 }
 
+t_object			hyperboloid_intersection(t_object ray, t_object hyperboloid)
+{
+	t_vector		distance;
+	t_vector		ray_dir;
+	float			a;
+	float			b;
+	float			c;
+
+	distance = vector_points(hyperboloid.center, ray.origin);
+	ray_dir = rotate_vector_angles(hyperboloid, ray.direction, 0);
+	distance = rotate_vector_angles(hyperboloid, distance, 0);
+	a = pow(1 / hyperboloid.rho, 2) * (pow(ray_dir.x, 2) + pow(ray_dir.y, 2))
+		- pow(1 / hyperboloid.sigma, 2) * pow(ray_dir.z, 2);
+	b = 2 * (pow(1 / hyperboloid.rho, 2) * (distance.x * ray_dir.x + distance.y * ray_dir.y)
+		- pow(1 / hyperboloid.sigma, 2) * distance.z * ray_dir.z);
+	c = pow(1 / hyperboloid.rho, 2) * (pow(distance.x, 2) + pow(distance.y, 2))
+		- pow(1 / hyperboloid.sigma, 2) * pow(distance.z, 2) - 1;
+	ray.norm = closest_distance_quadratic(a, b, c);
+	ray.intersect = ray.norm > 0;
+	return (ray);
+}
+
 t_object		rectangle_intersection(t_object ray, t_object rectangle)
 {
 	t_vector	intersection_dist;
@@ -996,6 +1044,8 @@ t_object			intersect_object(t_object ray, t_object object)
 		ray = triangle_intersection(ray, object);
 	else if (object.typpe == PARALLELOGRAM)
 		ray = parallelogram_intersection(ray, object);
+	else if (object.typpe == HYPERBOLOID)
+		ray = hyperboloid_intersection(ray, object);
 	if (ray.intersect)
 		ray.intersectiion = point_from_vector(ray.origin, ray.direction, ray.norm);
 	return (ray);
@@ -1103,11 +1153,8 @@ t_vector		get_random_gradient(int int_x, int int_y, int int_z)
 	int_x = (int)hash_table[int_x];
 	int_y += (int)hash_table[int_x];
 	int_z += (int)hash_table[int_y];
-	hashed_random_value = hash_table[int_z];
-	// hashed_random_value = hash_table[int_z + hash_table[int_y + hash_table[int_x]]];
+	hashed_random_value = hash_table[int_z] % 16;
 	hashed_random_value %= 16;
-	// printf("%d\n", hashed_random_value);
-	// return ((t_vector){0, 0, 1});
 	return (perlin_vectors[hashed_random_value]);
 }
 
@@ -1157,6 +1204,43 @@ float			get_perlin_noise_value(float x, float y, float z)
 	return (linear_interpolation(vertical_interpolations[0], vertical_interpolations[1], polynomials_factors[2]));
 }
 
+// float	get_perlin(float x, float y, float z)
+// {
+// 	float	vec[3];
+// 	int		c_unit[3];
+// 	int		coor[6];
+
+// 	init_noise(c_unit, &x, &y, &z);
+
+// 	vec[0] = fade(x);
+// 	vec[1] = fade(y);
+// 	vec[2] = fade(z);
+
+// 	coor[0] = g_tab[c_unit[0]] + c_unit[1];
+// 	coor[1] = g_tab[coor[0]] + c_unit[2];
+// 	coor[2] = g_tab[coor[0] + 1] + c_unit[2];
+// 	coor[3] = g_tab[c_unit[0] + 1] + c_unit[1];
+// 	coor[4] = g_tab[coor[3]] + c_unit[2];
+// 	coor[5] = g_tab[coor[3] + 1] + c_unit[2];
+
+// 	float a_1 = perl(vec[0], 
+// 						grad(g_tab[coor[1]], x, y, z),
+// 						grad(g_tab[coor[4]], x - 1, y, z));
+// 	float a_2 = perl(vec[0], 
+// 						grad(g_tab[coor[2]], x, y - 1, z),
+// 						grad(g_tab[coor[5]], x - 1, y - 1, z));
+// 	float b_1 = perl(vec[0], 
+// 						grad(g_tab[coor[1] + 1], x, y, z - 1),
+// 						grad(g_tab[coor[4] + 1], x - 1, y, z - 1));
+// 	float b_2 = perl(vec[0], 
+// 						grad(g_tab[coor[2] + 1], x, y - 1, z - 1),
+// 						grad(g_tab[coor[5] + 1], x - 1, y - 1, z - 1))
+
+// 	float a =  perl(vec[1], a_1, a_2);
+// 	float b = perl(vec[1], b_1, b_2);
+// 	return (perl(vec[2], a, b));
+// }
+
 float			perlin_noise(int octaves, float frequency, float persistence, t_point point)
 {
 	float		noise;
@@ -1168,19 +1252,20 @@ float			perlin_noise(int octaves, float frequency, float persistence, t_point po
 
 	octave = -1;
 	amplitude = 1.0;
-	offset = 2048;
 	noise = 0;
 	while (++octave < octaves)
 	{
-		values = (t_point){point.x * frequency * offset / 2,
-			point.y * frequency * offset / 4,
-			point.z * frequency * offset / 8};
-		noise += get_perlin_noise_value(values.x, values.y, values.z) * amplitude;
-		amplitude *= persistence;
-		frequency *= 2;
+		values = (t_point){point.x * frequency * octave,
+			point.y * frequency * octave,
+			point.z * frequency * octave};
+		noise += (1 / octave) * get_perlin_noise_value(values.x, values.y, values.z);
+		// amplitude *= persistence;
+		// frequency *= 2;
 	}
 	geometric_limit = (1 - persistence) / (1 - amplitude);
+	// return (noise * geometric_limit);
 	// return ((noise * geometric_limit) / 2 + 0.5);
+	// return ((1 + noise) / 2);
 	return (noise);
 }
 
@@ -1192,11 +1277,12 @@ t_color			perlin_color(t_object object, t_point intersection)
 
 	altered_coordinates = intersection;
 	// altered_coordinates = (t_point){intersection.x / 2, intersection.y / 2, intersection.z / 2};
-	noise = perlin_noise(8, 0.0004, 0.20, altered_coordinates);
+	noise = perlin_noise(5, 0.05, 0.20, altered_coordinates);
 	// printf("%.2f\n", noise);
 	color.r = bounded_color_value((1 - noise) * 255, 0, 255);
 	color.g = bounded_color_value((1 - noise) * 255, 0, 255);
 	color.b = bounded_color_value((1 - noise) * 255, 0, 255);
+	// color.a = bounded_color_value((1 - noise) * 255, 0, 255);
 	color.a = 0;
 	return (color);
 }

@@ -13,6 +13,9 @@
 #ifndef RTV1_H
 # define RTV1_H
 
+// FIXME: to remove
+#include <stdio.h>
+
 /*
 ** ====== includes
 */
@@ -56,7 +59,8 @@ typedef enum			e_object_type
 	DISC,
 	RECTANGLE,
 	TRIANGLE,
-	PARALLELOGRAM
+	PARALLELOGRAM,
+	HYPERBOLOID
 }						t_object_type;
 
 typedef enum			e_light_type
@@ -139,6 +143,9 @@ typedef struct			s_object
 	float				refraction;
 	float				height;
 	float				width;
+	float				rho;
+	float				sigma;
+	float				tau;
 	t_object_type		typpe;
 	t_texture			texture_type;
 	t_texture_algo		texture_algo;

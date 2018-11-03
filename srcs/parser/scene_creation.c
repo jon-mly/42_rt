@@ -54,7 +54,8 @@ static t_scene		extend_scene(int fd, t_scene scene, char **line, t_env *env)
 	else if (ft_strequ(line[0], "sphere") || ft_strequ(line[0], "cone") ||
 		ft_strequ(line[0], "cylinder") || ft_strequ(line[0], "plane") ||
 		ft_strequ(line[0], "disc") || ft_strequ(line[0], "rectangle") ||
-		ft_strequ(line[0], "triangle") | ft_strequ(line[0], "parallelogram"))
+		ft_strequ(line[0], "triangle") | ft_strequ(line[0], "parallelogram") ||
+		ft_strequ(line[0], "hyperboloid"))
 	{
 		scene.objects_count++;
 		scene.objects = expand_objects(scene.objects, scene.objects_count);

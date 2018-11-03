@@ -185,6 +185,22 @@ static t_object		add_new_parallelogram(int fd)
 	return (parallelogram);
 }
 
+static t_object		add_new_hyperboloid(int fd)
+{
+	t_object	hyperboloid;
+
+	printf("Created\n");
+	hyperboloid.typpe = HYPERBOLOID;
+	hyperboloid.texture_type = NONE;
+	hyperboloid.color = color(255, 255, 255, 0);
+	hyperboloid.center = point(0, 0, 0);
+	hyperboloid.y_angle = 0;
+	hyperboloid.x_angle = 0;
+	hyperboloid.name = "hyperboloid";
+	hyperboloid = parse_object(fd, &hyperboloid);
+	return (hyperboloid);
+}
+
 t_object			add_new_object(int fd, char *type)
 {
 	if (ft_strequ(type, "cylinder"))
@@ -201,6 +217,8 @@ t_object			add_new_object(int fd, char *type)
 		return add_new_triangle(fd);
 	else if (ft_strequ(type, "parallelogram"))
 		return add_new_parallelogram(fd);
+	else if (ft_strequ(type, "hyperboloid"))
+		return add_new_hyperboloid(fd);
 	else
 		return (add_new_cone(fd));
 }
