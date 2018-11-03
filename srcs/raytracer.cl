@@ -2,7 +2,7 @@
 # define FALSE 0
 # define MAX_DEPTH 3
 # define ALIASING 1
-# define EPSILON 0.001
+# define EPSILON 0.004
 # define BLACK (t_color){0, 0, 0, 0}
 # define TRANSPARENT (t_color){255, 255, 255, 255}
 # define CIRCLES_WIDTH 2.3
