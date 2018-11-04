@@ -83,6 +83,10 @@ t_object        parse_object(int fd, t_object *object)
 				object->texture_type = DOTS_REVERTED_CROWN;
 			else if (ft_strequ(line[1], "PERLIN"))
 				object->texture_type = PERLIN;
+			else if (ft_strequ(line[1], "WOOD"))
+				object->texture_type = WOOD;
+			else if (ft_strequ(line[1], "MARBLE"))
+				object->texture_type = MARBLE;
 		}
 		clear_line(line);
 	}
@@ -92,7 +96,8 @@ t_object        parse_object(int fd, t_object *object)
 		|| object->texture_type == DOTS_REVERTED || object->texture_type == DOTS_CROWN
 		|| object->texture_type ==  DOTS_REVERTED_CROWN)
 		object->texture_algo = PROCEDURAL;
-	else if (object->texture_type == PERLIN)
+	else if (object->texture_type == PERLIN || object->texture_type == WOOD
+		|| object->texture_type == MARBLE)
 		object->texture_algo = PERLIN_ALGO;
 	else
 		object->texture_algo = NO_ALGO;

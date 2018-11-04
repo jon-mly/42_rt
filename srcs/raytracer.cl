@@ -40,7 +40,9 @@ typedef enum			e_texture
 	DOTS_REVERTED,
 	DOTS_CROWN,
 	DOTS_REVERTED_CROWN,
-	PERLIN
+	PERLIN,
+	WOOD,
+	MARBLE
 }						t_texture;
 
 typedef enum			e_texture_algo
@@ -248,6 +250,8 @@ float			bounded_color_value(float color_value, float min_value, float max_value)
 t_color			perlin_color(t_object object, t_point intersection);
 t_object			hyperboloid_intersection(t_object ray, t_object hyperboloid);
 t_vector		hyperboloid_normal(t_object ray, t_object hyperboloid);
+t_color			wood_color(t_object object, t_point intersection);
+t_color			marble_color(t_object object, t_point intersection);
 
 
 
@@ -1259,14 +1263,44 @@ float			perlin_noise(int octaves, float frequency, float persistence, t_point po
 			point.y * frequency * octave,
 			point.z * frequency * octave};
 		noise += (1 / octave) * get_perlin_noise_value(values.x, values.y, values.z);
-		// amplitude *= persistence;
-		// frequency *= 2;
 	}
 	geometric_limit = (1 - persistence) / (1 - amplitude);
 	// return (noise * geometric_limit);
 	// return ((noise * geometric_limit) / 2 + 0.5);
 	// return ((1 + noise) / 2);
 	return (noise);
+}
+
+t_color			wood_color(t_object object, t_point intersection)
+{
+	t_point		altered_coordinates;
+	t_color		color;
+	float		noise;
+
+	altered_coordinates = intersection;
+	noise = 20 * perlin_noise(5, 0.005, 0.20, altered_coordinates);
+	noise -= (int)noise;
+	color.r = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
+	color.g = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
+	color.b = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
+	color.a = 0;
+	return (color);
+}
+
+t_color			marble_color(t_object object, t_point intersection)
+{
+	t_point		altered_coordinates;
+	t_color		color;
+	float		noise;
+
+	altered_coordinates = intersection;
+	noise = altered_coordinates.x / 5 + altered_coordinates.y / 18 + altered_coordinates.z / 63;
+	noise = cos(noise + perlin_noise(10, 0.1, 0.10, altered_coordinates) * 5);
+	color.r = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
+	color.g = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
+	color.b = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
+	color.a = 0;
+	return (color);
 }
 
 t_color			perlin_color(t_object object, t_point intersection)
@@ -1276,14 +1310,12 @@ t_color			perlin_color(t_object object, t_point intersection)
 	float		noise;
 
 	altered_coordinates = intersection;
-	// altered_coordinates = (t_point){intersection.x / 2, intersection.y / 2, intersection.z / 2};
-	noise = perlin_noise(5, 0.05, 0.20, altered_coordinates);
-	// printf("%.2f\n", noise);
-	color.r = bounded_color_value((1 - noise) * 255, 0, 255);
-	color.g = bounded_color_value((1 - noise) * 255, 0, 255);
-	color.b = bounded_color_value((1 - noise) * 255, 0, 255);
-	// color.a = bounded_color_value((1 - noise) * 255, 0, 255);
+	noise = perlin_noise(10, 0.01, 0.25, altered_coordinates) * 2;
+	color.r = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
+	color.g = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
+	color.b = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
 	color.a = 0;
+	// color.a = bounded_color_value((1 - noise) * 255, 0, 255);
 	return (color);
 }
 
@@ -1309,6 +1341,10 @@ t_color			perlin_algo_texture_color(t_object object, t_point intersection)
 {
 	if (object.texture_type == PERLIN)
 		return (perlin_color(object, intersection));
+	else if (object.texture_type == WOOD)
+		return (wood_color(object, intersection));
+	else if (object.texture_type == MARBLE)
+		return (marble_color(object, intersection));
 	return (TRANSPARENT);
 }
 

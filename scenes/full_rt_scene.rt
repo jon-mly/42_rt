@@ -20,7 +20,7 @@ color 255 255 255
 position 60 7 -3
 direction -5 -1 2
 angle 80
-power 1000
+power 600
 }
 
 # sphere {
@@ -47,15 +47,15 @@ power 1000
 # }
 
 # sphere {
-# center 0 200 -100
-# radius 120
+# center -10 50 -10
+# radius 60
 # color 255, 165, 0
 # diffuse 100
 # reflect 10
 # brillance 100
 # refraction_index 100
 # transparency 0
-# texture PERLIN
+# texture WOOD
 # }
 
 # sphere {
@@ -165,7 +165,7 @@ brillance 10
 transparency 0
 refraction_index 100
 reflect 40
-texture PERLIN
+texture MARBLE
 }
 
 # plane {
@@ -185,9 +185,10 @@ angles 0 60
 color 255 255 255
 rho 25
 sigma 60
-diffuse 10
+diffuse 100
 brillance 100
-transparency 90
-reflect 50
+transparency 0
+reflect 0
 refraction_index 110
+texture WOOD
 }

@@ -80,7 +80,9 @@ typedef enum			e_texture
 	DOTS_REVERTED,
 	DOTS_CROWN,
 	DOTS_REVERTED_CROWN,
-	PERLIN
+	PERLIN,
+	WOOD,
+	MARBLE
 }						t_texture;
 
 typedef enum			e_texture_algo
