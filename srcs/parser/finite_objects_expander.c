@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/05 13:37:30 by aabelque          #+#    #+#             */
-/*   Updated: 2018/11/05 13:37:44 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/11/05 14:23:47 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static      t_scene create_cone_end(t_object cone, t_scene scene, int id)
 
 t_scene       create_dependant_objects(t_object object, int fd, t_scene scene, int id)
 {
+	(void)fd;
     if (object.typpe == CYLINDER)
         scene = create_cylinders_ends(object, scene, id);
     else if (object.typpe == CONE)

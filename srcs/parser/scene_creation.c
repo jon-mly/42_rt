@@ -6,7 +6,7 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 16:48:17 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/11/05 13:39:08 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/11/05 14:23:12 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ t_scene				create_scene(t_env *env, char *file_name, int fd)
 	char		**line;
 	t_scene		scene;
 
+	(void)file_name;
 	scene.objects_count = 0;
 	scene.objects = NULL;
 	scene.lights_count = 0;

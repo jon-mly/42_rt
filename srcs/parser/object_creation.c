@@ -6,7 +6,7 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 16:09:07 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/11/05 13:38:20 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/11/05 14:22:24 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static t_object		add_new_sphere(int fd)
 
 static t_object		add_new_plane(int fd)
 {
-	char		**line;
+	//char		**line;
 	t_object	plane;
 
 	plane.typpe = PLANE;

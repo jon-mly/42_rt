@@ -5,8 +5,7 @@ CC = nvcc
 NVCC_P = /Developer/NVIDIA/CUDA-9.1/bin/
 NVCC = $(addprefix $(NVCC_P), $(CC))
 NVCC_C = -ccbin /usr/bin/clang
-NVCC_OPT = -m64
-NVCC_ARCH = --gpu-architecture=compute_30 --gpu-code=sm_30,compute_30
+NVCC_ARCH = -m64 --gpu-architecture=compute_30 --gpu-code=sm_30,compute_30
 
 LIBFT_REP = libft/
 LIBFT = $(LIBFT_REP)libft.a
@@ -20,7 +19,7 @@ SRCS_REP = srcs/
 HELPER_REP = helpers/
 PARSER_REP = parser/
 SHAPES_REP = shapes/
-SRCS = main.c \
+SRCS = 	main.c \
 		shapes_intersection.c \
 		shapes_normal.c \
 		env_init.c \
@@ -71,11 +70,11 @@ MATH_FLAG = -lm
 $(NAME): $(O_SRCS)
 	make -C $(LIBFT_REP)
 	make -C $(MLX)
-	$(NVCC) $(NVCC_C) -g $(W_FLAGS) $(NVCC_OPT) $(NVCC_ARCH) $(INCLUDE_FLAG) $(MLX_FLAGS_LOCAL) $(MATH_FLAG) $(SRC) $(LIBFT) -o $(NAME)
+	$(NVCC) $(NVCC_C) -g $(W_FLAGS) $(NVCC_ARCH) $(INCLUDE_FLAG) $(MLX_FLAGS_LOCAL) $(MATH_FLAG) $(SRC) $(LIBFT) -o $(NAME)
 	@echo "\033[3;32m[ ✔ ] Rt ready.\033[0m"
 
-%.o: %.c includes/rtv1.h Makefile
-	$(NVCC) $(NVCC_C) $(W_FLAGS) $(NVCC_OPT) $(NVCC_ARCH) $(INCLUDE_FLAG) -c $< -o $@
+%.o: %.c includes/rt.h Makefile
+	$(NVCC) $(NVCC_C) $(W_FLAGS) $(NVCC_ARCH) $(INCLUDE_FLAG) -c $< -o $@
 
 all: $(NAME)
 

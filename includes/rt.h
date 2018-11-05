@@ -6,12 +6,12 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
-/*   Updated: 2018/09/10 17:43:32 by jmlynarc         ###   ########.fr       */
+/*   Updated: 2018/11/05 18:41:34 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RTV1_H
-# define RTV1_H
+#ifndef RT_H
+# define RT_H
 
 // FIXME: to remove
 #include <stdio.h>
@@ -26,12 +26,9 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <math.h>
-
-# ifdef __APPLE__
-#  include <OpenCL/cl.h>
-# else
-#  include <CL/cl.h>
-# endif
+# include <stdio.h>
+# include <cuda.h>
+# include <cuda_runtime.h>
 
 /*
 ** ======= macros
@@ -194,35 +191,25 @@ typedef struct			s_scene
 	t_light				*lights;
 	int					objects_count;
 	int					lights_count;
-	t_color		theme;
-	float		power;
+	t_color				theme;
+	float				power;
 }						t_scene;
 
-typedef	struct			s_opencl
+typedef	struct			s_cuda
 {
 	size_t				img_s;
-	size_t				imgxy[2];
-	size_t				origin[3];
-	size_t				region[3];
-	int					*bufhst;
-	char				*kernel_src;
-	cl_device_type		dev_type;
-	cl_int				err;
-	cl_uint				num_dev;
-	cl_mem				input_scene;
-	cl_mem				input_cam;
-	cl_mem				output;
-	cl_mem				structobj;
-	cl_mem				structlight;
-	cl_platform_id		platform_id;
-	cl_image_format		format;
-	cl_image_desc		desc;
-	cl_device_id		device_id;
-	cl_context			context;
-	cl_command_queue	commands;
-	cl_program			program;
-	cl_kernel			kernel;
-}						t_opencl;
+	int 				*data_img;
+	int 				*render_img;
+	cudaError_t			err;
+	size_t				size_obj;
+	size_t				size_scene;
+	size_t				size_cam;
+	size_t				size_light;
+	t_object			*data_obj;;
+	t_scene				*data_scene;
+	t_camera			*data_cam;
+	t_light				*data_light;
+}						t_cuda;
 
 typedef struct			s_env
 {
@@ -243,7 +230,7 @@ typedef struct			s_env
 	t_scene				scene;
 	t_object			object;
 	t_camera			camera;
-	t_opencl			opcl;
+	t_cuda				gpu;
 }						t_env;
 
 /*
