@@ -6,11 +6,11 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:45:59 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/05/22 11:46:01 by jmlynarc         ###   ########.fr       */
+/*   Updated: 2018/11/05 13:41:25 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 void		calculate_scene(t_env *env)
 {

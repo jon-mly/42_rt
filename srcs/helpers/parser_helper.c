@@ -6,11 +6,11 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 14:20:22 by aabelque          #+#    #+#             */
-/*   Updated: 2018/09/10 18:16:00 by jmlynarc         ###   ########.fr       */
+/*   Updated: 2018/11/05 13:37:10 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 int			line_len(char **line)
 {

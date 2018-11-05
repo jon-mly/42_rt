@@ -6,11 +6,11 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:48 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/05/22 11:46:48 by jmlynarc         ###   ########.fr       */
+/*   Updated: 2018/11/05 13:42:35 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 void		fill_pixel(t_env *env, int x, int y, t_color color)
 {

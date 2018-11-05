@@ -6,11 +6,11 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:51 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/08/23 15:29:18 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/11/05 13:39:38 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 /*
 ** Calculate the norm of the ray from the origin of it to the intersection

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ocl_kernel_error.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ppeigne <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/23 16:20:33 by ppeigne           #+#    #+#             */
-/*   Updated: 2018/08/20 17:31:53 by aabelque         ###   ########.fr       */
+/*   Created: 2018/11/05 13:41:12 by aabelque          #+#    #+#             */
+/*   Updated: 2018/11/05 13:41:15 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 static void		invalid_object_sampler(const int ret)
 {

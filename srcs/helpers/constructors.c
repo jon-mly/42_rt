@@ -6,11 +6,11 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:03 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/05/22 11:46:04 by jmlynarc         ###   ########.fr       */
+/*   Updated: 2018/11/05 13:36:03 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 /*
 ** Some constructors to emulate a oriented-object programming, that is clearer

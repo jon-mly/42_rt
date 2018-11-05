@@ -6,11 +6,11 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 14:31:37 by aabelque          #+#    #+#             */
-/*   Updated: 2018/08/23 17:52:39 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/11/05 13:37:20 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 static	t_vector			rotate_for_angles(t_vector vect, t_camera camera)
 {

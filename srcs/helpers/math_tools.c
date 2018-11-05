@@ -6,11 +6,11 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:07 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/08/23 14:19:30 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/11/05 13:36:30 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 float		degrees_to_radian(int degrees)
 {

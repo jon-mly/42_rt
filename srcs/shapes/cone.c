@@ -6,11 +6,11 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:14 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/09/09 15:35:17 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/11/05 13:39:21 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 t_vector		rotate_cone_angles(t_object cone, t_vector vect,
 			int reverse)

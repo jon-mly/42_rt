@@ -6,11 +6,11 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:18 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/09/09 15:34:42 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/11/05 13:39:30 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 /*
 ** Ref is supposed to be (0,0,1) in the new referential.

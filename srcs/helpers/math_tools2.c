@@ -6,11 +6,11 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 14:16:53 by aabelque          #+#    #+#             */
-/*   Updated: 2018/08/23 14:19:31 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/11/05 13:36:44 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 float		vector_norm(t_vector vector)
 {

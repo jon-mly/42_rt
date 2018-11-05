@@ -6,11 +6,11 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 15:56:42 by aabelque          #+#    #+#             */
-/*   Updated: 2018/08/09 14:02:39 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/11/05 13:40:20 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 int			error_gpu(t_opencl *opcl)
 {

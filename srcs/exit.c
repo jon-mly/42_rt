@@ -6,11 +6,11 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:36 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/09/07 11:33:05 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/11/05 13:40:34 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 void		exit_error(t_env *env)
 {

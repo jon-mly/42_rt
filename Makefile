@@ -1,5 +1,12 @@
-NAME = rtv1
+NAME = rt
 ASSOCIATED_REP = $(NAME).dSYM
+
+CC = nvcc
+NVCC_P = /Developer/NVIDIA/CUDA-9.1/bin/
+NVCC = $(addprefix $(NVCC_P), $(CC))
+NVCC_C = -ccbin /usr/bin/clang
+NVCC_OPT = -m64
+NVCC_ARCH = --gpu-architecture=compute_30 --gpu-code=sm_30,compute_30
 
 LIBFT_REP = libft/
 LIBFT = $(LIBFT_REP)libft.a
@@ -53,24 +60,22 @@ SRC = $(addprefix $(SRCS_REP), $(SRCS))
 
 O_SRCS = $(SRC:.c=.o)
 
-W_FLAGS = -Wall -Wextra -Werror
+W_FLAGS = -Xcompiler -Wall -Xcompiler -Wextra -Xcompiler -Werror
 
-MLX_FLAGS = -I ~/Library -g -L ~/Library -lmlx -framework OpenGL -framework \
-			AppKit -framework OpenCL
+MLX_FLAGS = -I ~/Library -g -L ~/Library -lmlx -Xlinker -framework,OpenGL -Xlinker -framework,AppKit -Xlinker -framework,OpenCL
 
-MLX_FLAGS_LOCAL = -I $(MLX) -g -L $(MLX) -lmlx -framework OpenGL -framework \
-			AppKit -framework OpenCL
+MLX_FLAGS_LOCAL = -I $(MLX) -g -L $(MLX) -lmlx -Xlinker -framework,OpenGL -Xlinker -framework,AppKit -Xlinker -framework,OpenCL    
 
 MATH_FLAG = -lm
 
 $(NAME): $(O_SRCS)
 	make -C $(LIBFT_REP)
 	make -C $(MLX)
-	gcc -g $(INCLUDE_FLAG) $(MLX_FLAGS_LOCAL) $(MATH_FLAG) $(SRC) $(LIBFT) -o $(NAME)
-	@echo "\033[3;32m[ ✔ ] Rtv1 ready.\033[0m"
+	$(NVCC) $(NVCC_C) -g $(W_FLAGS) $(NVCC_OPT) $(NVCC_ARCH) $(INCLUDE_FLAG) $(MLX_FLAGS_LOCAL) $(MATH_FLAG) $(SRC) $(LIBFT) -o $(NAME)
+	@echo "\033[3;32m[ ✔ ] Rt ready.\033[0m"
 
 %.o: %.c includes/rtv1.h Makefile
-	@gcc  $(INCLUDE_FLAG) -c $< -o $@
+	$(NVCC) $(NVCC_C) $(W_FLAGS) $(NVCC_OPT) $(NVCC_ARCH) $(INCLUDE_FLAG) -c $< -o $@
 
 all: $(NAME)
 

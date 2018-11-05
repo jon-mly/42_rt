@@ -6,11 +6,11 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 17:43:51 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/09/10 17:43:54 by jmlynarc         ###   ########.fr       */
+/*   Updated: 2018/11/05 13:36:21 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#import "rtv1.h"
+#include "rt.h"
 
 int			hit_test(t_object *clt_obj, t_object *obj, t_object l_ray,
 		float norm)

@@ -6,11 +6,11 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 15:36:32 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/08/11 11:08:31 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/11/05 13:38:05 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 /*
 ** Add a new light to the list of lights that compose the scene to create.

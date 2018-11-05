@@ -6,11 +6,11 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/18 11:30:12 by aabelque          #+#    #+#             */
-/*   Updated: 2018/10/17 18:27:05 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/11/05 13:42:17 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 void				set_opencl_env(t_opencl *opcl)
 {
@@ -22,17 +22,15 @@ void				set_opencl_env(t_opencl *opcl)
 	opcl->commands = NULL;
 	opcl->program = NULL;
 	opcl->kernel_src = NULL;
-	opcl->input_scene = NULL;
-	opcl->input_cam = NULL;
-	opcl->structobj = NULL;
-	opcl->output = NULL;
+	opcl->dataobj = NULL;
+	opcl->datascene = NULL;
+	opcl->datalight = NULL;
+	opcl->datacam = NULL;
+	opcl->memobj = NULL;
 	opcl->imgxy[0] = WIN_WIDTH;
 	opcl->imgxy[1] = WIN_HEIGHT;
 	opcl->kernel = NULL;
-	opcl->origin[0] = WIN_WIDTH;
-	opcl->origin[1] = WIN_HEIGHT;
-	opcl->origin[2] = 1;
-	ft_bzero(opcl->region, sizeof(size_t) * 3);
+	printf("addr 1 = %p\n", opcl->dataobj);
 }
 
 void				create_kernel(cl_program program, cl_kernel *kernel,

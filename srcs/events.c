@@ -6,11 +6,11 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:31 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/08/07 11:21:20 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/11/05 13:40:27 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 int			exit_properly(void *param)
 {

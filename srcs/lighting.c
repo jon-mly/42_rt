@@ -6,11 +6,11 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:40 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/09/10 17:52:07 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/11/05 13:41:32 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 /*
 ** A light ray is ignited, beginning from the position of the light itself,
@@ -25,6 +25,7 @@ static t_object		init_light_ray(t_light light, t_object ray, t_object object)
 	t_object		light_ray;
 	t_vector		direction;
 
+	(void)object;
 	light_ray.origin = light.posiition;
 	direction = vector_points(light_ray.origin, ray.intersectiion);
 	light_ray.norm = vector_norm(direction);

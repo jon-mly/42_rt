@@ -6,11 +6,11 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:29:44 by aabelque          #+#    #+#             */
-/*   Updated: 2018/08/23 15:30:59 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/11/05 13:39:48 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 /*
 ** Returns true if the origin of the light ray is inside the sphere,

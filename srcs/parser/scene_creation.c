@@ -6,11 +6,11 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 16:48:17 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/08/23 14:56:09 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/11/05 13:39:08 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 /*
 ** Read the file given in parameter that describes the scene. When keywords are
