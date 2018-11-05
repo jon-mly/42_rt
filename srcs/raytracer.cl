@@ -252,6 +252,10 @@ t_object			hyperboloid_intersection(t_object ray, t_object hyperboloid);
 t_vector		hyperboloid_normal(t_object ray, t_object hyperboloid);
 t_color			wood_color(t_object object, t_point intersection);
 t_color			marble_color(t_object object, t_point intersection);
+t_color			direct_light_raytracing(global t_scene *scene, global t_object *obj,
+	global t_light *light, t_object ray);
+t_color			glare_color_from_distance(float distance, t_light light);
+t_object		light_plane(t_object ray, t_light light);
 
 
 
@@ -1208,49 +1212,11 @@ float			get_perlin_noise_value(float x, float y, float z)
 	return (linear_interpolation(vertical_interpolations[0], vertical_interpolations[1], polynomials_factors[2]));
 }
 
-// float	get_perlin(float x, float y, float z)
-// {
-// 	float	vec[3];
-// 	int		c_unit[3];
-// 	int		coor[6];
-
-// 	init_noise(c_unit, &x, &y, &z);
-
-// 	vec[0] = fade(x);
-// 	vec[1] = fade(y);
-// 	vec[2] = fade(z);
-
-// 	coor[0] = g_tab[c_unit[0]] + c_unit[1];
-// 	coor[1] = g_tab[coor[0]] + c_unit[2];
-// 	coor[2] = g_tab[coor[0] + 1] + c_unit[2];
-// 	coor[3] = g_tab[c_unit[0] + 1] + c_unit[1];
-// 	coor[4] = g_tab[coor[3]] + c_unit[2];
-// 	coor[5] = g_tab[coor[3] + 1] + c_unit[2];
-
-// 	float a_1 = perl(vec[0], 
-// 						grad(g_tab[coor[1]], x, y, z),
-// 						grad(g_tab[coor[4]], x - 1, y, z));
-// 	float a_2 = perl(vec[0], 
-// 						grad(g_tab[coor[2]], x, y - 1, z),
-// 						grad(g_tab[coor[5]], x - 1, y - 1, z));
-// 	float b_1 = perl(vec[0], 
-// 						grad(g_tab[coor[1] + 1], x, y, z - 1),
-// 						grad(g_tab[coor[4] + 1], x - 1, y, z - 1));
-// 	float b_2 = perl(vec[0], 
-// 						grad(g_tab[coor[2] + 1], x, y - 1, z - 1),
-// 						grad(g_tab[coor[5] + 1], x - 1, y - 1, z - 1))
-
-// 	float a =  perl(vec[1], a_1, a_2);
-// 	float b = perl(vec[1], b_1, b_2);
-// 	return (perl(vec[2], a, b));
-// }
-
 float			perlin_noise(int octaves, float frequency, float persistence, t_point point)
 {
 	float		noise;
 	float		amplitude;
 	float		geometric_limit;
-	float		offset;
 	int			octave;
 	t_point		values;
 
@@ -1750,16 +1716,6 @@ t_color			get_color_on_intersection(t_object ray, int closest_object_index, t_ob
 }
 
 /*
-** If the ray does not reach any object and extends infinitely, depending on its proximity
-** with a light, a glare effect is generated.
-*/
-
-// t_color			get_direct_light_glare(t_object ray, global t_light *lights)
-// {
-
-// }
-
-/*
 ** ==================================================================
 ** INTERSECTION
 ** ==================================================================
@@ -1769,7 +1725,62 @@ t_color			get_color_on_intersection(t_object ray, int closest_object_index, t_ob
 ** ========== GLARE EFFECT
 */
 
-// t_color			direct_light_raytracing(t_ray )
+/*
+** Returns a plane centered on the light, and which normal vector is the opposite of
+** [ray.direction].
+*/
+
+t_object		light_plane(t_object ray, t_light light)
+{
+	t_object	plane;
+
+	// plane = (t_object){
+	// 	.point = light.posiition,
+	// 	.normal = scale_vector(ray.direction, -1)
+	// };
+	plane.typpe = PLANE;
+	plane.point = light.posiition;
+	plane.normal = scale_vector(ray.direction, -1);
+	return (plane);
+}
+
+t_color			glare_color_from_distance(float distance, t_light light)
+{
+	float		intensity;
+
+	intensity = pow((light.power / 10 - distance) / (light.power / 10), 4);
+	return (fade_color(light.color, intensity));
+}
+
+t_color			direct_light_raytracing(global t_scene *scene, global t_object *obj,
+	global t_light *light, t_object ray)
+{
+	t_color		glare_color;
+	t_light		current_light;
+	t_object	associated_plane;
+	float		distance_from_origin;
+	int			light_index;
+
+	light_index = -1;
+	glare_color = BLACK;
+	while (++light_index < scene->lights_count)
+	{
+		current_light = light[light_index];
+		if (current_light.typpe != AMBIANT)
+			continue;		
+		// TODO: test if the projector is visible from the camera
+		associated_plane = light_plane(ray, current_light);
+		ray = intersect_object(ray, associated_plane);
+		if (ray.intersect)
+		{
+			distance_from_origin = points_norm(ray.intersectiion, current_light.posiition);
+			if (distance_from_origin <= current_light.power / 10)
+				glare_color = add_color(glare_color,
+					glare_color_from_distance(distance_from_origin, current_light));
+		}
+	}
+	return (glare_color);
+}
 
 /*
 ** ========== REFRACTED LIGHT
@@ -2001,6 +2012,7 @@ t_color			primary_ray(global t_scene *scene, global t_object *obj,
 					intersected_object.refraction, intersected_object.transparency), 0);
 		colorout = add_color(colorout, add_color(refracted_color, reflected_color));
 	}
+	colorout = add_color(colorout, direct_light_raytracing(scene, obj, light, ray));
 	return (colorout);
 }
 

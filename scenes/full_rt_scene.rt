@@ -2,8 +2,8 @@ theme 0 0 0
 power 100
 
 camera {
-position 125 200 -500
-angles -22 10
+position 125 20 -500
+angles -0 10
 }
 
 light {
@@ -17,7 +17,7 @@ power 800
 light {
 type OMNI
 color 255 255 255
-position 60 7 -3
+position 60 25 -3
 direction -5 -1 2
 angle 80
 power 600
@@ -159,13 +159,13 @@ power 600
 plane {
 point 0 -50 0
 normal 0 1 0
-color 0 191 255
+color 255 191 0
 diffuse 100
 brillance 10
 transparency 0
 refraction_index 100
 reflect 40
-texture MARBLE
+# texture MARBLE
 }
 
 # plane {
@@ -179,16 +179,16 @@ texture MARBLE
 # reflect 95
 # }
 
-hyperboloid {
-center  0 0 0
-angles 0 60
-color 255 255 255
-rho 25
-sigma 60
-diffuse 100
-brillance 100
-transparency 0
-reflect 0
-refraction_index 110
-texture WOOD
-}
+# hyperboloid {
+# center  0 0 0
+# angles 0 60
+# color 255 255 255
+# rho 25
+# sigma 60
+# diffuse 100
+# brillance 100
+# transparency 0
+# reflect 0
+# refraction_index 110
+# texture WOOD
+# }
