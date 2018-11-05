@@ -28,6 +28,7 @@ static t_object		add_new_sphere(int fd)
 	t_object	sphere;
 
 	sphere.typpe = SPHERE;
+	sphere.texture_type = NONE;
 	sphere.radius = 1;
 	sphere.center = point(10, 12, 6);
 	sphere.color = color(255, 255, 255, 0);
@@ -53,6 +54,7 @@ static t_object		add_new_plane(int fd)
 	t_object	plane;
 
 	plane.typpe = PLANE;
+	plane.texture_type = NONE;
 	plane.normal = normalize_vector(vector(0, 1, 0));
 	plane.point = point(0, 0, 0);
 	plane.color = color(255, 255, 255, 0);
@@ -78,6 +80,7 @@ static t_object		add_new_cone(int fd)
 	t_object	cone;
 
 	cone.typpe = CONE;
+	cone.texture_type = NONE;
 	cone.angle = M_PI / 6;
 	cone.direction = normalize_vector(vector(0, 0, 1));
 	cone.center = point(0, 0, 0);
@@ -106,6 +109,7 @@ static t_object		add_new_cylinder(int fd)
 	t_object	cylinder;
 
 	cylinder.typpe = CYLINDER;
+	cylinder.texture_type = NONE;
 	cylinder.radius = 1;
 	cylinder.direction = normalize_vector(vector(0, 0, 1));
 	cylinder.point = point(0, 0, 0);
@@ -121,6 +125,7 @@ static t_object		add_new_disc(int fd)
 	t_object	disc;
 
 	disc.typpe = DISC;
+	disc.texture_type = NONE;
 	disc.normal = normalize_vector(vector(0, 1, 0));
 	disc.point = point(0, 0, 0);
 	disc.color = color(255, 255, 255, 0);
@@ -135,6 +140,7 @@ static t_object		add_new_rectangle(int fd)
 	t_object	rectangle;
 
 	rectangle.typpe = RECTANGLE;
+	rectangle.texture_type = NONE;
 	rectangle.color = color(255, 255, 255, 0);
 	rectangle.x_angle = 0;
 	rectangle.y_angle = 0;
@@ -152,6 +158,7 @@ static t_object		add_new_triangle(int fd)
 	t_object	triangle;
 
 	triangle.typpe = TRIANGLE;
+	triangle.texture_type = NONE;
 	triangle.color = color(255, 255, 255, 0);
 	triangle.first_vect = vector(1, 0, 0);
 	triangle.second_vect = vector(0, 0, 1);
@@ -167,6 +174,7 @@ static t_object		add_new_parallelogram(int fd)
 	t_object	parallelogram;
 
 	parallelogram.typpe = PARALLELOGRAM;
+	parallelogram.texture_type = NONE;
 	parallelogram.color = color(255, 255, 255, 0);
 	parallelogram.first_vect = vector(1, 0, 0);
 	parallelogram.second_vect = vector(0, 0, 1);
@@ -175,6 +183,22 @@ static t_object		add_new_parallelogram(int fd)
 	parallelogram.normal = normalize_vector(cross_product(parallelogram.first_vect, parallelogram.second_vect));
 	parallelogram.name = "parallelogram";
 	return (parallelogram);
+}
+
+static t_object		add_new_hyperboloid(int fd)
+{
+	t_object	hyperboloid;
+
+	printf("Created\n");
+	hyperboloid.typpe = HYPERBOLOID;
+	hyperboloid.texture_type = NONE;
+	hyperboloid.color = color(255, 255, 255, 0);
+	hyperboloid.center = point(0, 0, 0);
+	hyperboloid.y_angle = 0;
+	hyperboloid.x_angle = 0;
+	hyperboloid.name = "hyperboloid";
+	hyperboloid = parse_object(fd, &hyperboloid);
+	return (hyperboloid);
 }
 
 t_object			add_new_object(int fd, char *type)
@@ -193,6 +217,8 @@ t_object			add_new_object(int fd, char *type)
 		return add_new_triangle(fd);
 	else if (ft_strequ(type, "parallelogram"))
 		return add_new_parallelogram(fd);
+	else if (ft_strequ(type, "hyperboloid"))
+		return add_new_hyperboloid(fd);
 	else
 		return (add_new_cone(fd));
 }

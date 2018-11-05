@@ -1,70 +1,73 @@
-# theme 255 255 255
-# power 40
+theme 0 0 0
+power 100
 
 camera {
-position 0 2 -40
-angles 0 0
+position 125 20 -500
+angles -0 10
 }
 
 light {
 type AMBIANT
 position 10 4 0
 color 255 255 255
-direction 4 -3 2
-power 500
+direction 0 -2 4
+power 800
 }
 
 light {
-type PROJECTOR
+type OMNI
 color 255 255 255
-position 15 7 0
+position 60 25 -3
 direction -5 -1 2
-angle 90
+angle 80
 power 600
 }
 
-sphere {
-center 20 0 0
-radius 4
-color 100 0 0
-diffuse 100
-reflect 60
-brillance 100
-refraction_index 130
-transparency 0
-}
-
-sphere {
-center -20 0 0
-radius 4
-color 0 100 0
-diffuse 100
-reflect 60
-brillance 100
-refraction_index 100
-transparency 0
-}
-
-sphere {
-center 0 0 -20
-radius 4
-color 0 0 1000
-diffuse 0
-reflect 60
-brillance 100
-refraction_index 100
-transparency 100
-}
-
 # sphere {
-# center 0 7 0
-# radius 10
+# center 20 0 0
+# radius 4
 # color 100 0 0
-# diffuse 10
-# reflect 40
+# diffuse 100
+# reflect 60
 # brillance 100
 # refraction_index 130
-# transparency 100
+# transparency 0
+# texture CIRCLE
+# }
+
+# sphere {
+# center -20 0 0
+# radius 4
+# color 0 100 0
+# diffuse 100
+# reflect 60
+# brillance 100
+# refraction_index 100
+# transparency 0
+# }
+
+# sphere {
+# center -10 50 -10
+# radius 60
+# color 255, 165, 0
+# diffuse 100
+# reflect 10
+# brillance 100
+# refraction_index 100
+# transparency 0
+# texture WOOD
+# }
+
+# sphere {
+# center 20 7 -3
+# radius 5
+# color 200 0 0
+# diffuse 60
+# reflect 40
+# brillance 0
+# refraction_index 100
+# transparency 0
+# texture DOTS_REVERTED
 # }
 
 # cylinder {
@@ -74,10 +77,10 @@ transparency 100
 # radius 6
 # angles 130 -140
 # color 255 20 20
-# position 0 -2 0
+# position 0 -2 -20
 # diffuse 30
 # reflect 40
-# refraction_index 130
+# refraction_index 100
 # transparency 60
 # brillance 100
 # }
@@ -85,29 +88,44 @@ transparency 100
 # cylinder {
 # finite
 # covered
-# height 8
-# radius 3
-# angles 0 -90
+# height 12
+# radius 4
+# angles 90 -90
 # color 200 200 200
-# position 0 -2 0
+# position 0 -2 -30
 # diffuse 100
 # reflect 10
 # }
 
-cone {
+# cone {
 # finite
 # covered
-height 10
-pi_divider 4
-angles 0 80
-color 200 200 0
-center 0 6 0
-diffuse 100
-reflect 80
-brillance 30
-refraction_index 100
-transparency 0
-}
+# height 10
+# pi_divider 6
+# angles -20 110
+# color 255 255 255
+# center 0 10 0
+# diffuse 40
+# reflect 10
+# brillance 0
+# refraction_index 100
+# transparency 60
+# }
+
+# cone {
+# finite
+# # covered
+# height 10
+# pi_divider 6
+# angles -130 -140
+# color 20 255 0
+# center 0 -2 -20
+# diffuse 40
+# reflect 10
+# brillance 0
+# refraction_index 100
+# transparency 60
+# }
 
 # rectangle {
 # point -20 0 0
@@ -139,23 +157,38 @@ transparency 0
 # }
 
 plane {
-point 0 -5 0
+point 0 -50 0
 normal 0 1 0
-color 0 0 0
+color 255 191 0
 diffuse 100
-brillance 0
+brillance 10
 transparency 0
 refraction_index 100
 reflect 40
+# texture MARBLE
 }
 
-plane {
-point 0 -5 60
-normal 0 0 1
-color 200 0 200
-diffuse 100
-brillance 0
-transparency 0
-refraction_index 100
-reflect 40
-}
+# plane {
+# point 0 -5 30
+# normal 0 0 1
+# color 255 255 255
+# diffuse 5
+# brillance 30
+# transparency 0
+# refraction_index 100
+# reflect 95
+# }
+
+# hyperboloid {
+# center  0 0 0
+# angles 0 60
+# color 255 255 255
+# rho 25
+# sigma 60
+# diffuse 100
+# brillance 100
+# transparency 0
+# reflect 0
+# refraction_index 110
+# texture WOOD
+# }
