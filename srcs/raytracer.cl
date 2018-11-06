@@ -55,7 +55,8 @@ typedef enum			e_texture_algo
 typedef enum			e_bump_mapping
 {
 	FLAT,
-	VERTICAL_SIN
+	VERTICAL_SIN,
+	HORIZONTAL_SIN
 }						t_bump_mapping;
 
 typedef struct	s_vector
@@ -682,9 +683,20 @@ t_vector		vertical_perturbation(t_vector original, t_point point)
 	float		perturbation;
 	t_vector	normal;
 
-	perturbation = sin(point.x / 10);
+	perturbation = sin(point.x / 5) * 0.5;
 	normal = original;
 	normal.x += perturbation;
+	return (normalize_vector(normal));
+}
+
+t_vector		horizontal_perturbation(t_vector original, t_point point)
+{
+	float		perturbation;
+	t_vector	normal;
+
+	perturbation = sin(point.y / 5) * 0.5;
+	normal = original;
+	normal.y += perturbation;
 	return (normalize_vector(normal));
 }
 
@@ -692,6 +704,8 @@ t_vector		bump_mapped_normale(t_object object, t_vector normal, t_point point)
 {
 	if (object.bump_mapping == VERTICAL_SIN)
 		return (vertical_perturbation(normal, point));
+	else if (object.bump_mapping == HORIZONTAL_SIN)
+		return (horizontal_perturbation(normal, point));
 	return (normal);
 }
 
@@ -1796,7 +1810,7 @@ t_color			glare_color_localized_spot(float distance, t_light light)
 {
 	float		intensity;
 
-	intensity = pow((light.power / 10 - distance) / (light.power / 10), 4);
+	intensity = pow((light.power / 30 - distance) / (light.power / 30), 4);
 	return (fade_color(light.color, intensity));
 }
 
@@ -1841,7 +1855,7 @@ t_color			direct_light_raytracing(global t_scene *scene, global t_object *obj,
 					|| closest_distance < 0))
 			{
 				distance_from_origin = points_norm(ray.intersectiion, current_light.posiition);
-				if (current_light.typpe != AMBIANT && distance_from_origin <= current_light.power / 10)
+				if (current_light.typpe != AMBIANT && distance_from_origin <= current_light.power / 30)
 					glare_color = add_color(glare_color,
 						glare_color_localized_spot(distance_from_origin, current_light));
 				else if (current_light.typpe == AMBIANT)

@@ -95,7 +95,8 @@ typedef enum			e_texture_algo
 typedef enum			e_bump_mapping
 {
 	FLAT,
-	VERTICAL_SIN
+	VERTICAL_SIN,
+	HORIZONTAL_SIN
 }						t_bump_mapping;
 
 /*

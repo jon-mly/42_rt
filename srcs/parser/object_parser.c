@@ -92,6 +92,8 @@ t_object        parse_object(int fd, t_object *object)
 		{
 			if (ft_strequ(line[1], "VERTICAL_SIN"))
 				object->bump_mapping = VERTICAL_SIN;
+			else if (ft_strequ(line[1], "HORIZONTAL_SIN"))
+				object->bump_mapping = HORIZONTAL_SIN;
 		}
 		clear_line(line);
 	}
