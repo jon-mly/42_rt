@@ -46,18 +46,18 @@ power 1000
 # transparency 0
 # }
 
-# sphere {
-# center 160 20 -100
-# radius 60
-# color 255, 165, 0
-# diffuse 100
-# reflect 5
-# brillance 100
-# refraction_index 100
-# transparency 0
-# texture WOOD
-# # bump_mapping VERTICAL_SIN
-# }
+sphere {
+center -160 20 -0
+radius 60
+color 255, 165, 0
+diffuse 100
+reflect 5
+brillance 100
+refraction_index 100
+transparency 0
+texture WOOD
+# bump_mapping VERTICAL_SIN
+}
 
 # sphere {
 # center 20 7 -3
@@ -162,12 +162,12 @@ plane {
 point 0 -70 0
 normal 0 1 0
 color 255 191 0
-diffuse 40
+diffuse 60
 brillance 10
 transparency 0
 refraction_index 100
 reflect 40
-texture MARBLE
+texture WOOD
 # bump_mapping VERTICAL_SIN
 }
 
@@ -176,12 +176,12 @@ plane {
 point 0 -5 60
 normal 0 0 1
 color 255 255 255
-diffuse 20
+diffuse 60
 brillance 30
 transparency 0
 refraction_index 100
 reflect 0
-texture MARBLE
+texture WOOD
 # bump_mapping VERTICAL_SIN
 }
 

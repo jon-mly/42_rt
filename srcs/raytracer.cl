@@ -3,12 +3,17 @@
 # define MAX_DEPTH 3
 # define ALIASING 1
 # define EPSILON 0.004
-# define BLACK (t_color){0, 0, 0, 0}
-# define TRANSPARENT (t_color){255, 255, 255, 255}
 # define CIRCLES_WIDTH 2.3
 # define CHECKER_WIDTH 20.0
 # define DOTS_WIDTH 1.5
 # define DOTS_SPREAD 3.5
+
+# define WHITE (t_color){255, 255, 255, 0}
+# define BLACK (t_color){0, 0, 0, 0}
+# define TRANSPARENT (t_color){255, 255, 255, 255}
+# define BLUE (t_color){0, 191, 255, 0}
+# define PURPLE (t_color){128,0,128, 0}
+# define GREEN (t_color){124,252,0, 0}
 
 typedef enum	e_object_type
 {
@@ -239,7 +244,6 @@ t_color			textured_color_if_needed(t_object object, t_point intersection);
 t_color			checker_texture_color(t_object object, t_point intersection);
 int			is_texture_even(int value);
 t_color			circles_color(t_object object, t_point intersection, int horizontal);
-t_color		interpolate_color(t_color c1, t_color c2, float ratio);
 t_color			dots_color(t_object object, t_point intersection, int invert_gradient, int reverse);
 t_object		object_with_local_parameters(t_object object, t_color local_color);
 t_color			get_color_on_intersection(t_object ray, int closest_object_index, t_object intersected_object,
@@ -269,6 +273,9 @@ t_vector		vertical_perturbation(t_vector original, t_point point);
 t_vector		horizontal_perturbation(t_vector original, t_point point);
 t_vector		bump_mapped_normale(t_object object, t_vector normal, t_point point);
 int				circles_noise(t_vector intersection, int horizontal);
+t_color			interpolate_two_colors(t_color c1, t_color c2, float ratio);
+t_color			interpolate_three_colors(t_color c1, t_color c2, t_color c3, float ratio);
+t_color			interpolate_four_colors(t_color c1, t_color c2, t_color c3, t_color c4, float ratio);
 
 
 
@@ -517,19 +524,36 @@ float		linear_interpolation(float a, float b, float ratio)
 ** =========== COLORS CALCULATION
 */
 
-t_color		interpolate_color(t_color c1, t_color c2, float ratio)
+t_color		interpolate_two_colors(t_color c1, t_color c2, float ratio)
 {
-	t_color		result;
+	return (add_color(fade_color(c1, ratio), fade_color(c2, 1 - ratio)));
+}
 
-	result.r = fmin(fmax(c1.r + (c2.r - c1.r) * ratio, 0), 255);
-	result.g = fmin(fmax(c1.g + (c2.g - c1.g) * ratio, 0), 255);
-	result.b = fmin(fmax(c1.b + (c2.b - c1.b) * ratio, 0), 255);
-	result.a = fmin(fmax(c1.a + (c2.a - c1.a) * ratio, 0), 255);
-	return (result);
+t_color		interpolate_three_colors(t_color c1, t_color c2, t_color c3, float ratio)
+{
+	if (ratio < 1 / 3)
+		return (add_color(fade_color(c1, ratio * 3), fade_color(c2, 1 - ratio * 3)));
+	else if (ratio < 2 / 3)
+		return (add_color(fade_color(c1, (ratio - 1 / 3) * 3), fade_color(c2, 1 - (ratio - 1 / 3) * 3)));
+	else
+		return (add_color(fade_color(c1, (ratio - 2 / 3) * 3), fade_color(c2, 1 - (ratio - 2 / 3) * 3)));
+}
+
+t_color		interpolate_four_colors(t_color c1, t_color c2, t_color c3, t_color c4, float ratio)
+{
+	if (ratio < 1 / 4)
+		return (add_color(fade_color(c1, ratio * 4), fade_color(c2, 1 - ratio * 4)));
+	else if (ratio < 2 / 4)
+		return (add_color(fade_color(c1, (ratio - 1 / 4) * 4), fade_color(c2, 1 - (ratio - 1 / 4) * 4)));
+	else if (ratio < 3 / 4)
+		return (add_color(fade_color(c1, (ratio - 2 / 4) * 4), fade_color(c2, 1 - (ratio - 2 / 4) * 4)));
+	else
+		return (add_color(fade_color(c1, (ratio - 3 / 4) * 4), fade_color(c2, 1 - (ratio - 3 / 4) * 4)));
 }
 
 t_color		fade_color(t_color color, float multiplier)
 {
+	multiplier = fmax(fmin(multiplier, 1), 0);
 	color.r = (unsigned char)((float)color.r * multiplier);
 	color.g = (unsigned char)((float)color.g * multiplier);
 	color.b = (unsigned char)((float)color.b * multiplier);
@@ -778,11 +802,11 @@ float			perlin_noise(int octaves, float frequency, float persistence, t_point po
 		frequency *= 2;
 	}
 	geometric_limit = (1 - persistence) / (1 - amplitude);
-	// printf("%.2f\n", noise * geometric_limit);
-	return (noise * geometric_limit);
+	// printf("%.2f\n", noise);
+	return (noise + 1);
+	// return (noise * geometric_limit);
 	// return ((noise * geometric_limit) / 2 + 0.5);
 	// return ((1 + noise) / 2);
-	// return (noise);
 }
 
 
@@ -1319,11 +1343,11 @@ t_color			dots_color(t_object object, t_point intersection, int invert_gradient,
 	else if (norm <= DOTS_WIDTH)
 	{
 		if (invert_gradient)
-			return (interpolate_color(internal_color, external_color,
-				1 - ((norm - DOTS_WIDTH / 2) / (DOTS_WIDTH / 2))));
+			return (interpolate_two_colors(internal_color, external_color,
+				((norm - DOTS_WIDTH / 2) / (DOTS_WIDTH / 2))));
 		else
-			return (interpolate_color(internal_color, external_color,
-				(norm - DOTS_WIDTH / 2) / (DOTS_WIDTH / 2)));
+			return (interpolate_two_colors(internal_color, external_color,
+				1 - (norm - DOTS_WIDTH / 2) / (DOTS_WIDTH / 2)));
 	}
 	return (external_color);
 }
@@ -1345,9 +1369,9 @@ t_color			wood_color(t_object object, t_point intersection)
 	altered_coordinates = intersection;
 	noise = 100 * perlin_noise(2, 0.005, 0.1, altered_coordinates);
 	noise -= (int)noise;
-	color.r = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
-	color.g = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
-	color.b = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
+	color.r = bounded_color_value((noise) / 2 * 255, 0, 255);
+	color.g = bounded_color_value((noise) / 2 * 255, 0, 255);
+	color.b = bounded_color_value((noise) / 2 * 255, 0, 255);
 	color.a = 0;
 	return (color);
 }
@@ -1362,9 +1386,9 @@ t_color			wood_color(t_object object, t_point intersection)
 // 	altered_coordinates = intersection;
 // 	noise = 20 * perlin_noise(5, 0.005, 0.20, altered_coordinates);
 // 	noise -= (int)noise;
-// 	color.r = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
-// 	color.g = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
-// 	color.b = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
+// 	color.r = bounded_color_value((noise) / 2 * 255, 0, 255);
+// 	color.g = bounded_color_value((noise) / 2 * 255, 0, 255);
+// 	color.b = bounded_color_value((noise) / 2 * 255, 0, 255);
 // 	color.a = 0;
 // 	return (color);
 // }
@@ -1376,19 +1400,12 @@ t_color			marble_color(t_object object, t_point intersection)
 	float		noise;
 
 	altered_coordinates = intersection;
-	// altered_coordinates = (t_vector){
-	// 	fabs(intersection.x),
-	// 	fabs(intersection.y),
-	// 	fabs(intersection.z)
-	// };
 	noise = altered_coordinates.x / 10
 		+ altered_coordinates.y / 18
 		+ altered_coordinates.z / 63;
-	noise = cos(noise + perlin_noise(10, 0.1, 0.60, altered_coordinates) * 20);
-	color.r = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
-	color.g = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
-	color.b = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
-	color.a = 0;
+	noise = cos(noise / 3 + perlin_noise(10, 0.0001, 0.60, altered_coordinates) * 30) + 1;
+	noise *= 1.1;
+	color = interpolate_two_colors(WHITE, BLACK, noise / 2);
 	return (color);
 }
 
@@ -1403,12 +1420,14 @@ t_color			perlin_color(t_object object, t_point intersection)
 		(intersection.y),
 		(intersection.z)
 	};
-	noise = perlin_noise(20, 0.01, 0.4, altered_coordinates) * 5;
-	color.r = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
-	color.g = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
-	color.b = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
-	color.a = 0;
-	// color.a = bounded_color_value((1 - noise) * 255, 0, 255);
+	noise = perlin_noise(10, 0.0001, 0.4, altered_coordinates);
+	printf("%.2f\n", noise);
+	color = interpolate_four_colors(BLUE, BLACK, GREEN, PURPLE, noise);
+	// color.r = bounded_color_value((noise) / 2 * 255, 0, 255);
+	// color.g = bounded_color_value((noise) / 2 * 255, 0, 255);
+	// color.b = bounded_color_value((noise) / 2 * 255, 0, 255);
+	// color.a = 0;
+	// color.a = bounded_color_value((noise + 1) * 255, 0, 255);
 	return (color);
 }
 
@@ -1425,11 +1444,11 @@ t_color			perlin_color(t_object object, t_point intersection)
 // 		(intersection.z)
 // 	};
 // 	noise = perlin_noise(10, 0.02, 0.8, altered_coordinates);
-// 	color.r = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
-// 	color.g = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
-// 	color.b = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
+// 	color.r = bounded_color_value((noise) / 2 * 255, 0, 255);
+// 	color.g = bounded_color_value((noise) / 2 * 255, 0, 255);
+// 	color.b = bounded_color_value((noise) / 2 * 255, 0, 255);
 // 	color.a = 0;
-// 	// color.a = bounded_color_value((1 - noise) * 255, 0, 255);
+// 	// color.a = bounded_color_value((noise + 1) * 255, 0, 255);
 // 	return (color);
 // }
 
