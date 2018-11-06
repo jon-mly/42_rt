@@ -52,6 +52,12 @@ typedef enum			e_texture_algo
 	PERLIN_ALGO
 }						t_texture_algo;
 
+typedef enum			e_bump_mapping
+{
+	FLAT,
+	VERTICAL_SIN
+}						t_bump_mapping;
+
 typedef struct	s_vector
 {
 	float		x;
@@ -131,6 +137,7 @@ typedef struct			s_object
 	t_object_type		typpe;
 	t_texture			texture_type;
 	t_texture_algo		texture_algo;
+	t_bump_mapping		bump_mapping;
 	int					intersect;
 	int					finite;
 	int					covered;
@@ -253,9 +260,12 @@ t_vector		hyperboloid_normal(t_object ray, t_object hyperboloid);
 t_color			wood_color(t_object object, t_point intersection);
 t_color			marble_color(t_object object, t_point intersection);
 t_color			direct_light_raytracing(global t_scene *scene, global t_object *obj,
-	global t_light *light, t_object ray);
-t_color			glare_color_from_distance(float distance, t_light light);
+	global t_light *light, t_object ray, float closest_distance);
+t_color			glare_color_localized_spot(float distance, t_light light);
 t_object		light_plane(t_object ray, t_light light);
+t_color			glare_color_ambiant_light(t_object ray, t_light light);
+t_vector		vertical_perturbation(t_vector original, t_point point);
+t_vector		bump_mapped_normale(t_object object, t_vector normal, t_point point);
 
 
 
@@ -655,8 +665,39 @@ unsigned char	maximize_color_value(int color_value)
 }
 
 
+
+
 /*
-** ========== NORMAL VECTOR CALCULATION
+** ===================================================
+** GEOMETRIC CALCULATIONS
+** ===================================================
+*/
+
+/*
+** ========== NORMAL PERTURBATION ALGORITHMS
+*/
+
+t_vector		vertical_perturbation(t_vector original, t_point point)
+{
+	float		perturbation;
+	t_vector	normal;
+
+	perturbation = sin(point.x / 10);
+	normal = original;
+	normal.x += perturbation;
+	return (normalize_vector(normal));
+}
+
+t_vector		bump_mapped_normale(t_object object, t_vector normal, t_point point)
+{
+	if (object.bump_mapping == VERTICAL_SIN)
+		return (vertical_perturbation(normal, point));
+	return (normal);
+}
+
+
+/*
+** ========== NORMALE VECTOR CALCULATION
 */
 
 int		revert_cone_normal(t_object ray, t_object cone)
@@ -779,18 +820,26 @@ t_vector		sphere_normal(t_object ray, t_object sphere)
 
 t_vector			shape_normal(t_object ray, t_object object)
 {
+	t_vector		normal;
+
 	if (object.typpe == SPHERE)
-		return (sphere_normal(ray, object));
+		normal = (sphere_normal(ray, object));
 	else if (object.typpe == PLANE || object.typpe == DISC || object.typpe == RECTANGLE
 		|| object.typpe == TRIANGLE || object.typpe == PARALLELOGRAM)
-		return (plane_normal(ray, object));
+		normal = (plane_normal(ray, object));
 	else if (object.typpe == CYLINDER)
-		return (cylinder_normal(ray, object));
+		normal = (cylinder_normal(ray, object));
 	else if (object.typpe == HYPERBOLOID)
-		return (hyperboloid_normal(ray, object));
+		normal = (hyperboloid_normal(ray, object));
 	else
-		return (cone_normal(ray, object));
+		normal = (cone_normal(ray, object));
+	if (object.bump_mapping == FLAT)
+		return (normal);
+	return (bump_mapped_normale(object, normal, ray.intersectiion));
 }
+
+
+
 
 /*
 ** ========== INTERSECTION POINTS CALCULATION
@@ -1058,6 +1107,9 @@ t_object			intersect_object(t_object ray, t_object object)
 		ray.intersectiion = point_from_vector(ray.origin, ray.direction, ray.norm);
 	return (ray);
 }
+
+
+
 
 /* 
 ** ===================================================
@@ -1734,17 +1786,13 @@ t_object		light_plane(t_object ray, t_light light)
 {
 	t_object	plane;
 
-	// plane = (t_object){
-	// 	.point = light.posiition,
-	// 	.normal = scale_vector(ray.direction, -1)
-	// };
 	plane.typpe = PLANE;
 	plane.point = light.posiition;
 	plane.normal = scale_vector(ray.direction, -1);
 	return (plane);
 }
 
-t_color			glare_color_from_distance(float distance, t_light light)
+t_color			glare_color_localized_spot(float distance, t_light light)
 {
 	float		intensity;
 
@@ -1752,8 +1800,23 @@ t_color			glare_color_from_distance(float distance, t_light light)
 	return (fade_color(light.color, intensity));
 }
 
+t_color			glare_color_ambiant_light(t_object ray, t_light light)
+{
+	float		min_cosinus;
+	float		cos_with_ray;
+	float		intensity;
+
+	min_cosinus = sqrt(100.0 / (light.power + 6000.0)) + sqrt(3.0) / 2.0;
+	cos_with_ray = dot_product(ray.direction, scale_vector(light.direction, -1));
+	if (cos_with_ray < min_cosinus)
+		return (BLACK);
+	intensity = (1 / (1 - min_cosinus)) * (cos_with_ray - min_cosinus);
+	intensity = pow(intensity, 4);
+	return (fade_color(light.color, intensity));
+}
+
 t_color			direct_light_raytracing(global t_scene *scene, global t_object *obj,
-	global t_light *light, t_object ray)
+	global t_light *light, t_object ray, float closest_distance)
 {
 	t_color		glare_color;
 	t_light		current_light;
@@ -1766,17 +1829,25 @@ t_color			direct_light_raytracing(global t_scene *scene, global t_object *obj,
 	while (++light_index < scene->lights_count)
 	{
 		current_light = light[light_index];
-		if (current_light.typpe != AMBIANT)
-			continue;		
-		// TODO: test if the projector is visible from the camera
-		associated_plane = light_plane(ray, current_light);
-		ray = intersect_object(ray, associated_plane);
-		if (ray.intersect)
+		if (current_light.typpe != PROJECTOR ||
+			(current_light.typpe == PROJECTOR && dot_product(current_light.direction,
+			scale_vector(ray.direction, -1)) >= cos(current_light.angle)))
 		{
-			distance_from_origin = points_norm(ray.intersectiion, current_light.posiition);
-			if (distance_from_origin <= current_light.power / 10)
-				glare_color = add_color(glare_color,
-					glare_color_from_distance(distance_from_origin, current_light));
+			associated_plane = light_plane(ray, current_light);
+			ray = intersect_object(ray, associated_plane);
+			if (ray.intersect
+				&& ((current_light.typpe != AMBIANT && closest_distance > 0
+					&& ray.norm < closest_distance - EPSILON)
+					|| closest_distance < 0))
+			{
+				distance_from_origin = points_norm(ray.intersectiion, current_light.posiition);
+				if (current_light.typpe != AMBIANT && distance_from_origin <= current_light.power / 10)
+					glare_color = add_color(glare_color,
+						glare_color_localized_spot(distance_from_origin, current_light));
+				else if (current_light.typpe == AMBIANT)
+					glare_color = add_color(glare_color,
+						glare_color_ambiant_light(ray, current_light));
+			}
 		}
 	}
 	return (glare_color);
@@ -2012,7 +2083,8 @@ t_color			primary_ray(global t_scene *scene, global t_object *obj,
 					intersected_object.refraction, intersected_object.transparency), 0);
 		colorout = add_color(colorout, add_color(refracted_color, reflected_color));
 	}
-	colorout = add_color(colorout, direct_light_raytracing(scene, obj, light, ray));
+	colorout = add_color(colorout, direct_light_raytracing(scene, obj, light, ray,
+		(closest_object_index != -1) ? ray.norm : -1));
 	return (colorout);
 }
 

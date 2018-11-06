@@ -92,6 +92,12 @@ typedef enum			e_texture_algo
 	PERLIN_ALGO
 }						t_texture_algo;
 
+typedef enum			e_bump_mapping
+{
+	FLAT,
+	VERTICAL_SIN
+}						t_bump_mapping;
+
 /*
 ** ======= structures
 */
@@ -151,6 +157,7 @@ typedef struct			s_object
 	t_object_type		typpe;
 	t_texture			texture_type;
 	t_texture_algo		texture_algo;
+	t_bump_mapping		bump_mapping;
 	int					intersect;
 	int					finite;
 	int					covered;

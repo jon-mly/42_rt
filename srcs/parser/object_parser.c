@@ -88,6 +88,11 @@ t_object        parse_object(int fd, t_object *object)
 			else if (ft_strequ(line[1], "MARBLE"))
 				object->texture_type = MARBLE;
 		}
+		else if (line_len(line) == 2 && ft_strequ(line[0], "bump_mapping"))
+		{
+			if (ft_strequ(line[1], "VERTICAL_SIN"))
+				object->bump_mapping = VERTICAL_SIN;
+		}
 		clear_line(line);
 	}
 	object->color.a = 255.0 * object->transparency;
