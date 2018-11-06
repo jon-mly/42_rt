@@ -266,6 +266,7 @@ t_color			glare_color_localized_spot(float distance, t_light light);
 t_object		light_plane(t_object ray, t_light light);
 t_color			glare_color_ambiant_light(t_object ray, t_light light);
 t_vector		vertical_perturbation(t_vector original, t_point point);
+t_vector		horizontal_perturbation(t_vector original, t_point point);
 t_vector		bump_mapped_normale(t_object object, t_vector normal, t_point point);
 int				circles_noise(t_vector intersection, int horizontal);
 
@@ -494,15 +495,16 @@ int			integer_part(float value)
 
 float		fractional_part(float value)
 {
-	float		integer_part;
+	float		int_part;
 
-	// integer_part = (float)((int)value);
+	int_part = integer_part(fabs(value));
+	// int_part = (float)((int)value);
 	if (value >= 0)
-		integer_part = (float)((int)value);
+		int_part = (float)((int)value);
 	else
-		integer_part = (float)((int)value - 1);
-	// integer_part = (float)((int)value - (value < 0));
-	return (value - integer_part);
+		int_part = (float)((int)value - 1);
+	// int_part = (float)((int)value - (value < 0));
+	return (value - int_part);
 }
 
 float		linear_interpolation(float a, float b, float ratio)
@@ -681,12 +683,15 @@ unsigned char	maximize_color_value(int color_value)
 
 int				circles_noise(t_vector intersection, int horizontal)
 {
+	t_vector	adjusted;
+	int			distance;
+
 	adjusted = scale_vector(intersection, 1.0 / CIRCLES_WIDTH);
 	if (horizontal)
 		distance = (int)sqrt((adjusted.x * adjusted.x + adjusted.z * adjusted.z));
 	else
 		distance = (int)sqrt((adjusted.x * adjusted.x + adjusted.y * adjusted.y));
-	return (distance % 2 == 0)
+	return (distance % 2 == 0);
 }
 
 
@@ -698,9 +703,9 @@ t_vector		get_random_gradient(int int_x, int int_y, int int_z)
 {
 	int			hashed_random_value;
 
-	int_x = (int)hash_table[int_x];
-	int_y += (int)hash_table[int_x];
-	int_z += (int)hash_table[int_y];
+	int_x = (int)hash_table[(int)fabs((float)int_x)];
+	int_y += (int)hash_table[(int)fabs((float)int_x)];
+	int_z += (int)hash_table[(int)fabs((float)int_y)];
 	hashed_random_value = hash_table[int_z] % 16;
 	hashed_random_value %= 16;
 	return (perlin_vectors[hashed_random_value]);
@@ -768,13 +773,16 @@ float			perlin_noise(int octaves, float frequency, float persistence, t_point po
 		values = (t_point){point.x * frequency * octave,
 			point.y * frequency * octave,
 			point.z * frequency * octave};
-		noise += (1 / octave) * get_perlin_noise_value(values.x, values.y, values.z);
+		noise += amplitude * get_perlin_noise_value(values.x, values.y, values.z);
+		amplitude *= persistence;
+		frequency *= 2;
 	}
 	geometric_limit = (1 - persistence) / (1 - amplitude);
-	// return (noise * geometric_limit);
+	// printf("%.2f\n", noise * geometric_limit);
+	return (noise * geometric_limit);
 	// return ((noise * geometric_limit) / 2 + 0.5);
 	// return ((1 + noise) / 2);
-	return (noise);
+	// return (noise);
 }
 
 
@@ -1278,8 +1286,6 @@ t_color			checker_texture_color(t_object object, t_point intersection)
 t_color			circles_color(t_object object, t_point intersection, int horizontal)
 {
 	t_color		alternate;
-	t_point		adjusted;
-	int			distance;
 
 	alternate = TRANSPARENT;
 	if (circles_noise(intersection, horizontal))
@@ -1326,6 +1332,10 @@ t_color			dots_color(t_object object, t_point intersection, int invert_gradient,
 ** ========== TEXTURES USING PERLIN ALGORITHM
 */
 
+/*
+** WOOD
+*/
+
 t_color			wood_color(t_object object, t_point intersection)
 {
 	t_point		altered_coordinates;
@@ -1333,7 +1343,7 @@ t_color			wood_color(t_object object, t_point intersection)
 	float		noise;
 
 	altered_coordinates = intersection;
-	noise = 20 * perlin_noise(5, 0.005, 0.20, altered_coordinates);
+	noise = 100 * perlin_noise(2, 0.005, 0.1, altered_coordinates);
 	noise -= (int)noise;
 	color.r = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
 	color.g = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
@@ -1342,6 +1352,23 @@ t_color			wood_color(t_object object, t_point intersection)
 	return (color);
 }
 
+// STONE
+// t_color			wood_color(t_object object, t_point intersection)
+// {
+// 	t_point		altered_coordinates;
+// 	t_color		color;
+// 	float		noise;
+
+// 	altered_coordinates = intersection;
+// 	noise = 20 * perlin_noise(5, 0.005, 0.20, altered_coordinates);
+// 	noise -= (int)noise;
+// 	color.r = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
+// 	color.g = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
+// 	color.b = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
+// 	color.a = 0;
+// 	return (color);
+// }
+
 t_color			marble_color(t_object object, t_point intersection)
 {
 	t_point		altered_coordinates;
@@ -1349,8 +1376,15 @@ t_color			marble_color(t_object object, t_point intersection)
 	float		noise;
 
 	altered_coordinates = intersection;
-	noise = altered_coordinates.x / 5 + altered_coordinates.y / 18 + altered_coordinates.z / 63;
-	noise = cos(noise + perlin_noise(10, 0.1, 0.10, altered_coordinates) * 5);
+	// altered_coordinates = (t_vector){
+	// 	fabs(intersection.x),
+	// 	fabs(intersection.y),
+	// 	fabs(intersection.z)
+	// };
+	noise = altered_coordinates.x / 10
+		+ altered_coordinates.y / 18
+		+ altered_coordinates.z / 63;
+	noise = cos(noise + perlin_noise(10, 0.1, 0.60, altered_coordinates) * 20);
 	color.r = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
 	color.g = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
 	color.b = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
@@ -1364,8 +1398,12 @@ t_color			perlin_color(t_object object, t_point intersection)
 	t_color		color;
 	float		noise;
 
-	altered_coordinates = intersection;
-	noise = perlin_noise(10, 0.01, 0.25, altered_coordinates) * 2;
+	altered_coordinates = (t_vector){
+		(intersection.x),
+		(intersection.y),
+		(intersection.z)
+	};
+	noise = perlin_noise(20, 0.01, 0.4, altered_coordinates) * 5;
 	color.r = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
 	color.g = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
 	color.b = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
@@ -1373,6 +1411,27 @@ t_color			perlin_color(t_object object, t_point intersection)
 	// color.a = bounded_color_value((1 - noise) * 255, 0, 255);
 	return (color);
 }
+
+// BETON
+// t_color			perlin_color(t_object object, t_point intersection)
+// {
+// 	t_point		altered_coordinates;
+// 	t_color		color;
+// 	float		noise;
+
+// 	altered_coordinates = (t_vector){
+// 		(intersection.x),
+// 		(intersection.y),
+// 		(intersection.z)
+// 	};
+// 	noise = perlin_noise(10, 0.02, 0.8, altered_coordinates);
+// 	color.r = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
+// 	color.g = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
+// 	color.b = bounded_color_value((1 - noise) / 2 * 255, 0, 255);
+// 	color.a = 0;
+// 	// color.a = bounded_color_value((1 - noise) * 255, 0, 255);
+// 	return (color);
+// }
 
 /*
 ** ========== GLOBAL TEXTURING FUNCTIONS
