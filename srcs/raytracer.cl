@@ -683,7 +683,7 @@ t_vector		vertical_perturbation(t_vector original, t_point point)
 	float		perturbation;
 	t_vector	normal;
 
-	perturbation = sin(point.x / 5) * 0.5;
+	perturbation = sin(point.x / 5) * 0.3;
 	normal = original;
 	normal.x += perturbation;
 	return (normalize_vector(normal));
@@ -694,7 +694,7 @@ t_vector		horizontal_perturbation(t_vector original, t_point point)
 	float		perturbation;
 	t_vector	normal;
 
-	perturbation = sin(point.y / 5) * 0.5;
+	perturbation = sin(point.y / 5) * 0.3;
 	normal = original;
 	normal.y += perturbation;
 	return (normalize_vector(normal));
@@ -1849,7 +1849,7 @@ t_color			direct_light_raytracing(global t_scene *scene, global t_object *obj,
 		{
 			associated_plane = light_plane(ray, current_light);
 			ray = intersect_object(ray, associated_plane);
-			if (ray.intersect
+			if (ray.intersect && ray.norm > 0
 				&& ((current_light.typpe != AMBIANT && closest_distance > 0
 					&& ray.norm < closest_distance - EPSILON)
 					|| closest_distance < 0))

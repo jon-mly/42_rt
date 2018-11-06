@@ -3,13 +3,14 @@ power 100
 
 camera {
 position 140 20 -400
-angles -0 0
+angles -0 180
 }
 
 light {
 type AMBIANT
 color 255 255 220
-direction 0 -1 3
+# direction 0 -1 3
+direction 0 -1 0
 power 800
 }
 
@@ -156,6 +157,7 @@ power 4000
 # radius 6
 # }
 
+PLANE BELOW THE CAMERA
 plane {
 point 0 -70 0
 normal 0 1 0
@@ -166,9 +168,10 @@ transparency 0
 refraction_index 100
 reflect 40
 # texture CHECKER
-bump_mapping HORIZONTAL_SIN
+# bump_mapping VERTICAL_SIN
 }
 
+PLANE IN FRONT OF THE CAMERA
 plane {
 point 0 -5 60
 normal 0 0 1
@@ -178,19 +181,20 @@ brillance 30
 transparency 0
 refraction_index 100
 reflect 95
-bump_mapping HORIZONTAL_SIN
+bump_mapping VERTICAL_SIN
 }
 
+PLANE BEHIND THE CAMERA
 plane {
 point 0 -5 -550
 normal 0 0 1
-color 60 60 240
-diffuse 30
-brillance 10
+color 30 30 120
+diffuse 90
+brillance 0
 transparency 0
 refraction_index 100
 reflect 95
-# bump_mapping HORIZONTAL_SIN
+# bump_mapping VERTICAL_SIN
 }
 
 # hyperboloid {
