@@ -683,7 +683,7 @@ t_vector		vertical_perturbation(t_vector original, t_point point)
 	float		perturbation;
 	t_vector	normal;
 
-	perturbation = sin(point.x / 5) * 0.3;
+	perturbation = sin(point.x / 5) * 0.2;
 	normal = original;
 	normal.x += perturbation;
 	return (normalize_vector(normal));
@@ -694,7 +694,7 @@ t_vector		horizontal_perturbation(t_vector original, t_point point)
 	float		perturbation;
 	t_vector	normal;
 
-	perturbation = sin(point.y / 5) * 0.3;
+	perturbation = sin(point.y / 5) * 0.2;
 	normal = original;
 	normal.y += perturbation;
 	return (normalize_vector(normal));
