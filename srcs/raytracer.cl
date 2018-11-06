@@ -267,6 +267,8 @@ t_object		light_plane(t_object ray, t_light light);
 t_color			glare_color_ambiant_light(t_object ray, t_light light);
 t_vector		vertical_perturbation(t_vector original, t_point point);
 t_vector		bump_mapped_normale(t_object object, t_vector normal, t_point point);
+int				circles_noise(t_vector intersection, int horizontal);
+
 
 
 
@@ -665,6 +667,115 @@ unsigned char	maximize_color_value(int color_value)
 	return ((int)(fmax(fmin((float)color_value, (float)255), 0)));
 }
 
+
+
+/*
+** ===================================================
+** NOISE FUNCTIONS
+** ===================================================
+*/
+
+/*
+** ========== CLASSICL PROCEDURAL NOISES
+*/
+
+int				circles_noise(t_vector intersection, int horizontal)
+{
+	adjusted = scale_vector(intersection, 1.0 / CIRCLES_WIDTH);
+	if (horizontal)
+		distance = (int)sqrt((adjusted.x * adjusted.x + adjusted.z * adjusted.z));
+	else
+		distance = (int)sqrt((adjusted.x * adjusted.x + adjusted.y * adjusted.y));
+	return (distance % 2 == 0)
+}
+
+
+/*
+** ========== PERLIN ALGORITHMS
+*/
+
+t_vector		get_random_gradient(int int_x, int int_y, int int_z)
+{
+	int			hashed_random_value;
+
+	int_x = (int)hash_table[int_x];
+	int_y += (int)hash_table[int_x];
+	int_z += (int)hash_table[int_y];
+	hashed_random_value = hash_table[int_z] % 16;
+	hashed_random_value %= 16;
+	return (perlin_vectors[hashed_random_value]);
+}
+
+float			perlin_polynom(float value)
+{
+	return (6.0 * pow(value, 5) - 15 * pow(value, 4) + 10 * pow(value, 3));
+}
+
+float			get_perlin_noise_value(float x, float y, float z)
+{
+	int			int_x;
+	int			int_y;
+	int			int_z;
+	float		square_noises[8];
+	float		polynomials_factors[3];
+	float		horizontal_interpolations[4];
+	float		vertical_interpolations[2];
+
+	int_x = integer_part(x) % 256;
+	int_y = integer_part(y) % 256;
+	int_z = integer_part(z) % 256;
+	x = fractional_part(x);
+	y = fractional_part(y);
+	z = fractional_part(z);
+
+	square_noises[0] = dot_product(get_random_gradient(int_x, int_y, int_z), (t_vector){x, y, z});
+	square_noises[1] = dot_product(get_random_gradient(int_x, int_y, int_z + 1), (t_vector){x, y, z - 1.0});
+	square_noises[2] = dot_product(get_random_gradient(int_x, int_y + 1, int_z), (t_vector){x, y - 1.0, z});
+	square_noises[3] = dot_product(get_random_gradient(int_x, int_y + 1, int_z + 1), (t_vector){x, y - 1.0, z - 1.0});
+	square_noises[4] = dot_product(get_random_gradient(int_x + 1, int_y, int_z), (t_vector){x - 1.0, y, z});
+	square_noises[5] = dot_product(get_random_gradient(int_x + 1, int_y, int_z + 1), (t_vector){x - 1.0, y, z - 1.0});
+	square_noises[6] = dot_product(get_random_gradient(int_x + 1, int_y + 1, int_z), (t_vector){x - 1.0, y - 1.0, z});
+	square_noises[7] = dot_product(get_random_gradient(int_x + 1, int_y + 1, int_z + 1), (t_vector){x - 1.0, y - 1.0, z - 1.0});
+
+	polynomials_factors[0] = perlin_polynom(x);
+	polynomials_factors[1] = perlin_polynom(y);
+	polynomials_factors[2] = perlin_polynom(z);
+
+	horizontal_interpolations[0] = linear_interpolation(square_noises[0], square_noises[4], polynomials_factors[0]);
+	horizontal_interpolations[1] = linear_interpolation(square_noises[2], square_noises[6], polynomials_factors[0]);
+	horizontal_interpolations[2] = linear_interpolation(square_noises[1], square_noises[5], polynomials_factors[0]);
+	horizontal_interpolations[3] = linear_interpolation(square_noises[3], square_noises[7], polynomials_factors[0]);
+
+	vertical_interpolations[0] = linear_interpolation(horizontal_interpolations[0], horizontal_interpolations[1], polynomials_factors[1]);
+	vertical_interpolations[1] = linear_interpolation(horizontal_interpolations[2], horizontal_interpolations[3], polynomials_factors[1]);
+
+	return (linear_interpolation(vertical_interpolations[0], vertical_interpolations[1], polynomials_factors[2]));
+}
+
+float			perlin_noise(int octaves, float frequency, float persistence, t_point point)
+{
+	float		noise;
+	float		amplitude;
+	float		geometric_limit;
+	int			octave;
+	t_point		values;
+
+	octave = -1;
+	amplitude = 1.0;
+	noise = 0;
+	while (++octave < octaves)
+	{
+		values = (t_point){point.x * frequency * octave,
+			point.y * frequency * octave,
+			point.z * frequency * octave};
+		noise += (1 / octave) * get_perlin_noise_value(values.x, values.y, values.z);
+	}
+	geometric_limit = (1 - persistence) / (1 - amplitude);
+	// return (noise * geometric_limit);
+	// return ((noise * geometric_limit) / 2 + 0.5);
+	// return ((1 + noise) / 2);
+	return (noise);
+}
 
 
 
@@ -1171,12 +1282,7 @@ t_color			circles_color(t_object object, t_point intersection, int horizontal)
 	int			distance;
 
 	alternate = TRANSPARENT;
-	adjusted = scale_vector(intersection, 1.0 / CIRCLES_WIDTH);
-	if (horizontal)
-		distance = (int)sqrt((adjusted.x * adjusted.x + adjusted.z * adjusted.z));
-	else
-		distance = (int)sqrt((adjusted.x * adjusted.x + adjusted.y * adjusted.y));
-	if (distance % 2 == 0)
+	if (circles_noise(intersection, horizontal))
 		return (object.color);
 	return (alternate);
 }
@@ -1219,89 +1325,6 @@ t_color			dots_color(t_object object, t_point intersection, int invert_gradient,
 /*
 ** ========== TEXTURES USING PERLIN ALGORITHM
 */
-
-t_vector		get_random_gradient(int int_x, int int_y, int int_z)
-{
-	int			hashed_random_value;
-
-	int_x = (int)hash_table[int_x];
-	int_y += (int)hash_table[int_x];
-	int_z += (int)hash_table[int_y];
-	hashed_random_value = hash_table[int_z] % 16;
-	hashed_random_value %= 16;
-	return (perlin_vectors[hashed_random_value]);
-}
-
-float			perlin_polynom(float value)
-{
-	return (6.0 * pow(value, 5) - 15 * pow(value, 4) + 10 * pow(value, 3));
-}
-
-float			get_perlin_noise_value(float x, float y, float z)
-{
-	int			int_x;
-	int			int_y;
-	int			int_z;
-	float		square_noises[8];
-	float		polynomials_factors[3];
-	float		horizontal_interpolations[4];
-	float		vertical_interpolations[2];
-
-	int_x = integer_part(x) % 256;
-	int_y = integer_part(y) % 256;
-	int_z = integer_part(z) % 256;
-	x = fractional_part(x);
-	y = fractional_part(y);
-	z = fractional_part(z);
-
-	square_noises[0] = dot_product(get_random_gradient(int_x, int_y, int_z), (t_vector){x, y, z});
-	square_noises[1] = dot_product(get_random_gradient(int_x, int_y, int_z + 1), (t_vector){x, y, z - 1.0});
-	square_noises[2] = dot_product(get_random_gradient(int_x, int_y + 1, int_z), (t_vector){x, y - 1.0, z});
-	square_noises[3] = dot_product(get_random_gradient(int_x, int_y + 1, int_z + 1), (t_vector){x, y - 1.0, z - 1.0});
-	square_noises[4] = dot_product(get_random_gradient(int_x + 1, int_y, int_z), (t_vector){x - 1.0, y, z});
-	square_noises[5] = dot_product(get_random_gradient(int_x + 1, int_y, int_z + 1), (t_vector){x - 1.0, y, z - 1.0});
-	square_noises[6] = dot_product(get_random_gradient(int_x + 1, int_y + 1, int_z), (t_vector){x - 1.0, y - 1.0, z});
-	square_noises[7] = dot_product(get_random_gradient(int_x + 1, int_y + 1, int_z + 1), (t_vector){x - 1.0, y - 1.0, z - 1.0});
-
-	polynomials_factors[0] = perlin_polynom(x);
-	polynomials_factors[1] = perlin_polynom(y);
-	polynomials_factors[2] = perlin_polynom(z);
-
-	horizontal_interpolations[0] = linear_interpolation(square_noises[0], square_noises[4], polynomials_factors[0]);
-	horizontal_interpolations[1] = linear_interpolation(square_noises[2], square_noises[6], polynomials_factors[0]);
-	horizontal_interpolations[2] = linear_interpolation(square_noises[1], square_noises[5], polynomials_factors[0]);
-	horizontal_interpolations[3] = linear_interpolation(square_noises[3], square_noises[7], polynomials_factors[0]);
-
-	vertical_interpolations[0] = linear_interpolation(horizontal_interpolations[0], horizontal_interpolations[1], polynomials_factors[1]);
-	vertical_interpolations[1] = linear_interpolation(horizontal_interpolations[2], horizontal_interpolations[3], polynomials_factors[1]);
-
-	return (linear_interpolation(vertical_interpolations[0], vertical_interpolations[1], polynomials_factors[2]));
-}
-
-float			perlin_noise(int octaves, float frequency, float persistence, t_point point)
-{
-	float		noise;
-	float		amplitude;
-	float		geometric_limit;
-	int			octave;
-	t_point		values;
-
-	octave = -1;
-	amplitude = 1.0;
-	noise = 0;
-	while (++octave < octaves)
-	{
-		values = (t_point){point.x * frequency * octave,
-			point.y * frequency * octave,
-			point.z * frequency * octave};
-		noise += (1 / octave) * get_perlin_noise_value(values.x, values.y, values.z);
-	}
-	geometric_limit = (1 - persistence) / (1 - amplitude);
-	// return (noise * geometric_limit);
-	// return ((noise * geometric_limit) / 2 + 0.5);
-	// return ((1 + noise) / 2);
-	return (noise);
-}
 
 t_color			wood_color(t_object object, t_point intersection)
 {
