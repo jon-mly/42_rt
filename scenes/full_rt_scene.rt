@@ -55,7 +55,7 @@ reflect 5
 brillance 100
 refraction_index 100
 transparency 0
-texture WOOD
+texture PERLIN
 # bump_mapping VERTICAL_SIN
 }
 
@@ -167,7 +167,7 @@ brillance 10
 transparency 0
 refraction_index 100
 reflect 40
-texture WOOD
+texture PERLIN
 # bump_mapping VERTICAL_SIN
 }
 
@@ -181,7 +181,7 @@ brillance 30
 transparency 0
 refraction_index 100
 reflect 0
-texture WOOD
+texture PERLIN
 # bump_mapping VERTICAL_SIN
 }
 
@@ -209,5 +209,5 @@ texture WOOD
 # transparency 0
 # reflect 0
 # refraction_index 110
-# texture WOOD
+# texture PERLIN
 # }
