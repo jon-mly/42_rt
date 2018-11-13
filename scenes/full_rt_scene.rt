@@ -2,7 +2,7 @@ theme 0 0 0
 power 100
 
 camera {
-position 0 50 -800
+position 100 50 -600
 angles -15 0
 }
 
@@ -46,18 +46,18 @@ power 1000
 # transparency 0
 # }
 
-# sphere {
-# center -160 20 -0
-# radius 60
-# color 255, 165, 0
-# diffuse 100
-# reflect 5
-# brillance 100
-# refraction_index 100
-# transparency 0
-# # texture PERLIN
-# bump_mapping VERTICAL_SIN
-# }
+sphere {
+center -160 20 -30
+radius 60
+color 255 165 0
+diffuse 100
+reflect 5
+brillance 100
+refraction_index 100
+transparency 0
+# texture PERLIN
+bump_mapping VERTICAL_SIN
+}
 
 # sphere {
 # center 20 7 -3
@@ -128,15 +128,19 @@ power 1000
 # transparency 60
 # }
 
-# rectangle {
-# point -20 0 0
-# angles 0 0
-# color 0 180 120
-# width 40
-# height 1
-# diffuse 100
-# reflect 0
-# }
+rectangle {
+point -20 0 -200
+angles 0 -20
+color 0 180 120
+width 300
+height 300
+diffuse 80
+brillance 20
+reflect 0
+texture PERLIN
+transparency 60
+refraction_index 100
+}
 
 # triangle {
 # point 0 10 0
@@ -176,12 +180,12 @@ plane {
 point 0 -5 60
 normal 0 0 1
 color 255 255 255
-diffuse 60
+diffuse 100
 brillance 30
 transparency 0
 refraction_index 100
 reflect 0
-texture PERLIN
+texture MARBLE
 # bump_mapping VERTICAL_SIN
 }
 
