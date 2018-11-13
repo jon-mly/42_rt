@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
-/*   Updated: 2018/11/05 18:41:34 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/11/13 12:20:06 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 ** ====== includes
 */
 
+//# include "../cu_include/cu_rt.h"
 # include "../libft/libft.h"
 # include "../minilibx/mlx.h"
 # include <fcntl.h>
@@ -27,8 +28,6 @@
 # include <sys/stat.h>
 # include <math.h>
 # include <stdio.h>
-# include <cuda.h>
-# include <cuda_runtime.h>
 
 /*
 ** ======= macros
@@ -42,6 +41,16 @@
 
 # define TRUE 1
 # define FALSE 0
+
+# define ALIASING 1
+# define BLACK (t_color){0, 0, 0, 0}
+# define EPSILON 0.004
+# define TRANSPARENT (t_color){255, 255, 255, 255}
+# define MAX_DEPTH 3
+# define CIRCLES_WIDTH 2.3
+# define CHECKER_WIDTH 20.0
+# define DOTS_WIDTH 1.5
+# define DOTS_SPREAD 3.5
 
 /*
 ** ======= enumerations
@@ -198,17 +207,16 @@ typedef struct			s_scene
 typedef	struct			s_cuda
 {
 	size_t				img_s;
-	int 				*data_img;
+	int 				*d_img;
 	int 				*render_img;
-	cudaError_t			err;
 	size_t				size_obj;
 	size_t				size_scene;
 	size_t				size_cam;
 	size_t				size_light;
-	t_object			*data_obj;;
-	t_scene				*data_scene;
-	t_camera			*data_cam;
-	t_light				*data_light;
+	t_object			*d_obj;
+	t_scene				*d_scene;
+	t_camera			*d_cam;
+	t_light				*d_light;
 }						t_cuda;
 
 typedef struct			s_env
@@ -237,15 +245,6 @@ typedef struct			s_env
 ** ======= prototypes
 */
 
-int						error_gpu(t_opencl *opcl);
-void					opencl_init2(t_opencl *opcl, t_env *e);
-void					opencl_draw(t_opencl *opcl, t_env *e);
-void					set_opencl_env(t_opencl *opcl);
-void					create_kernel(cl_program program,
-		cl_kernel *kernel, const char *func);
-char					*get_kernel_source(char *file);
-void					opencl_init(t_opencl *opcl, t_env *env);
-void					create_prog(t_opencl *opcl);
 void					exit_error(t_env *env);
 void					exit_normally(t_env *env);
 void					exit_usage(void);
@@ -300,8 +299,6 @@ t_vector				vect_rotate_y(t_vector vector, float angle,
 		int inverse);
 t_object				init_ray(int x, int y, t_camera camera);
 float					closest_distance_quadratic(float a, float b, float c);
-void					ft_ocl_init_error(const int ret);
-void					ft_ocl_kernel_error(const int ret, const size_t index);
 size_t					file_len(int fd);
 int						hit_test(t_object *clt_obj, t_object *obj,
 		t_object l_ray, float norm);
@@ -317,6 +314,5 @@ t_vector		rotate_cone_angles(t_object cone, t_vector vect,
 t_vector		rotate_vector_angles(t_object reference, t_vector vect,
 			int reverse);
 t_vector	cross_product(t_vector vect_1, t_vector vect_2);
-
 
 #endif

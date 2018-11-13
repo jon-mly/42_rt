@@ -7,7 +7,7 @@ angles -18 0
 
 LIGHTS :
 
-light {
+#light {
 type AMBIANT
 direction 1 -1 1
 color 255 255 255
@@ -16,7 +16,7 @@ power 700
 
 OBJECTS :
 
-plane {
+#plane {
 point 0 -64 0
 direction 0 1 0
 color 50 50 50
@@ -41,7 +41,7 @@ angles 0 -90
 position 0 -30 30
 }
 
-cylinder {
+#cylinder {
 finite
 covered
 height 30
@@ -56,7 +56,7 @@ angles 0 90
 position 0 -31 30
 }
 
-cone {
+#cone {
 pi_divider 3
 finite
 covered
@@ -71,7 +71,7 @@ diffuse 100
 angles 0 90
 } 
 
-cylinder {
+#cylinder {
 finite
 height 27
 radius 1
