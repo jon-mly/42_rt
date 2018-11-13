@@ -537,24 +537,20 @@ t_color		interpolate_two_colors(t_color c1, t_color c2, float ratio)
 
 t_color		interpolate_three_colors(t_color c1, t_color c2, t_color c3, float ratio)
 {
-	if (ratio < 1 / 3)
-		return (add_color(fade_color(c1, ratio * 3), fade_color(c2, 1 - ratio * 3)));
-	else if (ratio < 2 / 3)
-		return (add_color(fade_color(c1, (ratio - 1 / 3) * 3), fade_color(c2, 1 - (ratio - 1 / 3) * 3)));
+	if (ratio < 1.0 / 2.0)
+		return (add_color(fade_color(c1, ratio * 2), fade_color(c2, 1 - ratio * 2)));
 	else
-		return (add_color(fade_color(c1, (ratio - 2 / 3) * 3), fade_color(c2, 1 - (ratio - 2 / 3) * 3)));
+		return (add_color(fade_color(c2, (ratio - 1.0 / 2.0) * 2), fade_color(c3, 1 - (ratio - 1.0 / 2.0) * 2)));
 }
 
 t_color		interpolate_four_colors(t_color c1, t_color c2, t_color c3, t_color c4, float ratio)
 {
-	if (ratio < 1 / 4)
-		return (add_color(fade_color(c1, ratio * 4), fade_color(c2, 1 - ratio * 4)));
-	else if (ratio < 2 / 4)
-		return (add_color(fade_color(c1, (ratio - 1 / 4) * 4), fade_color(c2, 1 - (ratio - 1 / 4) * 4)));
-	else if (ratio < 3 / 4)
-		return (add_color(fade_color(c1, (ratio - 2 / 4) * 4), fade_color(c2, 1 - (ratio - 2 / 4) * 4)));
-	else
-		return (add_color(fade_color(c1, (ratio - 3 / 4) * 4), fade_color(c2, 1 - (ratio - 3 / 4) * 4)));
+	// printf("%.2f\n", ratio);
+	if (ratio < 1.0 / 3.0)
+		return (add_color(fade_color(c1, ratio * 3), fade_color(c2, 1 - ratio * 3)));
+	if (ratio < 2.0 / 3.0)
+		return (add_color(fade_color(c2, (ratio - 1.0 / 3.0) * 3), fade_color(c3, 1 - (ratio - 1.0 / 3.0) * 3)));
+	return (add_color(fade_color(c3, (ratio - 2.0 / 3.0) * 3), fade_color(c4, 1 - (ratio - 2.0 / 3.0) * 3)));
 }
 
 t_color		fade_color(t_color color, float multiplier)
@@ -804,12 +800,13 @@ float			perlin_noise(int octaves, float frequency, float persistence, t_point po
 		amplitude *= persistence;
 		frequency *= 2;
 	}
+	noise = fabs(noise);
 	geometric_limit = (1 - persistence) / (1 - amplitude);
 	// printf("%.2f\n", noise);
-	return (noise + 1);
-	// return (noise * geometric_limit);
+	// return (noise + 1);
 	// return ((noise * geometric_limit) / 2 + 0.5);
 	// return ((1 + noise) / 2);
+	return (noise);
 }
 
 
@@ -1414,16 +1411,10 @@ t_color			marble_color(t_object object, t_point intersection)
 
 t_color			perlin_color(t_object object, t_point intersection)
 {
-	t_point		altered_coordinates;
 	t_color		color;
 	float		noise;
 
-	altered_coordinates = (t_vector){
-		(intersection.x),
-		(intersection.y),
-		(intersection.z)
-	};
-	noise = perlin_noise(10, 0.0001, 0.4, altered_coordinates);
+	noise = perlin_noise(8, 0.001, 0.6, intersection) * 2;
 	// printf("%.2f\n", noise);
 	color = interpolate_four_colors(BLUE, BLACK, GREEN, PURPLE, noise);
 	// color.r = bounded_color_value((noise) / 2 * 255, 0, 255);

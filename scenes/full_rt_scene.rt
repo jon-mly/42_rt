@@ -46,18 +46,18 @@ power 1000
 # transparency 0
 # }
 
-sphere {
-center -160 20 -0
-radius 60
-color 255, 165, 0
-diffuse 100
-reflect 5
-brillance 100
-refraction_index 100
-transparency 0
-texture PERLIN
+# sphere {
+# center -160 20 -0
+# radius 60
+# color 255, 165, 0
+# diffuse 100
+# reflect 5
+# brillance 100
+# refraction_index 100
+# transparency 0
+# # texture PERLIN
 # bump_mapping VERTICAL_SIN
-}
+# }
 
 # sphere {
 # center 20 7 -3
@@ -157,19 +157,19 @@ texture PERLIN
 # radius 6
 # }
 
-PLANE BELOW THE CAMERA
-plane {
-point 0 -70 0
-normal 0 1 0
-color 255 191 0
-diffuse 60
-brillance 10
-transparency 0
-refraction_index 100
-reflect 40
-texture PERLIN
+# PLANE BELOW THE CAMERA
+# plane {
+# point 0 -70 0
+# normal 0 1 0
+# color 255 191 0
+# diffuse 60
+# brillance 10
+# transparency 0
+# refraction_index 100
+# reflect 40
+# texture WOOD
 # bump_mapping VERTICAL_SIN
-}
+# }
 
 PLANE IN FRONT OF THE CAMERA
 plane {
