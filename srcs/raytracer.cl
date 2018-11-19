@@ -1939,7 +1939,8 @@ t_color			direct_light_raytracing(global t_scene *scene, global t_object *obj,
 		current_light = light[light_index];
 		if (current_light.typpe != PROJECTOR ||
 			(current_light.typpe == PROJECTOR && dot_product(current_light.direction,
-			scale_vector(ray.direction, -1)) >= cos(current_light.angle)))
+			scale_vector(normalize_vector(vector_points(ray.origin, current_light.posiition)),
+			 -1)) >= cos(current_light.angle)))
 		{
 			associated_plane = light_plane(ray, current_light);
 			ray = intersect_object(ray, associated_plane);
@@ -2298,8 +2299,8 @@ t_color			primary_ray(global t_scene *scene, global t_object *obj,
 					intersected_object.refraction, intersected_object.transparency));
 		colorout = add_color(colorout, add_color(refracted_color, reflected_color));
 	}
-	// colorout = add_color(colorout, direct_light_raytracing(scene, obj, light, ray,
-	// 	(closest_object_index != -1) ? ray.norm : -1));
+	colorout = add_color(colorout, direct_light_raytracing(scene, obj, light, ray,
+		(closest_object_index != -1) ? ray.norm : -1));
 	return (colorout);
 }
 
