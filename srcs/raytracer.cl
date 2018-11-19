@@ -1,7 +1,7 @@
 # define TRUE 1
 # define FALSE 0
 # define MAX_DEPTH 3
-# define ALIASING 1
+# define ALIASING 3
 # define EPSILON 0.004
 # define CIRCLES_WIDTH 2.3
 # define CHECKER_WIDTH 20.0
@@ -14,6 +14,8 @@
 # define BLUE (t_color){0, 191, 255, 0}
 # define PURPLE (t_color){128,0,128, 0}
 # define GREEN (t_color){124,252,0, 0}
+# define WOOD_LIGHT (t_color){160, 121, 61, 0}
+# define WOOD_DARK (t_color){130, 91, 31, 0}
 
 typedef enum	e_object_type
 {
@@ -537,24 +539,20 @@ t_color		interpolate_two_colors(t_color c1, t_color c2, float ratio)
 
 t_color		interpolate_three_colors(t_color c1, t_color c2, t_color c3, float ratio)
 {
-	if (ratio < 1 / 3)
-		return (add_color(fade_color(c1, ratio * 3), fade_color(c2, 1 - ratio * 3)));
-	else if (ratio < 2 / 3)
-		return (add_color(fade_color(c1, (ratio - 1 / 3) * 3), fade_color(c2, 1 - (ratio - 1 / 3) * 3)));
+	if (ratio < 1.0 / 2.0)
+		return (add_color(fade_color(c1, ratio * 2), fade_color(c2, 1 - ratio * 2)));
 	else
-		return (add_color(fade_color(c1, (ratio - 2 / 3) * 3), fade_color(c2, 1 - (ratio - 2 / 3) * 3)));
+		return (add_color(fade_color(c2, (ratio - 1.0 / 2.0) * 2), fade_color(c3, 1 - (ratio - 1.0 / 2.0) * 2)));
 }
 
 t_color		interpolate_four_colors(t_color c1, t_color c2, t_color c3, t_color c4, float ratio)
 {
-	if (ratio < 1 / 4)
-		return (add_color(fade_color(c1, ratio * 4), fade_color(c2, 1 - ratio * 4)));
-	else if (ratio < 2 / 4)
-		return (add_color(fade_color(c1, (ratio - 1 / 4) * 4), fade_color(c2, 1 - (ratio - 1 / 4) * 4)));
-	else if (ratio < 3 / 4)
-		return (add_color(fade_color(c1, (ratio - 2 / 4) * 4), fade_color(c2, 1 - (ratio - 2 / 4) * 4)));
-	else
-		return (add_color(fade_color(c1, (ratio - 3 / 4) * 4), fade_color(c2, 1 - (ratio - 3 / 4) * 4)));
+	// printf("%.2f\n", ratio);
+	if (ratio < 1.0 / 3.0)
+		return (add_color(fade_color(c1, ratio * 3), fade_color(c2, 1 - ratio * 3)));
+	if (ratio < 2.0 / 3.0)
+		return (add_color(fade_color(c2, (ratio - 1.0 / 3.0) * 3), fade_color(c3, 1 - (ratio - 1.0 / 3.0) * 3)));
+	return (add_color(fade_color(c3, (ratio - 2.0 / 3.0) * 3), fade_color(c4, 1 - (ratio - 2.0 / 3.0) * 3)));
 }
 
 t_color		fade_color(t_color color, float multiplier)
@@ -804,12 +802,13 @@ float			perlin_noise(int octaves, float frequency, float persistence, t_point po
 		amplitude *= persistence;
 		frequency *= 2;
 	}
+	noise = fabs(noise);
 	geometric_limit = (1 - persistence) / (1 - amplitude);
 	// printf("%.2f\n", noise);
-	return (noise + 1);
-	// return (noise * geometric_limit);
+	// return (noise + 1);
 	// return ((noise * geometric_limit) / 2 + 0.5);
 	// return ((1 + noise) / 2);
+	return (noise);
 }
 
 
@@ -1370,12 +1369,13 @@ t_color			wood_color(t_object object, t_point intersection)
 	float		noise;
 
 	altered_coordinates = intersection;
-	noise = 100 * perlin_noise(2, 0.005, 0.1, altered_coordinates);
+	noise = 100 * perlin_noise(2, 0.0025, 0.1, altered_coordinates);
 	noise -= (int)noise;
-	color.r = bounded_color_value((noise) / 2 * 255, 0, 255);
-	color.g = bounded_color_value((noise) / 2 * 255, 0, 255);
-	color.b = bounded_color_value((noise) / 2 * 255, 0, 255);
-	color.a = 0;
+	color = interpolate_two_colors(WOOD_LIGHT, WOOD_DARK, noise * 2);
+	// color.r = bounded_color_value((noise) / 2 * 255, 0, 255);
+	// color.g = bounded_color_value((noise) / 2 * 255, 0, 255);
+	// color.b = bounded_color_value((noise) / 2 * 255, 0, 255);
+	// color.a = 0;
 	return (color);
 }
 
@@ -1414,16 +1414,10 @@ t_color			marble_color(t_object object, t_point intersection)
 
 t_color			perlin_color(t_object object, t_point intersection)
 {
-	t_point		altered_coordinates;
 	t_color		color;
 	float		noise;
 
-	altered_coordinates = (t_vector){
-		(intersection.x),
-		(intersection.y),
-		(intersection.z)
-	};
-	noise = perlin_noise(10, 0.0001, 0.4, altered_coordinates);
+	noise = perlin_noise(8, 0.001, 0.6, intersection) * 2;
 	// printf("%.2f\n", noise);
 	color = interpolate_four_colors(BLUE, BLACK, GREEN, PURPLE, noise);
 	// color.r = bounded_color_value((noise) / 2 * 255, 0, 255);
@@ -1741,7 +1735,6 @@ t_color			specular_light_for_intersection(t_object light_ray, t_object ray,
 		distance = 1;
 	reflected = reflected_vector(incident, shape_normal(ray, object));
 	intensity = pow(fmax(dot_product(reflected, ray.direction), 0), (int)(object.brillance * 100)) * pow(object.brillance, 2);
-	intensity *= (1 - object.transparency);
 	if (light.typpe == PROJECTOR)
 		intensity *= (1 / (1 - cos(light.angle))) * dot_product(light.direction, light_ray.direction) - (cos(light.angle) / (1 - cos(light.angle)));
 	specular.r = projector_color_coord(intensity, distance, object.color.r, light_ray.color.r);
@@ -1779,11 +1772,8 @@ t_color			filter_light_through_object(t_color initial_color, t_object object)
 	float		transparency;
 
 	transparency = fmax(object.transparency, (float)((float)object.color.a / 255.0));
-	final_color = fade_color(initial_color, transparency);
-	final_color.r = final_color.r * object.color.r / 255.0;
-	final_color.g = final_color.g * object.color.g / 255.0;
-	final_color.b = final_color.b * object.color.b / 255.0;
-	return (final_color);
+	final_color = interpolate_two_colors(initial_color, object.color, transparency);
+	return (fade_color(final_color, object.transparency));
 }
 
 
@@ -2308,8 +2298,8 @@ t_color			primary_ray(global t_scene *scene, global t_object *obj,
 					intersected_object.refraction, intersected_object.transparency));
 		colorout = add_color(colorout, add_color(refracted_color, reflected_color));
 	}
-	colorout = add_color(colorout, direct_light_raytracing(scene, obj, light, ray,
-		(closest_object_index != -1) ? ray.norm : -1));
+	// colorout = add_color(colorout, direct_light_raytracing(scene, obj, light, ray,
+	// 	(closest_object_index != -1) ? ray.norm : -1));
 	return (colorout);
 }
 
