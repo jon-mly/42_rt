@@ -14,7 +14,7 @@
 
 void				set_opencl_env(t_opencl *opcl)
 {
-	opcl->dev_type = CL_DEVICE_TYPE_CPU;
+	opcl->dev_type = CL_DEVICE_TYPE_GPU;
 	opcl->err = 0;
 	opcl->platform_id = NULL;
 	opcl->device_id = 0;

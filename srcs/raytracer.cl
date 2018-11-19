@@ -1327,9 +1327,9 @@ t_color			dots_color(t_object object, t_point intersection, int invert_gradient,
 	t_color		external_color;
 	t_point		closest_dot;
 
-	closest_dot = (t_point){round(intersection.x / DOTS_SPREAD) * DOTS_SPREAD,
-		round(intersection.y / DOTS_SPREAD) * DOTS_SPREAD,
-		round(intersection.z / DOTS_SPREAD) * DOTS_SPREAD};
+	closest_dot = (t_point){round(intersection.x / (float)DOTS_SPREAD) * DOTS_SPREAD,
+		round(intersection.y / (float)DOTS_SPREAD) * DOTS_SPREAD,
+		round(intersection.z / (float)DOTS_SPREAD) * DOTS_SPREAD};
 	if (reverse)
 	{
 		external_color = object.color;
@@ -1924,7 +1924,7 @@ t_color			glare_color_ambiant_light(t_object ray, t_light light)
 	float		cos_with_ray;
 	float		intensity;
 
-	min_cosinus = sqrt(100.0 / (light.power + 6000.0)) + sqrt(3.0) / 2.0;
+	min_cosinus = sqrt((float)100.0 / (light.power + (float)6000.0)) + sqrt((float)3.0) / 2.0;
 	cos_with_ray = dot_product(ray.direction, scale_vector(light.direction, -1));
 	if (cos_with_ray < min_cosinus)
 		return (BLACK);
@@ -2353,7 +2353,7 @@ __kernel void				pixel_raytracing_gpu(__write_only image2d_t out, global t_scene
 	while (++aliasing_iter < ALIASING)
 	{
 		aliasing_variation = (float)aliasing_iter / (float)ALIASING;
-		if (aliasing_iter == 0 || aliasing_iter == 1)
+		if (aliasing_iter == 0)
 			average = raytracing(scene, camera, obj, light, aliasing_variation);
 		else
 			average = average_color(average, raytracing(scene, camera, obj, light, aliasing_variation));
