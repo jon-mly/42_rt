@@ -39,7 +39,7 @@
 
 # define WIN_HEIGHT 600
 # define WIN_WIDTH 900
-# define FOV 0.40
+# define FOV 0.50
 
 # define KEY_ESC 53
 

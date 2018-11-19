@@ -1,7 +1,7 @@
 # define TRUE 1
 # define FALSE 0
-# define MAX_DEPTH 3
-# define ALIASING 3
+# define MAX_DEPTH 5
+# define ALIASING 1
 # define EPSILON 0.004
 # define CIRCLES_WIDTH 2.3
 # define CHECKER_WIDTH 20.0
@@ -2165,11 +2165,11 @@ t_color			main_reflected_raytracing(global t_scene *scene, global t_object *obj,
 			intersected_object = object_with_local_parameters(obj[closest_object_index],
 				textured_color_if_needed(obj[closest_object_index], ray.intersectiion));
 			added_color = get_color_on_intersection(ray, intersected_object.index, intersected_object, scene, light, obj);
-			added_color = fade_color(added_color, ray.reflection);
 			if (intersected_object.transparency > 0)
 				added_color = add_color(added_color, ponctual_refracted_raytracing(scene, obj, light,
 					init_refracted_ray(ray, intersected_object,
 					intersected_object.refraction, intersected_object.transparency)));
+			added_color = fade_color(added_color, ray.reflection);
 		}
 		colorout = add_color(colorout, added_color);
 		if (closest_object_index == -1 || intersected_object.reflection == 0)
