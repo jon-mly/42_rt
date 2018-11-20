@@ -2,8 +2,8 @@ theme 0 0 0
 power 100
 
 camera {
-position 100 100 -600
-angles -25 0
+position 100 200 -600
+angles -38 0
 }
 
 light {
@@ -14,14 +14,14 @@ direction 0 -1 1
 power 800
 }
 
-# light {
-# type OMNI
-# color 255 255 255
-# position 200 25 -200
-# direction -15 0 -6
-# angle 54
-# power 1400
-# }
+light {
+type OMNI
+color 255 255 255
+position 60 25 -200
+direction 1.5 0 -1
+angle 40
+power 1000
+}
 
 # sphere {
 # center 20 0 0
@@ -47,14 +47,14 @@ power 800
 # }
 
 sphere {
-center -120 20 -100
+center -160 20 -30
 radius 60
 color 255 165 0
 diffuse 100
-reflect 100
+reflect 5
 brillance 100
-refraction_index 130
-transparency 100
+refraction_index 100
+transparency 0
 # texture PERLIN
 # bump_mapping VERTICAL_SIN
 }
@@ -129,17 +129,16 @@ transparency 100
 # }
 
 rectangle {
-point -20 -10 -200
-normal 0 1 0
+point -20 0 -300
 angles 0 0
 color 0 180 120
-width 300
+width 400
 height 300
 diffuse 80
 brillance 20
 reflect 0
-# texture PERLIN
-transparency 60
+texture PERLIN
+transparency 40
 refraction_index 100
 }
 
@@ -166,13 +165,12 @@ refraction_index 100
 plane {
 point 0 -70 0
 normal 0 1 0
-#color 255 191 0
 color 255 255 255
-diffuse 6
+diffuse 60
 brillance 10
 transparency 0
 refraction_index 100
-reflect 100
+reflect 40
 # texture WOOD
 # bump_mapping VERTICAL_SIN
 }
@@ -186,7 +184,7 @@ diffuse 100
 brillance 30
 transparency 0
 refraction_index 100
-reflect 0
+reflect 60
 texture MARBLE
 # bump_mapping VERTICAL_SIN
 }
