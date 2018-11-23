@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
-/*   Updated: 2018/11/22 17:37:38 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/11/23 15:27:49 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,6 +243,8 @@ typedef	struct				s_opencl
 
 typedef struct				s_srv
 {
+	int					nbclient;
+	int 				sockmax;
 	int					fd[FD_SETSIZE];
 	int					sz;
 	int					*nb_cl;

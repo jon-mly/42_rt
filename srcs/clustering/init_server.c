@@ -6,15 +6,18 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 14:04:14 by aabelque          #+#    #+#             */
-/*   Updated: 2018/11/22 17:34:48 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/11/23 16:03:46 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-void		init_env_server(t_env *e)
+void			init_env_server(t_env *e, char *str)
 {
+	e->srv.port = ft_atoi(str);
+	e->srv.nbclient = 1;
 	e->srv.sz = 0;
+	e->srv.sockmax = 0;
 	e->srv.nb_cl = NULL;
 	e->srv.writefds = NULL;
 	e->srv.socket = 0;
@@ -28,7 +31,7 @@ void		init_env_server(t_env *e)
 	ft_bzero(e->srv.readfds, sizeof(fd_set));
 }
 
-void		create_srv(t_env *e)
+void			create_srv(t_env *e)
 {
 	ft_putendl("Creating socket...");
 	e->srv.socket = socket(AF_INET, SOCK_STREAM, 0);
@@ -56,14 +59,33 @@ void		create_srv(t_env *e)
 	}
 }
 
-void		server_connect(t_env *e)
+static	void	server_connect2(t_env *e)
 {
+	int		i;
+
+	i = 0;
+	e->srv.fd[0] = e->srv.socket;
+	e->srv.sz++;
+	e->srv.nbclient++;
 	FD_ZERO(&e->srv.readfds);
 	FD_ZERO(e->srv.writefds);
-	FD_SET(e->srv.socket, &e->srv.readfds);
-	FD_SET(e->srv.socket, e->srv.writefds);
-	if ((e->srv.err = select(FD_SETSIZE, &e->srv.readfds, e->srv.writefds,
-					NULL, NULL)) < 0)
+	while (i++ < e->srv.sz)
+	{
+		if (e->srv.fd[i] != 0)
+		{
+			FD_SET(e->srv.socket, &e->srv.readfds);
+			FD_SET(e->srv.socket, e->srv.writefds);
+		}
+		if (e->srv.sockmax < e->srv.fd[i])
+			e->srv.sockmax = e->srv.fd[i];
+	}
+}
+
+void			server_connect(t_env *e)
+{
+	server_connect2(e);
+	if ((e->srv.err = select(e->srv.sockmax + 1, &e->srv.readfds,
+					e->srv.writefds, NULL, NULL)) < 0)
 	{
 		ft_putendl("Error function select()");
 		exit(EXIT_FAILURE);
@@ -78,14 +100,19 @@ void		server_connect(t_env *e)
 			ft_putendl("Error function accept()");
 			exit(EXIT_FAILURE);
 		}
+		sleep(2);
+		send_server(e);
 	}
 }
 
-int			send_server(t_env *e)
+int				send_server(t_env *e)
 {
 	int		err;
 
 	err = 0;
+	err = send(e->srv.socket, &e->srv.nbclient, sizeof(int), 0);
+	if (err == SOCKET_ERROR)
+		return (err);
 	err = send(e->srv.socket, &e->scene.objects_count, sizeof(int), 0);
 	if (err == SOCKET_ERROR)
 		return (err);
