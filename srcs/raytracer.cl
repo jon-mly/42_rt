@@ -2027,22 +2027,24 @@ t_color			main_refracted_raytracing(global t_scene *scene, global t_object *obj,
 			intersected_object = object_with_local_parameters(obj[closest_object_index],
 				textured_color_if_needed(obj[closest_object_index], ray.intersectiion));
 			added_color = get_color_on_intersection(ray, intersected_object.index, intersected_object, scene, light, obj);
-			added_color = fade_color(added_color, ray.transparency);
+			// added_color = fade_color(added_color, ray.transparency);
 			if (intersected_object.reflection > 0)
 				added_color = add_color(added_color, ponctual_reflected_raytracing(scene, obj, light,
 					init_reflected_ray(ray, intersected_object)));
-			colorout = add_color(colorout, added_color);
+			added_color = add_color(added_color, direct_light_raytracing(scene, obj, light, ray,
+				(closest_object_index != -1) ? ray.norm : -1));
+			// colorout = add_color(colorout, added_color);
+			colorout = add_color(colorout, fade_color(added_color, ray.transparency));
 		}
 		if (closest_object_index == -1 || intersected_object.transparency == 0)
 			return (colorout);
+
 		if (!inside_object)
 			ray = init_refracted_ray(ray, intersected_object,
 				1, ray.transparency);
 		else
 			ray = init_refracted_ray(ray, intersected_object,
 				intersected_object.refraction, intersected_object.transparency);
-
-		
 	}
 	return (colorout);
 }
@@ -2094,8 +2096,11 @@ t_color			ponctual_refracted_raytracing(global t_scene *scene, global t_object *
 			intersected_object = object_with_local_parameters(obj[closest_object_index],
 				textured_color_if_needed(obj[closest_object_index], ray.intersectiion));
 			added_color = get_color_on_intersection(ray, intersected_object.index, intersected_object, scene, light, obj);
-			added_color = fade_color(added_color, ray.transparency);
-			colorout = add_color(colorout, added_color);
+			// added_color = fade_color(added_color, ray.transparency);
+			added_color = add_color(added_color, direct_light_raytracing(scene, obj, light, ray,
+				(closest_object_index != -1) ? ray.norm : -1));
+			// colorout = add_color(colorout, added_color);
+			colorout = add_color(colorout, fade_color(added_color, ray.transparency));
 		}
 		if (closest_object_index == -1 || intersected_object.transparency == 0)
 			return (colorout);
@@ -2104,10 +2109,10 @@ t_color			ponctual_refracted_raytracing(global t_scene *scene, global t_object *
 				1, ray.transparency);
 		else
 			ray = init_refracted_ray(ray, intersected_object,
-				intersected_object.refraction, intersected_object.transparency);
-
-		
+				intersected_object.refraction, intersected_object.transparency);	
 	}
+	colorout = add_color(colorout, direct_light_raytracing(scene, obj, light, ray,
+		(closest_object_index != -1) ? ray.norm : -1));
 	return (colorout);
 }
 

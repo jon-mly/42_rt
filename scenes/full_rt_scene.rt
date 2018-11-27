@@ -2,8 +2,8 @@ theme 0 0 0
 power 100
 
 camera {
-position 100 200 -600
-angles -38 0
+position 100 160 -600
+angles -30 0
 }
 
 light {
@@ -11,16 +11,16 @@ type AMBIANT
 color 255 255 220
 # direction 0 -1 3
 direction 0 -1 1
-power 800
+power 600
 }
 
 light {
 type OMNI
 color 255 255 255
-position 60 25 -200
+position 60 -25 -100
 direction 1.5 0 -1
 angle 40
-power 1000
+power 800
 }
 
 # sphere {
@@ -47,8 +47,8 @@ power 1000
 # }
 
 sphere {
-center -160 20 -30
-radius 60
+center -180 10 -100
+radius 80
 color 255 165 0
 diffuse 100
 reflect 5
@@ -166,11 +166,11 @@ plane {
 point 0 -70 0
 normal 0 1 0
 color 255 255 255
-diffuse 60
-brillance 10
+diffuse 100
+brillance 0
 transparency 0
 refraction_index 100
-reflect 40
+reflect 0
 # texture WOOD
 # bump_mapping VERTICAL_SIN
 }
@@ -185,7 +185,7 @@ brillance 30
 transparency 0
 refraction_index 100
 reflect 60
-texture MARBLE
+# texture MARBLE
 # bump_mapping VERTICAL_SIN
 }
 
