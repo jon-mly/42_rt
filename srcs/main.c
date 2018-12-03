@@ -6,41 +6,63 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:44 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/09/07 12:00:28 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/03 19:25:05 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static	int		parse_arg(char *av)
+static	void	local_client(t_env *e)
 {
-	int			device;
+	e->child = fork();
+	if (e->child == -1)
+	{
+		ft_putendl("Error function fork()");
+		exit(EXIT_FAILURE);
+	}
+	if (!e->child)
+	{
+		if (execlp("./client", "client", "127.0.0.1", "-p", ft_itoa(e->srv.port),
+					(char *)NULL) == -1)
+		{
+			ft_putendl("Error function execlp()");
+			exit(EXIT_FAILURE);
+		}
+	}
+}
 
-	device = 0;
-	device = (ft_strequ(av, "-cpu")) ? 1 : 0;
-	if (device == 0)
-		device = (ft_strequ(av, "-gpu")) ? 2 : 0;
-	if (device == 0)
-		exit_usage();
-	return (device);
+static	int		parse_arg(t_env *e, char *av, char *av2)
+{
+	if (ft_strequ(av, "-p"))
+	{
+
+		if (ft_atoi(av2) >= 0 && ft_atoi(av2) <= 1024)
+			exit_usage();
+		else
+			e->srv.port = ft_atoi(av2);
+	}
+	return (1);
 }
 
 int				main(int ac, char **av)
 {
 	t_env		*env;
-	int			device;
+	t_env		data;
 
-	device = 0;
-	if (ac != 3)
+	if (ac != 4)
 		exit_usage();
-	device = parse_arg(av[1]);
-	env = init_env(av[2]);
-	(device == 1) ? calculate_scene(env) : (void *)env;
-	if (device == 2)
+	if (!(env = (t_env*)malloc(sizeof(t_env))))
+		exit(EXIT_FAILURE);
+	parse_arg(env, av[2], av[3]);
+	env = init_env(env, av[1]);
+	init_env_server(env);
+	create_srv(env);
+	local_client(env);
+	data = *env;
+	if (pthread_create(&env->thr, NULL, waitcl, &data))
 	{
-		set_opencl_env(&env->opcl);
-		opencl_init(&env->opcl, env);
-		opencl_draw(&env->opcl, env);
+		ft_putendl("Error function pthread_creat()");
+		exit(EXIT_FAILURE);
 	}
 	if ((mlx_put_image_to_window(env->mlx_ptr, env->win_ptr,
 					env->img_ptr, 0, 0)) == -1)

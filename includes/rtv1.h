@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
-/*   Updated: 2018/11/23 15:27:49 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/03 17:05:03 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include <netinet/in.h>
 # include <arpa/inet.h>
 # include <netdb.h>
+# include <pthread.h>
 
 # ifdef __APPLE__
 #  include <OpenCL/cl.h>
@@ -244,20 +245,16 @@ typedef	struct				s_opencl
 typedef struct				s_srv
 {
 	int					nbclient;
+	int					id;
 	int 				sockmax;
-	int					fd[FD_SETSIZE];
 	int					sz;
-	int					*nb_cl;
 	int					socket;
 	int					socket_cl;
 	int					err;
 	int					port;
+	char				*addr;
 	socklen_t			size_cl;
 	socklen_t			sin_sz;
-	fd_set				readfds;
-	fd_set				readfdc;
-	fd_set				*writefds;
-	fd_set				*writefdc;
 	t_sockaddr_in		sin;
 	t_sockaddr_in		sin_cl;
 	t_hostent			*hostinfo;
@@ -279,16 +276,30 @@ typedef struct				s_env
 	int					light_i;
 	int					obj_i;
 	int					is_direct_hit;
+	int					child;
 	t_scene				scene;
 	t_object			object;
 	t_camera			camera;
 	t_opencl			opcl;
 	t_srv				srv;
+	pthread_t			thr;
 }							t_env;
 
 /*
 ** ======= prototypes
 */
+
+void						server_connect(t_env *e);
+int							send_data(t_env *e);
+int							recv_client(t_env *e);
+void						create_client(t_env *e);
+void						init_env_client(t_env *e, char *str);
+void						create_srv(t_env *e);
+void						init_env_server(t_env *e);
+void						*loop_data(void *arg);
+void						*waitcl(void *arg);
+void						exit_usage2(void);
+t_env						*init_env2(void);
 
 int							error_gpu(t_opencl *opcl);
 void						opencl_init2(t_opencl *opcl, t_env *e);
@@ -303,7 +314,7 @@ void						exit_error(t_env *env);
 void						exit_normally(t_env *env);
 void						exit_usage(void);
 void						exit_invalid_file(void);
-t_env						*init_env(char *file_name);
+t_env						*init_env(t_env *env, char *file_name);
 void						calculate_scene(t_env *env);
 t_camera					init_camera(t_env *env);
 t_camera					set_camera(int fd, t_env *env);
