@@ -1,42 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   connexion.c                                        :+:      :+:    :+:   */
+/*   opencl_free.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/30 14:24:22 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/03 19:25:05 by aabelque         ###   ########.fr       */
+/*   Created: 2018/06/21 16:42:08 by aabelque          #+#    #+#             */
+/*   Updated: 2018/08/18 17:06:30 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "client.h"
 
-void			*waitcl(void *arg)
+void		opencl_free(t_opencl *opcl)
 {
-	t_env		*e;
-	pthread_t	thr;
-	
-	e = (t_env *)arg;
-	while (1)
-	{
-		server_connect(e);
-		if (pthread_create(&thr, NULL, loop_data, &e))
-		{
-			ft_putendl("Error function pthread_create()");
-			exit(EXIT_FAILURE);
-		}
-	}
-	return (NULL);
-}
-
-void			*loop_data(void *arg)
-{
-	t_env		*e;
-
-	e = (t_env *)arg;
-	while (1)
-	{
-		send_data(e);
-	}
+	clReleaseProgram(opcl->program);
+	clReleaseKernel(opcl->kernel);
+	clReleaseMemObject(opcl->input_scene);
+	clReleaseMemObject(opcl->input_cam);
+	clReleaseMemObject(opcl->output);
+	clReleaseMemObject(opcl->structobj);
+	clReleaseMemObject(opcl->structlight);
+	clReleaseCommandQueue(opcl->commands);
+	clReleaseContext(opcl->context);
 }

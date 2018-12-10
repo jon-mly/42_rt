@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "client.h"
 
 void				set_opencl_env(t_opencl *opcl)
 {

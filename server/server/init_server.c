@@ -6,14 +6,25 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 14:04:14 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/03 19:25:06 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/10 18:54:11 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
+static	void	quit(int sig)
+{
+	(void)sig;
+	sleep(1);
+	exit(EXIT_SUCCESS);
+}
+
 void			init_env_server(t_env *e)
 {
+	signal(SIGTERM, quit);
+	signal(SIGQUIT, quit);
+	signal(SIGINT, quit);
+	signal(SIGPIPE, quit);
 	e->srv.id = -1;
 	e->srv.nbclient = 0;
 	e->srv.sz = 0;
@@ -63,6 +74,8 @@ void			server_connect(t_env *e)
 	ft_putendl("Connecting client...");
 	e->srv.socket_cl = accept(e->srv.socket, (t_sockaddr *)&e->srv.sin,
 			&e->srv.sin_sz);
+	printf("sockcl %d\n", e->srv.socket_cl);
+	printf("sock %d\n", e->srv.socket);
 	if (e->srv.socket_cl == SOCKET_ERROR)
 	{
 		ft_putendl("Error function accept()");
@@ -82,27 +95,27 @@ int				send_data(t_env *e)
 	int		err;
 
 	err = 0;
-	err = send(e->srv.socket, &e->srv.id, sizeof(int), 0);
+	err = send(e->srv.socket_cl, &e->srv.id, sizeof(int), 0);
 	if (err == SOCKET_ERROR)
 		return (err);
-	err = send(e->srv.socket, &e->scene.objects_count, sizeof(int), 0);
+	err = send(e->srv.socket_cl, &e->scene.objects_count, sizeof(int), 0);
 	if (err == SOCKET_ERROR)
 		return (err);
-	err = send(e->srv.socket, &e->scene.lights_count, sizeof(int), 0);
+	err = send(e->srv.socket_cl, &e->scene.lights_count, sizeof(int), 0);
 	if (err == SOCKET_ERROR)
 		return (err);
-	err = send(e->srv.socket, e->scene.objects,
+	err = send(e->srv.socket_cl, e->scene.objects,
 			sizeof(t_object) * e->scene.objects_count, 0);
 	if (err == SOCKET_ERROR)
 		return (err);
-	err = send(e->srv.socket, e->scene.lights,
+	err = send(e->srv.socket_cl, e->scene.lights,
 			sizeof(t_light) * e->scene.lights_count, 0);
 	if (err == SOCKET_ERROR)
 		return (err);
-	err = send(e->srv.socket, &e->scene, sizeof(t_scene), 0);
+	err = send(e->srv.socket_cl, &e->scene, sizeof(t_scene), 0);
 	if (err == SOCKET_ERROR)
 		return (err);
-	err = send(e->srv.socket, &e->camera, sizeof(t_camera), 0);
+	err = send(e->srv.socket_cl, &e->camera, sizeof(t_camera), 0);
 	if (err == SOCKET_ERROR)
 		return (err);
 	return (err);

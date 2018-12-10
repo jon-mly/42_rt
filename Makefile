@@ -1,15 +1,15 @@
 all:
-	@make -C srcs/
-	@make -C srcs/client
+	@make -C server/
+	@make -C client/
 
 clean:
-	@make clean -C srcs/client
-	@make clean -C srcs/
+	@make clean -C client/
+	@make clean -C server/
 
 fclean:
-	@make fclean -C srcs/client
-	@make fclean -C srcs/
+	@make fclean -C client/
+	@make fclean -C server/
 	
 re:	fclean all
 
-.PHONY:				all clean fclean re
+.PHONY:	all clean fclean re

@@ -1,34 +1,33 @@
-NAME = client
+NAME = rt_client
 ASSOCIATED_REP = $(NAME).dSYM
 
-LIBFT_REP = ../../libft/
+LIBFT_REP = ../libft/
 LIBFT = $(LIBFT_REP)libft.a
 
-MLX = ../../minilibx/
+MLX = ../minilibx/
 MINILIBX = $(MLX)/mlx.a
 
-INCLUDE_FLAG = -I ../../includes/
+INCLUDE_FLAG = -I ./includes/
 
 SRCS_REP = ./
-HELPER_REP = ../helpers/
 SRCS = main_client.c \
 		  init_client.c \
 		  init_env.c \
-		  $(HELPER_REP)parser_helper.c \
-		  $(HELPER_REP)math_tools2.c \
-		  $(HELPER_REP)math_tools.c \
-		  $(HELPER_REP)constructors.c \
-		  ../opencl_init.c \
-		  ../opencl_init2.c \
-		  ../opencl_draw.c \
-		  ../opencl_free.c \
-		  ../error_gpu.c \
-		  ../ft_ocl_init_error.c \
-		  ../ft_ocl_kernel_error.c \
-		  ../deinit.c \
-		  ../exit.c \
-		  ../events.c \
-		  ../camera_init.c \
+		  parser_helper.c \
+		  math_tools2.c \
+		  math_tools.c \
+		  constructors.c \
+		  opencl_init.c \
+		  opencl_init2.c \
+		  opencl_draw.c \
+		  opencl_free.c \
+		  error_gpu.c \
+		  ft_ocl_init_error.c \
+		  ft_ocl_kernel_error.c \
+		  deinit.c \
+		  exit.c \
+		  events.c \
+		  camera_init.c \
 		  
 SRC = $(addprefix $(SRCS_REP), $(SRCS))
 
@@ -48,10 +47,10 @@ $(NAME): $(O_SRCS)
 	make -C $(LIBFT_REP)
 	make -C $(MLX)
 	gcc -g $(INCLUDE_FLAG) $(MLX_FLAGS_LOCAL) $(MATH_FLAG) $(SRC) $(LIBFT) -o $(NAME)
-	mv $(NAME) ../../
+	mv $(NAME) ../
 	@echo "\033[3;32m[ ✔ ] Client ready.\033[0m"
 
-%.o: %.c ../../includes/rtv1.h Makefile
+%.o: %.c ./includes/client.h Makefile
 	@gcc  $(INCLUDE_FLAG) -c $< -o $@
 
 all: $(NAME)
@@ -72,7 +71,7 @@ clean:
 fclean: clean
 	make fclean -C $(LIBFT_REP)
 #	make fclean -C $(MLX)
-	rm -rf ../../$(NAME) ../../$(ASSOCIATED_REP)
+	rm -rf ../$(NAME) $(ASSOCIATED_REP)
 
 re: fclean all
 

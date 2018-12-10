@@ -6,11 +6,11 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/03 15:05:50 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/03 16:03:34 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/10 16:32:38 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "client.h"
 
 static	void	setup_window(t_env *env)
 {

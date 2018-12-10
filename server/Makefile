@@ -7,7 +7,7 @@ LIBFT = $(LIBFT_REP)libft.a
 MLX = ../minilibx/
 MINILIBX = $(MLX)/mlx.a
 
-INCLUDE_FLAG = -I ../includes/
+INCLUDE_FLAG = -I ./includes/
 
 SRCS_REP = ./
 HELPER_REP = helpers/
@@ -65,7 +65,7 @@ $(NAME): $(O_SRCS)
 	mv $(NAME) ../
 	@echo "\033[3;32m[ ✔ ] RT ready.\033[0m"
 
-%.o: %.c ../includes/rtv1.h Makefile
+%.o: %.c ./includes/rtv1.h Makefile
 	@gcc  $(INCLUDE_FLAG) -c $< -o $@
 
 all: $(NAME)

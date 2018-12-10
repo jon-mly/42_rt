@@ -6,7 +6,7 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:44 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/12/03 19:25:05 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/10 16:40:22 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static	void	local_client(t_env *e)
 	}
 	if (!e->child)
 	{
-		if (execlp("./client", "client", "127.0.0.1", "-p", ft_itoa(e->srv.port),
+		if (execlp("./rt_client", "rt_client", "127.0.0.1", "-p", ft_itoa(e->srv.port),
 					(char *)NULL) == -1)
 		{
 			ft_putendl("Error function execlp()");

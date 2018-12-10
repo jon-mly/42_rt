@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/03 17:05:03 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/10 17:37:22 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 ** ====== includes
 */
 
-# include "../libft/libft.h"
-# include "../minilibx/mlx.h"
+# include "../../libft/libft.h"
+# include "../../minilibx/mlx.h"
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/stat.h>
@@ -31,6 +31,7 @@
 # include <arpa/inet.h>
 # include <netdb.h>
 # include <pthread.h>
+# include <signal.h>
 
 # ifdef __APPLE__
 #  include <OpenCL/cl.h>

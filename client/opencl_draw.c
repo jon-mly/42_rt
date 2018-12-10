@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "client.h"
 
 void			opencl_draw(t_opencl *opcl, t_env *e)
 {
