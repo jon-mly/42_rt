@@ -6,7 +6,7 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:21 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/12/10 19:03:18 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/11 10:32:46 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void		deinit_scene(t_scene scene)
 
 void			deinit_env(t_env *env)
 {
-	kill("rt_client", SIGTERM);
+	kill(env->child, SIGTERM);
 	ft_putendl("Deinit triggered");
 	deinit_scene(env->scene);
 	ft_putendl("Scene is deinited");

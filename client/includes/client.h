@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 15:29:01 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/10 17:54:01 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/12 16:52:52 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@
 # define FALSE 0
 # define SOCKET_ERROR -1
 
+# define SIZE_OBJ sizeof(t_object)
+# define SIZE_LIGHT sizeof(t_light)
+
 /*
 ** ======= enumerations
 */
-
-//extern	int g_socket_cl;
-//extern	int g_socket;
 
 typedef struct sockaddr_in 	t_sockaddr_in;
 typedef struct sockaddr 	t_sockaddr;
@@ -144,15 +144,10 @@ typedef struct				s_object
 {
 	int					id;
 	int					index;
-	t_color				color;
-	t_point				center;
-	t_point				point;
-	t_point				origin;
-	t_point				intersectiion;
-	t_vector			direction;
-	t_vector			normal;
-	t_vector			first_vect;
-	t_vector			second_vect;
+	int					intersect;
+	int					finite;
+	int					covered;
+	int					has_density;
 	float				norm;
 	float				test;
 	float				radius;
@@ -169,15 +164,20 @@ typedef struct				s_object
 	float				rho;
 	float				sigma;
 	float				tau;
+	char				*name;
+	t_color				color;
+	t_point				center;
+	t_point				point;
+	t_point				origin;
+	t_point				intersectiion;
+	t_vector			direction;
+	t_vector			normal;
+	t_vector			first_vect;
+	t_vector			second_vect;
 	t_object_type		typpe;
 	t_texture			texture_type;
 	t_texture_algo		texture_algo;
 	t_bump_mapping		bump_mapping;
-	int					intersect;
-	int					finite;
-	int					covered;
-	int					has_density;
-	char				*name;
 }							t_object;
 
 typedef struct				s_light
@@ -305,6 +305,7 @@ void						loop_recv(t_env *e);
 void						*waitcl(void *arg);
 void						exit_usage2(void);
 t_env						*init_env2(void);
+void						deserialize_obj(char *data, t_object *obj);
 
 int							error_gpu(t_opencl *opcl);
 void						opencl_init2(t_opencl *opcl, t_env *e);

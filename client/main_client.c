@@ -6,22 +6,11 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 16:40:56 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/10 18:55:28 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/12 14:58:20 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
-
-//int		g_socket_cl;
-//int		g_socket;
-
-/*static	void	quit(int sig)
-{
-	(void)sig;
-	close(g_socket_cl);
-	close(g_socket);
-	exit(EXIT_SUCCESS);
-}*/
 
 static	int		parse_arg(t_env *e, char *av, char *av2)
 {
@@ -44,13 +33,21 @@ int			main(int ac, char **av)
 	if (!(env = (t_env *)malloc(sizeof(t_env))))
 		exit(EXIT_FAILURE);
 	parse_arg(env, av[2], av[3]);
-	//env = init_env2();
+	env = init_env2();
 	init_env_client(env, av[1]);
 	create_client(env);
-	write(1, "W", 1);
-	//signal(SIGTERM, quit);
+	write(1, "L\n", 2);
 	recv_client(env);
-	set_opencl_env(&env->opcl);
-	opencl_init(&env->opcl, env);
+	write(1, "E\n", 2);
+	//set_opencl_env(&env->opcl);
+	//opencl_init(&env->opcl, env);
+//	opencl_draw(&env->opcl, env);
+	if ((mlx_put_image_to_window(env->mlx_ptr, env->win_ptr,
+					env->img_ptr, 0, 0)) == -1)
+		ft_putendl("Failed to put image to window");
+	mlx_hook(env->win_ptr, 2, 0, handle_key_event, (void*)env);
+	mlx_hook(env->win_ptr, 17, 0, exit_properly, (void*)env);
+	mlx_loop_hook(env->mlx_ptr, expose_event, (void*)env);
+	mlx_loop(env->mlx_ptr);
 	return (0);
 }

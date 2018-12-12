@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/18 11:30:12 by aabelque          #+#    #+#             */
-/*   Updated: 2018/09/10 16:05:39 by jmlynarc         ###   ########.fr       */
+/*   Updated: 2018/12/11 14:53:42 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ void				create_prog(t_opencl *opcl)
 	cl_int			error;
 	size_t			file_length;
 
-	file_length = file_len(open("./srcs/raytracer.cl", O_RDONLY));
-	opcl->kernel_src = get_kernel_source("./srcs/raytracer.cl");
+	file_length = file_len(open("./client/raytracer.cl", O_RDONLY));
+	opcl->kernel_src = get_kernel_source("./client/raytracer.cl");
 	if (!(opcl->program = clCreateProgramWithSource(opcl->context, 1,
 					(const char **)&opcl->kernel_src,
 					(const size_t *)&file_length, &opcl->err))

@@ -13,11 +13,11 @@ SRCS_REP = ./
 HELPER_REP = helpers/
 PARSER_REP = parser/
 SHAPES_REP = shapes/
-SERVER_REP = server/
 SRCS = main.c \
 		shapes_intersection.c \
 		shapes_normal.c \
 		env_init.c \
+		serialize.c \
 		graphic_manager.c \
 		exit.c \
 		camera_init.c \
@@ -26,8 +26,8 @@ SRCS = main.c \
 		raytracing.c \
 		lighting.c \
 		deinit.c \
-		$(SERVER_REP)connexion.c \
-		$(SERVER_REP)init_server.c \
+		connexion.c \
+		init_server.c \
 		$(HELPER_REP)constructors.c \
 		$(HELPER_REP)math_tools.c \
 		$(HELPER_REP)math_tools2.c \
@@ -66,7 +66,7 @@ $(NAME): $(O_SRCS)
 	@echo "\033[3;32m[ ✔ ] RT ready.\033[0m"
 
 %.o: %.c ./includes/rtv1.h Makefile
-	@gcc  $(INCLUDE_FLAG) -c $< -o $@
+	@gcc $(INCLUDE_FLAG) -c $< -o $@
 
 all: $(NAME)
 

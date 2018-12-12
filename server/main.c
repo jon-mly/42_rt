@@ -6,7 +6,7 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:44 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/12/10 16:40:22 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/11 13:55:55 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int				main(int ac, char **av)
 		ft_putendl("Error function pthread_creat()");
 		exit(EXIT_FAILURE);
 	}
+	printf("server line_size %d\n", env->line_size);
 	if ((mlx_put_image_to_window(env->mlx_ptr, env->win_ptr,
 					env->img_ptr, 0, 0)) == -1)
 		ft_putendl("Failed to put image to window");

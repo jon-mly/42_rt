@@ -1,6 +1,6 @@
 # define TRUE 1
 # define FALSE 0
-# define MAX_DEPTH 5
+# define MAX_DEPTH 3
 # define ALIASING 1
 # define EPSILON 0.004
 # define CIRCLES_WIDTH 2.3
@@ -286,6 +286,9 @@ t_color			main_refracted_raytracing(global t_scene *scene, global t_object *obj,
 	t_object ray);
 t_color			ponctual_refracted_raytracing(global t_scene *scene, global t_object *obj, global t_light *light,
 	t_object ray);
+t_light			randomize_light_position(t_light light, int rand);
+float noise3D(float x, float y, float z);
+float random_val(int rand, int minus, int plus);
 
 
 __constant unsigned char hash_table[512] = {151,160,137,91,90,15,
@@ -1825,6 +1828,36 @@ t_object	light_ray_from_shadow_ray(t_object shadow_ray, t_light light)
 	return (light_ray);
 }
 
+float noise3D(float x, float y, float z)
+{
+    float ptr = 0.0f;
+    return fract(sin(x*112.9898f + y*179.233f + z*237.212f) * 43758.5453f, &ptr) * 2 - 1;
+}
+
+float random_val(int rand, int minus, int plus)
+{
+	float nb;
+	float var;
+
+	var = (float)(rand / 7) * 1;
+	nb = (float)((rand % 7 == plus) ? 1 : -1);
+	return (nb * var);
+}
+
+t_light			randomize_light_position(t_light light, int rand)
+{
+	t_light 	randomized;
+
+	// return (light);
+	if (light.typpe == AMBIANT)
+		return (light);
+	randomized = light;
+	randomized.posiition.x += random_val(rand, 1, 2);
+	randomized.posiition.y += random_val(rand, 3, 4);
+	randomized.posiition.z += random_val(rand, 5, 6);
+	return (randomized);
+}
+
 /*
 ** For each light, light ray created.
 ** For each object that is not the intersected one, check if the ray
@@ -1836,42 +1869,64 @@ t_object	light_ray_from_shadow_ray(t_object shadow_ray, t_light light)
 t_color			get_color_on_intersection(t_object ray, int closest_object_index, t_object intersected_object,
 	global t_scene *scene, global t_light *light, global t_object *obj)
 {
+	t_light		current_light;
 	t_object	light_ray;
 	t_object	shadow_ray;
 	int			light_index;
 	int			object_index;
 	float		norm;
+	// t_color		total_color;
 	t_color		coloration;
 	t_object	object_inbetween;
 	int 		light_goes_through;
+	int			rand;
+	int			total_color[4] = {0, 0, 0, 0};
 
 	light_index = -1;
-	coloration = ambiant_color(*scene, intersected_object);
+	// total_color = ambiant_color(*scene, intersected_object);
 	while (++light_index < scene->lights_count)
 	{
-		light_goes_through = 1;
-		shadow_ray = get_shadow_ray(light[light_index], ray, intersected_object);
-		norm = shadow_ray.norm;
-		object_index = -1;
-		while (++object_index < scene->objects_count && light_goes_through)
+		current_light = light[light_index];
+		rand = -1;
+		while (++rand < 7 * 7)
 		{
-			shadow_ray = intersect_object(shadow_ray, obj[object_index]);
-			if (shadow_ray.intersect && ((light[light_index].typpe == AMBIANT && shadow_ray.norm > EPSILON)
-				|| (light[light_index].typpe != AMBIANT && hit_test(intersected_object, obj[object_index], shadow_ray, norm))))
+			coloration = BLACK;
+			current_light = randomize_light_position(light[light_index], rand);
+			// current_light = randomize_light_position(light[light_index]);
+			light_goes_through = 1;
+			shadow_ray = get_shadow_ray(current_light, ray, intersected_object);
+			norm = shadow_ray.norm;
+			object_index = -1;
+			while (++object_index < scene->objects_count && light_goes_through)
 			{
-				shadow_ray.intersectiion = point_from_vector(shadow_ray.origin, shadow_ray.direction, shadow_ray.norm);
-				object_inbetween = object_with_local_parameters(obj[object_index], textured_color_if_needed(obj[object_index], shadow_ray.intersectiion));
-				shadow_ray.color = filter_light_through_object(shadow_ray.color, object_inbetween);
+				shadow_ray = intersect_object(shadow_ray, obj[object_index]);
+				if (shadow_ray.intersect && ((current_light.typpe == AMBIANT && shadow_ray.norm > EPSILON)
+					|| (current_light.typpe != AMBIANT && hit_test(intersected_object, obj[object_index], shadow_ray, norm))))
+				{
+					shadow_ray.intersectiion = point_from_vector(shadow_ray.origin, shadow_ray.direction, shadow_ray.norm);
+					object_inbetween = object_with_local_parameters(obj[object_index], textured_color_if_needed(obj[object_index], shadow_ray.intersectiion));
+					shadow_ray.color = filter_light_through_object(shadow_ray.color, object_inbetween);
+				}
+				light_goes_through = (!(colors_are_equals(shadow_ray.color, BLACK)));
 			}
-			light_goes_through = (!(colors_are_equals(shadow_ray.color, BLACK)));
-		}
-		if (light_goes_through)
-		{
-			light_ray = light_ray_from_shadow_ray(shadow_ray, light[light_index]);
-			coloration = add_color(coloration, diffuse_light_for_intersection(light_ray, ray, intersected_object, light[light_index]));
-			coloration = add_color(coloration, specular_light_for_intersection(light_ray, ray, intersected_object, light[light_index]));
+			if (light_goes_through)
+			{
+				light_ray = light_ray_from_shadow_ray(shadow_ray, current_light);
+				coloration = add_color(coloration, diffuse_light_for_intersection(light_ray, ray, intersected_object, current_light));
+				coloration = add_color(coloration, specular_light_for_intersection(light_ray, ray, intersected_object, current_light));
+			}
+			total_color[0] += (int)coloration.r;
+			total_color[1] += (int)coloration.g;
+			total_color[2] += (int)coloration.b;
+			total_color[3] += (int)coloration.a;
 		}
 	}
+	coloration = (t_color){
+		(unsigned char)((float)total_color[0] / (7.0 * 7.0)),
+		(unsigned char)((float)total_color[1] / (7.0 * 7.0)),
+		(unsigned char)((float)total_color[2] / (7.0 * 7.0)),
+		(unsigned char)((float)total_color[3] / (7.0 * 7.0))
+	};
 	return (coloration);
 }
 
@@ -2027,22 +2082,24 @@ t_color			main_refracted_raytracing(global t_scene *scene, global t_object *obj,
 			intersected_object = object_with_local_parameters(obj[closest_object_index],
 				textured_color_if_needed(obj[closest_object_index], ray.intersectiion));
 			added_color = get_color_on_intersection(ray, intersected_object.index, intersected_object, scene, light, obj);
-			added_color = fade_color(added_color, ray.transparency);
+			// added_color = fade_color(added_color, ray.transparency);
 			if (intersected_object.reflection > 0)
 				added_color = add_color(added_color, ponctual_reflected_raytracing(scene, obj, light,
 					init_reflected_ray(ray, intersected_object)));
-			colorout = add_color(colorout, added_color);
+			added_color = add_color(added_color, direct_light_raytracing(scene, obj, light, ray,
+				(closest_object_index != -1) ? ray.norm : -1));
+			// colorout = add_color(colorout, added_color);
+			colorout = add_color(colorout, fade_color(added_color, ray.transparency));
 		}
 		if (closest_object_index == -1 || intersected_object.transparency == 0)
 			return (colorout);
+
 		if (!inside_object)
 			ray = init_refracted_ray(ray, intersected_object,
 				1, ray.transparency);
 		else
 			ray = init_refracted_ray(ray, intersected_object,
 				intersected_object.refraction, intersected_object.transparency);
-
-		
 	}
 	return (colorout);
 }
@@ -2094,8 +2151,11 @@ t_color			ponctual_refracted_raytracing(global t_scene *scene, global t_object *
 			intersected_object = object_with_local_parameters(obj[closest_object_index],
 				textured_color_if_needed(obj[closest_object_index], ray.intersectiion));
 			added_color = get_color_on_intersection(ray, intersected_object.index, intersected_object, scene, light, obj);
-			added_color = fade_color(added_color, ray.transparency);
-			colorout = add_color(colorout, added_color);
+			// added_color = fade_color(added_color, ray.transparency);
+			added_color = add_color(added_color, direct_light_raytracing(scene, obj, light, ray,
+				(closest_object_index != -1) ? ray.norm : -1));
+			// colorout = add_color(colorout, added_color);
+			colorout = add_color(colorout, fade_color(added_color, ray.transparency));
 		}
 		if (closest_object_index == -1 || intersected_object.transparency == 0)
 			return (colorout);
@@ -2104,10 +2164,10 @@ t_color			ponctual_refracted_raytracing(global t_scene *scene, global t_object *
 				1, ray.transparency);
 		else
 			ray = init_refracted_ray(ray, intersected_object,
-				intersected_object.refraction, intersected_object.transparency);
-
-		
+				intersected_object.refraction, intersected_object.transparency);	
 	}
+	colorout = add_color(colorout, direct_light_raytracing(scene, obj, light, ray,
+		(closest_object_index != -1) ? ray.norm : -1));
 	return (colorout);
 }
 

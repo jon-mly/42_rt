@@ -13,6 +13,7 @@ SRCS_REP = ./
 SRCS = main_client.c \
 		  init_client.c \
 		  init_env.c \
+		  deserialize.c \
 		  parser_helper.c \
 		  math_tools2.c \
 		  math_tools.c \
@@ -51,7 +52,7 @@ $(NAME): $(O_SRCS)
 	@echo "\033[3;32m[ ✔ ] Client ready.\033[0m"
 
 %.o: %.c ./includes/client.h Makefile
-	@gcc  $(INCLUDE_FLAG) -c $< -o $@
+	@gcc $(INCLUDE_FLAG) -c $< -o $@
 
 all: $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/10 17:37:22 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/12 16:52:06 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@
 # define TRUE 1
 # define FALSE 0
 # define SOCKET_ERROR -1
+
+# define SIZE_OBJ sizeof(t_object)
+# define SIZE_LIGHT sizeof(t_light)
 
 /*
 ** ======= enumerations
@@ -141,17 +144,11 @@ typedef struct				s_object
 {
 	int					id;
 	int					index;
-	t_color				color;
-	t_point				center;
-	t_point				point;
-	t_point				origin;
-	t_point				intersectiion;
-	t_vector			direction;
-	t_vector			normal;
-	t_vector			first_vect;
-	t_vector			second_vect;
+	int					intersect;
+	int					finite;
+	int					covered;
+	int					has_density;
 	float				norm;
-	float				test;
 	float				radius;
 	float				angle;
 	float				y_angle;
@@ -166,15 +163,20 @@ typedef struct				s_object
 	float				rho;
 	float				sigma;
 	float				tau;
+	char				*name;
+	t_color				color;
+	t_point				center;
+	t_point				point;
+	t_point				origin;
+	t_point				intersectiion;
+	t_vector			direction;
+	t_vector			normal;
+	t_vector			first_vect;
+	t_vector			second_vect;
 	t_object_type		typpe;
 	t_texture			texture_type;
 	t_texture_algo		texture_algo;
 	t_bump_mapping		bump_mapping;
-	int					intersect;
-	int					finite;
-	int					covered;
-	int					has_density;
-	char				*name;
 }							t_object;
 
 typedef struct				s_light
@@ -301,6 +303,7 @@ void						*loop_data(void *arg);
 void						*waitcl(void *arg);
 void						exit_usage2(void);
 t_env						*init_env2(void);
+void						serialize_obj(t_object *obj, char *data);
 
 int							error_gpu(t_opencl *opcl);
 void						opencl_init2(t_opencl *opcl, t_env *e);

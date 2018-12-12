@@ -6,25 +6,25 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 14:04:14 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/10 18:54:11 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/12 18:37:57 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static	void	quit(int sig)
+/*static	void	quit(int sig)
 {
 	(void)sig;
 	sleep(1);
 	exit(EXIT_SUCCESS);
 }
-
+*/
 void			init_env_server(t_env *e)
 {
-	signal(SIGTERM, quit);
-	signal(SIGQUIT, quit);
-	signal(SIGINT, quit);
-	signal(SIGPIPE, quit);
+	//signal(SIGTERM, quit);
+	//signal(SIGQUIT, quit);
+	//signal(SIGINT, quit);
+	//signal(SIGPIPE, quit);
 	e->srv.id = -1;
 	e->srv.nbclient = 0;
 	e->srv.sz = 0;
@@ -37,6 +37,7 @@ void			init_env_server(t_env *e)
 	e->srv.sin.sin_addr.s_addr = htonl(INADDR_ANY);
 	e->srv.sin.sin_family = AF_INET;
 	e->srv.sin.sin_port = htons(e->srv.port);
+	printf("server angle %f\n",e->scene.lights->angle);
 }
 
 void			create_srv(t_env *e)
@@ -74,8 +75,6 @@ void			server_connect(t_env *e)
 	ft_putendl("Connecting client...");
 	e->srv.socket_cl = accept(e->srv.socket, (t_sockaddr *)&e->srv.sin,
 			&e->srv.sin_sz);
-	printf("sockcl %d\n", e->srv.socket_cl);
-	printf("sock %d\n", e->srv.socket);
 	if (e->srv.socket_cl == SOCKET_ERROR)
 	{
 		ft_putendl("Error function accept()");
@@ -93,30 +92,82 @@ void			server_connect(t_env *e)
 int				send_data(t_env *e)
 {
 	int		err;
+	char	data[SIZE_OBJ];
 
 	err = 0;
+	printf("obj covered %d\n", e->scene.objects[0].covered);
+	printf("obj has_density %d\n", e->scene.objects[0].has_density);
+	//printf("obj[0] angle %f\n", e->scene.objects[0].angle);
+	/*
+	printf("cam width %f\n", e->camera.width);
+	printf("obj name[0] %s\n", e->scene.objects[0].name);
+	printf("obj color.r[0] %u\n", e->scene.objects[0].color.r);
+	printf("obj color.g[0] %u\n", e->scene.objects[0].color.g);
+	printf("obj color.b[0] %u\n", e->scene.objects[0].color.b);
+	printf("obj name[1] %s\n", e->scene.objects[1].name);
+	printf("obj color.r[1] %u\n", e->scene.objects[1].color.r);
+	printf("obj color.g[1] %u\n", e->scene.objects[1].color.g);
+	printf("obj color.b[1] %u\n", e->scene.objects[1].color.b);
+	printf("obj name[2] %s\n", e->scene.objects[2].name);
+	printf("obj color.r[2] %u\n", e->scene.objects[2].color.r);
+	printf("obj color.g[2] %u\n", e->scene.objects[2].color.g);
+	printf("obj color.b[2] %u\n", e->scene.objects[2].color.b);
+	printf("obj name[3] %s\n", e->scene.objects[3].name);
+	printf("obj color.r[3] %u\n", e->scene.objects[3].color.r);
+	printf("obj color.g[3] %u\n", e->scene.objects[3].color.g);
+	printf("obj color.b[3] %u\n", e->scene.objects[3].color.b);
+	*/
 	err = send(e->srv.socket_cl, &e->srv.id, sizeof(int), 0);
 	if (err == SOCKET_ERROR)
+	{
+		puts("1");
+		perror("send()");
 		return (err);
+	}
 	err = send(e->srv.socket_cl, &e->scene.objects_count, sizeof(int), 0);
 	if (err == SOCKET_ERROR)
+	{
+		puts("2");
+		perror("send()");
 		return (err);
+	}
 	err = send(e->srv.socket_cl, &e->scene.lights_count, sizeof(int), 0);
 	if (err == SOCKET_ERROR)
+	{
+		puts("3");
+		perror("send()");
 		return (err);
-	err = send(e->srv.socket_cl, e->scene.objects,
+	}
+	serialize_obj(e->scene.objects, data);
+	err = send(e->srv.socket_cl, (void *)data,
 			sizeof(t_object) * e->scene.objects_count, 0);
 	if (err == SOCKET_ERROR)
+	{
+		puts("4");
+		perror("send()");
 		return (err);
+	}
 	err = send(e->srv.socket_cl, e->scene.lights,
 			sizeof(t_light) * e->scene.lights_count, 0);
 	if (err == SOCKET_ERROR)
+	{
+		puts("5");
+		perror("send()");
 		return (err);
+	}
 	err = send(e->srv.socket_cl, &e->scene, sizeof(t_scene), 0);
 	if (err == SOCKET_ERROR)
+	{
+		puts("6");
+		perror("send()");
 		return (err);
+	}
 	err = send(e->srv.socket_cl, &e->camera, sizeof(t_camera), 0);
 	if (err == SOCKET_ERROR)
+	{
+		puts("7");
+		perror("send()");
 		return (err);
+	}
 	return (err);
 } 
