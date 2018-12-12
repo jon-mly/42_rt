@@ -1,0 +1,240 @@
+###############################################################################
+# SPHERE
+###############################################################################
+
+
+################ THEME
+
+theme {
+color 255 255 255
+power 10
+} 
+
+################ CAMERA
+
+camera {
+position 0 190 50
+angles -28 0
+}
+
+################ OBJECTS
+
+# TABLE
+rectangle {
+point -200 0 300
+angles 0 0
+width 400
+height 800
+diffuse 100
+brillance 0
+reflect 0
+texture WOOD
+transparency 0
+}
+
+# LEFT LEG
+cylinder {
+finite
+angles 0 90
+height 200
+radius 16
+position -170 0 330
+texture WOOD
+diffuse 100
+brillance 0
+reflect 0
+transparency 0
+}
+
+# RIGHT LEG
+cylinder {
+finite
+angles 0 90
+height 200
+radius 16
+position 170 0 330
+texture WOOD
+diffuse 100
+brillance 0
+reflect 0
+transparency 0
+}
+
+# LEFT FRONT GLASS
+cylinder {
+finite
+covered
+position -130 -1 420
+angles 0 -90
+height 60
+radius 12
+color 230 230 255
+diffuse 100
+reflect 100
+transparency 90
+refraction_index 133
+}
+
+# LEFT BACK GLASS
+cylinder {
+finite
+covered
+position -130 -1 920
+angles 0 -90
+height 60
+radius 12
+color 230 230 255
+diffuse 100
+reflect 100
+transparency 90
+refraction_index 133
+}
+
+# RIGHT FRONT GLASS
+cylinder {
+finite
+covered
+position 130 -1 420
+angles 0 -90
+height 60
+radius 12
+color 230 230 255
+diffuse 100
+reflect 100
+transparency 90
+refraction_index 133
+}
+
+# RIGHT BACK GLASS
+cylinder {
+finite
+covered
+position 130 -1 920
+angles 0 -90
+height 60
+radius 12
+color 230 230 255
+diffuse 100
+reflect 100
+transparency 90
+refraction_index 133
+}
+
+# LAMP BASE
+cylinder {
+finite
+covered
+position 0 0 700
+angles 0 -90
+height 7
+radius 52
+texture MARBLE
+diffuse 100
+reflect 20
+brillance 20
+transparency 0
+}
+
+# LAMP FOOT
+cylinder {
+finite
+position 0 0 700
+angles 0 -90
+height 104
+radius 15
+texture MARBLE
+diffuse 100
+reflect 20
+brillance 20
+transparency 0
+}
+
+# LAMP DECORATION
+sphere {
+center 0 130 700
+radius 30
+texture DOTS_REVERTED
+color 30 30 30
+diffuse 100
+brillance 100
+reflect 100
+}
+
+# LEFT WALL
+plane {
+normal 1 0 0
+point -500 0 0
+color 255 253 208
+diffuse 100
+brillance 0
+reflect 0
+transparency 0
+}
+
+# RIGHT WALL
+plane {
+normal 1 0 0
+point 500 0 0
+color 255 253 208
+diffuse 100
+brillance 0
+reflect 0
+transparency 0
+}
+
+# BOTTOM WALL
+plane {
+normal 0 0 -1
+point 0 0 1600
+color 129 20 83
+diffuse 100
+brillance 0
+reflect 0
+transparency 0
+}
+
+# GROUND
+plane {
+normal 0 1 0
+point 0 -200 0
+color 129 20 83
+diffuse 70
+brillance 0
+reflect 0
+transparency 0
+texture WOOD
+}
+
+################ LIGHTS
+
+# FRONT TOP LIGHT
+light {
+type OMNI
+position 0 250 0
+color 255 250 230
+power 2500
+}
+
+# LIGHT OVER TABLE
+light {
+type OMNI
+position 0 250 700
+color 255 250 230
+power 2500
+}
+
+# BACK TOP LIGHT
+light {
+type OMNI
+position 0 250 1400
+color 255 250 230
+power 2500
+}
+
+# FOOT LAMP
+light {
+type OMNI
+position 0 130 700
+color 255 250 230
+power 1500
+}

@@ -1,0 +1,59 @@
+###############################################################################
+# SPHERE
+###############################################################################
+
+
+################ THEME
+
+theme {
+color 255 255 255
+power 10
+} 
+
+################ CAMERA
+
+camera {
+position 0 0 0
+angles -10 0
+}
+
+################ OBJECTS
+
+sphere {
+center -20 -30 200 
+radius 60
+color 30 70 230
+diffuse 90
+reflect 10
+brillance 100
+refraction_index 100
+transparency 0
+texture MARBLE
+}
+
+################ LIGHTS
+
+light {
+type PROJECTOR
+angle 20
+direction 10 -80 70
+color 80 180 255
+position -30 50 130
+power 800
+}
+
+light {
+type PROJECTOR
+angle 40
+direction -40 -80 70
+color 255 80 180
+position 20 50 130
+power 800
+}
+
+light {
+type OMNI
+color 255 255 255
+position -30 -60 100
+power 500
+}

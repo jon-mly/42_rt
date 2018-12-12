@@ -1,0 +1,171 @@
+###############################################################################
+# TRANSPARENCY
+###############################################################################
+
+
+################ THEME
+
+theme {
+color 255 255 255
+power 10
+} 
+
+################ CAMERA
+
+camera {
+position 0 0 -100
+angles 0 0
+}
+
+################ OBJECTS
+
+# BOTTOM
+plane {
+normal 0 1 0
+point 0 -100 0
+color 50 50 50
+diffuse 80
+reflect 100
+brillance 10
+transparency 0
+}
+
+# TOP
+plane {
+normal 0 1 0
+point 0 100 0
+color 150 150 150
+diffuse 100
+reflect 100
+brillance 10
+transparency 0
+refraction_index 100
+}
+
+LEFT
+plane {
+normal 1 0 0
+point -150 0 0
+color 10 0 230
+diffuse 100
+reflect 100
+brillance 10
+transparency 0
+}
+
+# RIGHT
+plane {
+normal 1 0 0
+point 150 0 0
+color 200 0 40
+diffuse 90
+reflect 10
+brillance 10
+transparency 0
+}
+
+# BACKGROUND
+plane {
+normal 0 0 1
+point 0 0 300
+color 200 200 10
+diffuse 100
+reflect 20
+brillance 90
+transparency 0
+texture MARBLE
+}
+
+hyperboloid {
+rho 4
+sigma 20
+angles 0 90
+center -50 0 100
+color 255 255 255
+diffuse 0
+reflect 100
+brillance 80
+transparency 95
+refraction_index 133
+}
+
+cylinder {
+angles -90 -90
+position 0 0 200
+radius 8
+color 255 255 255
+diffuse 0
+reflect 100
+brillance 80
+transparency 95
+refraction_index 133
+}
+
+hyperboloid {
+rho 4
+sigma 20
+angles 0 90
+center 50 0 100
+color 255 255 255
+diffuse 0
+reflect 100
+brillance 10
+transparency 95
+refraction_index 133
+}
+
+sphere {
+center 0 0 100
+radius 18
+color 255 255 255
+diffuse 0
+reflect 100
+brillance 10
+transparency 95
+refraction_index 120
+}
+
+################ LIGHTS
+
+light {
+type OMNI
+position 0 40 270
+color 255 255 255
+power 800
+}
+
+light {
+type PROJECTOR
+position -140 -70 260
+angle 20
+direction 0 1 0
+color 255 255 240
+power 3000
+}
+
+light {
+type PROJECTOR
+position 140 -70 260
+angle 20
+direction 0 1 0
+color 255 255 240
+power 3000
+}
+
+light {
+type PROJECTOR
+position -140 -70 200
+angle 20
+direction 0 1 0
+color 255 255 240
+power 3000
+}
+
+light {
+type PROJECTOR
+position 140 -70 200
+angle 20
+direction 0 1 0
+color 255 255 240
+power 3000
+}
