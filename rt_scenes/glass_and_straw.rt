@@ -1,8 +1,8 @@
 CAMERA :
 
 camera {
-position 0 0 -60
-angles -18 0
+position 0 -10 -50
+angles -16 0
 }
 
 LIGHTS :
@@ -35,8 +35,8 @@ color 255 255 255
 diffuse 1
 brillance 60
 reflect 10
-transparency 90
-refraction_index 133
+transparency 95
+refraction_index 100
 angles 0 -90
 position 0 -30 30
 }
@@ -50,7 +50,7 @@ color 255 255 255
 diffuse 1
 brillance 60
 reflect 10
-transparency 90
+transparency 95
 refraction_index 100
 angles 0 90
 position 0 -31 30
@@ -61,13 +61,13 @@ pi_divider 3
 finite
 covered
 height 10
-center 0 -58 30
+center 0 -54 30
 color 255 255 255
-transparency 0
-refraction_index 133
+transparency 95
+refraction_index 100
 reflect 10
 brillance 60
-diffuse 100
+diffuse 1
 angles 0 90
 } 
 
@@ -76,9 +76,9 @@ finite
 height 27
 radius 1
 color 220 220 220
-diffuse 90
-transparency 100
-refraction_index 133
+diffuse 1
+transparency 95
+refraction_index 100
 brillance 10
 reflect 0
 angles 90 -65

@@ -13,7 +13,7 @@ power 20
 ################ CAMERA
 
 camera {
-position 0 0 0
+position 0 0 0 
 angles 0 0
 }
 
@@ -28,6 +28,7 @@ diffuse 100
 reflect 0
 brillance 0
 transparency 0
+bump_mapping VERTICAL_SIN
 }
 
 # BACKGROUND
@@ -39,6 +40,7 @@ diffuse 100
 reflect 0
 brillance 0
 transparency 0
+bump_mapping HORIZONTAL_SIN
 }
 
 # LEFT SPHERE

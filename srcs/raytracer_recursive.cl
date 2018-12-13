@@ -3,15 +3,15 @@
 # define MAX_DEPTH 4
 # define ALIASING 1
 # define BLUR_SHADOWS 0
-# define LIGHT_SPREAD 1
+# define LIGHT_SPREAD 3
 # define LIGHT_SEP 1.5
 # define EPSILON 0.01
 # define CIRCLES_WIDTH 2.3
-# define CHECKER_WIDTH 20.0
+# define CHECKER_WIDTH 40.0
 # define DOTS_WIDTH 2.6
 # define DOTS_SPREAD 4.5
-# define BUMP_HEIGHT 0.5
-# define BUMP_WIDTH 2
+# define BUMP_HEIGHT 0.1
+# define BUMP_WIDTH 5
 
 # define WHITE (t_color){255, 255, 255, 0}
 # define BLACK (t_color){0, 0, 0, 0}
@@ -1285,9 +1285,9 @@ t_color			checker_texture_color(t_object object, t_point intersection)
 
 	alternate = TRANSPARENT;
 	adjusted = scale_vector(intersection, 1.0 / CHECKER_WIDTH);
-	x_even = is_texture_even((int)(adjusted.x < -EPSILON) ? adjusted.x - 1 : adjusted.x);
-	y_even = is_texture_even((int)(adjusted.y < -EPSILON) ? adjusted.y - 1 : adjusted.y);
-	z_even = is_texture_even((int)(adjusted.z < -EPSILON) ? adjusted.z - 1 : adjusted.z);
+	x_even = is_texture_even((int)((adjusted.x < -EPSILON) ? adjusted.x - 1 : adjusted.x));
+	y_even = is_texture_even((int)((adjusted.y < -EPSILON) ? adjusted.y - 1 : adjusted.y));
+	z_even = is_texture_even((int)((adjusted.z < -EPSILON) ? adjusted.z - 1 : adjusted.z));
 	if (z_even)
 	{
 		if ((x_even && y_even)
