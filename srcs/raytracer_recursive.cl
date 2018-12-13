@@ -1705,7 +1705,7 @@ t_color			ambiant_color(t_scene scene, t_object object)
 	t_color		ambiant_color;
 	float		factor;
 
-	factor = scene.power * object.diffuse;
+	factor = scene.power * object.diffuse * (1 - object.transparency);
 	ambiant_color.r = factor * (object.color.r * scene.theme.r / 255.0);
 	ambiant_color.g = factor * (object.color.g * scene.theme.g / 255.0);
 	ambiant_color.b = factor * (object.color.b * scene.theme.b / 255.0);
