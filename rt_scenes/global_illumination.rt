@@ -78,38 +78,45 @@ texture MARBLE
 
 ################ LIGHTS
 
-light {
-type PROJECTOR
-position -140 -70 260
-angle 20
-direction 0 1 0
-color 255 255 240
-power 3000
-}
+# light {
+# type PROJECTOR
+# position -140 -70 260
+# angle 20
+# direction 0 1 0
+# color 255 255 240
+# power 3000
+# }
+
+# light {
+# type PROJECTOR
+# position 140 -70 260
+# angle 20
+# direction 0 1 0
+# color 255 255 240
+# power 3000
+# }
+
+# light {
+# type PROJECTOR
+# position -140 -70 200
+# angle 20
+# direction 0 1 0
+# color 255 255 240
+# power 3000
+# }
+
+# light {
+# type PROJECTOR
+# position 140 -70 200
+# angle 20
+# direction 0 1 0
+# color 255 255 240
+# power 3000
+# }
 
 light {
-type PROJECTOR
-position 140 -70 260
-angle 20
-direction 0 1 0
-color 255 255 240
-power 3000
-}
-
-light {
-type PROJECTOR
-position -140 -70 200
-angle 20
-direction 0 1 0
-color 255 255 240
-power 3000
-}
-
-light {
-type PROJECTOR
-position 140 -70 200
-angle 20
-direction 0 1 0
-color 255 255 240
-power 3000
+type OMNI
+position 0 80 250
+color 255 255 255
+power 1200
 }

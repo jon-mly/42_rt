@@ -1,12 +1,12 @@
 # define TRUE 1
 # define FALSE 0
 # define MAX_DEPTH 2
-# define ALIASING 1
+# define ALIASING 2
 # define BLUR_SHADOWS 0
-# define LIGHT_SPREAD 3
+# define LIGHT_SPREAD 1
 # define LIGHT_SEP 1.5
 # define GI_ENABLED 1
-# define GI_SAMPLING 60
+# define GI_SAMPLING 150
 # define EPSILON 0.01
 
 # define CIRCLES_WIDTH 2.3
@@ -24,6 +24,9 @@
 # define GREEN (t_color){124,252,0, 0}
 # define WOOD_LIGHT (t_color){160, 121, 61, 0}
 # define WOOD_DARK (t_color){130, 91, 31, 0}
+
+# define GI_WIDTH (M_PI)
+# define GI_HALF_WIDTH (M_PI / 2)
 
 typedef enum	e_object_type
 {
@@ -526,9 +529,9 @@ t_vector		random_vector_in_hemisphere(t_vector normal, int index)
 	t_vector	randomized;
 
 	randomized_start = (int)hash_table[max(index, -index)];
-	x_angle = (random_value((int)(sin(normal.x + normal.y + normal.z + randomized_start) * randomized_start * 10)) * M_PI) - (M_PI / 2);
-	y_angle = (random_value((int)(x_angle * 1000) * hash_table[randomized_start]) * M_PI) - (M_PI / 2);
-	z_angle = (random_value((int)(y_angle * x_angle * 1000) * hash_table[randomized_start]) * M_PI) - (M_PI / 2);
+	x_angle = (random_value((int)(sin(normal.x + normal.y + normal.z + randomized_start) * randomized_start * 10)) * GI_WIDTH) - GI_HALF_WIDTH;
+	y_angle = (random_value((int)(x_angle * 1000) * hash_table[randomized_start]) * GI_WIDTH) - GI_HALF_WIDTH;
+	z_angle = (random_value((int)(y_angle * x_angle * 1000) * hash_table[randomized_start]) * GI_WIDTH) - GI_HALF_WIDTH;
 	// if (get_global_id(0) == 200 && get_global_id(1) == 100)
 	// 	{
 	// 		printf("AT %d -> %.2f, %.2f, %.2f\n", index, x_angle, y_angle, z_angle);
@@ -1944,9 +1947,11 @@ t_color			get_color_on_intersection(t_object ray, t_object intersected_object,
 
 	light_index = -1;
 	full_color = ambiant_color(*scene, intersected_object);
+	if (!with_GI) {
 	while (++light_index < scene->lights_count)
 		full_color = add_color(full_color, direct_illumination_by(light[light_index],
 			intersected_object, ray, scene, obj, TRUE));
+	}
 	if (with_GI)
 	{
 		indirect_color = indirect_diffuse_on_point(shape_normal(ray, intersected_object),
@@ -1995,12 +2000,6 @@ t_color			indirect_diffuse_on_point(t_vector normal, t_point origin,
 	while (++rand < GI_SAMPLING)
 	{
 		direction = random_vector_in_hemisphere(normal, rand);
-		// printf("%.2f, %.2f, %.2f\n", direction.x, direction.y, direction.z);
-		// if (get_global_id(0) == 200 && get_global_id(1) == 100)
-		// {
-		// 	printf("AT %d : %.2f, %.2f, %.2f\n", rand, direction.x, direction.y, direction.z);
-		// }
-		// printf("%.2f\n", dot_product(direction, normal));
 		ray = init_global_illumination_ray(direction, origin, intersected_object);
 		closest_object_index = -1;
 		object_index = -1;
@@ -2023,9 +2022,7 @@ t_color			indirect_diffuse_on_point(t_vector normal, t_point origin,
 			added_color = get_color_on_intersection(ray, intersected_object, scene, light, obj, FALSE);
 			added_color = fade_color(added_color,
 				dot_product(direction, normal) * 
-				100.0 / ray.norm *
-				0.5
-				);
+				(600.0 / ray.norm) * M_PI);
 			total_color[0] += (int)added_color.r;
 			total_color[1] += (int)added_color.g;
 			total_color[2] += (int)added_color.b;
@@ -2192,7 +2189,7 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 			ray.intersectiion = point_from_vector(ray.origin, ray.direction, closest_distance);
 			intersected_object = object_with_local_parameters(obj[closest_object_index],
 				textured_color_if_needed(obj[closest_object_index], ray.intersectiion));
-			added_color = get_color_on_intersection(ray, intersected_object, scene, light, obj, GI_ENABLED);
+			added_color = get_color_on_intersection(ray, intersected_object, scene, light, obj, FALSE);
 			if (intersected_object.reflection > 0)
 				added_color = add_color(added_color, reflected_raytracing(scene, obj, light,
 					init_reflected_ray(ray, intersected_object), depth + 1));
@@ -2262,7 +2259,7 @@ t_color			reflected_raytracing(global t_scene *scene, global t_object *obj, glob
 			ray.intersectiion = point_from_vector(ray.origin, ray.direction, closest_distance);
 			intersected_object = object_with_local_parameters(obj[closest_object_index],
 				textured_color_if_needed(obj[closest_object_index], ray.intersectiion));
-			added_color = get_color_on_intersection(ray, intersected_object, scene, light, obj, GI_ENABLED);
+			added_color = get_color_on_intersection(ray, intersected_object, scene, light, obj, FALSE);
 			if (intersected_object.transparency > 0)
 				added_color = add_color(added_color, refracted_raytracing(scene, obj, light,
 					init_refracted_ray(ray, intersected_object,
