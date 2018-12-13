@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 14:04:14 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/12 18:37:57 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/13 19:17:50 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,14 @@ void			server_connect(t_env *e)
 int				send_data(t_env *e)
 {
 	int		err;
-	char	data[SIZE_OBJ];
+	char	data[sizeof(t_object) * e->scene.objects_count];
 
 	err = 0;
-	printf("obj covered %d\n", e->scene.objects[0].covered);
+	//printf("obj covered %d\n", e->scene.objects[0].covered);
 	printf("obj has_density %d\n", e->scene.objects[0].has_density);
+	//printf("obj[0].center.x %f\n", e->scene.objects[0].center.x);
+	//printf("obj[0].center.y %f\n", e->scene.objects[0].center.y);
+	//printf("obj[0].center.z %f\n", e->scene.objects[0].center.z);
 	//printf("obj[0] angle %f\n", e->scene.objects[0].angle);
 	/*
 	printf("cam width %f\n", e->camera.width);
@@ -138,7 +141,16 @@ int				send_data(t_env *e)
 		perror("send()");
 		return (err);
 	}
-	serialize_obj(e->scene.objects, data);
+	//printf("obj center.x %f\n", e->scene.objects->center.x);
+	//printf("obj center.y %f\n", e->scene.objects->center.y);
+	//printf("obj center.z %f\n", e->scene.objects->center.z);
+	printf("server obj->radius %f\n", e->scene.objects[0].radius);
+	printf("server obj[1]->radius %f\n", e->scene.objects[1].radius);
+	for (int i = 0; i < e->scene.objects_count; i++)
+		serialize_obj(&e->scene.objects[i], data);
+	float test = atof(&data[5]);
+	//printf("server *test %f\n", *test);
+	printf("server *data %f\n", test);
 	err = send(e->srv.socket_cl, (void *)data,
 			sizeof(t_object) * e->scene.objects_count, 0);
 	if (err == SOCKET_ERROR)
