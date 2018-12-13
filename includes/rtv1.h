@@ -37,8 +37,8 @@
 ** ======= macros
 */
 
-# define WIN_HEIGHT 1000
-# define WIN_WIDTH 1500
+# define WIN_HEIGHT 500
+# define WIN_WIDTH 750
 # define FOV 0.50
 
 # define KEY_ESC 53
