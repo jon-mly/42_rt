@@ -21,7 +21,7 @@ angles 0 0
 
 cylinder {
 finite
-
+covered
 height 200
 radius 15
 angles -90 -90
@@ -37,7 +37,7 @@ texture MARBLE
 
 cylinder {
 finite
-
+covered
 height 200
 radius 15
 angles -90 -90
@@ -53,7 +53,7 @@ texture WOOD
 
 cylinder {
 finite
-
+covered
 height 200
 radius 15
 angles -90 -90
@@ -69,7 +69,7 @@ texture PERLIN
 
 cylinder {
 finite
-
+covered
 height 200
 radius 15
 angles -90 -90
@@ -85,7 +85,7 @@ texture DOTS_CROWN
 
 cylinder {
 finite
-
+covered
 height 200
 radius 15
 angles -90 -90
@@ -101,7 +101,7 @@ texture VERTICAL_CIRCLE
 
 cylinder {
 finite
-
+covered
 height 200
 radius 15
 angles -90 -90
@@ -117,7 +117,7 @@ texture HORIZONTAL_CIRCLE
 
 cylinder {
 finite
-
+covered
 height 200
 radius 15
 angles -90 -90

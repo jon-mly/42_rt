@@ -8,7 +8,8 @@ static      t_scene create_cylinders_ends(t_object cylinder, t_scene scene, int 
     bottom_disc = (t_object){.typpe = DISC, .point = cylinder.point, .normal = cylinder.direction,
         .color = cylinder.color, .diffuse = cylinder.diffuse, .brillance = cylinder.brillance,
         .radius = cylinder.radius, .reflection = cylinder.reflection, .refraction = cylinder.refraction,
-        .transparency = cylinder.transparency};
+        .transparency = cylinder.transparency, .texture_type = cylinder.texture_type,
+        .texture_algo = cylinder.texture_algo, .bump_mapping = cylinder.bump_mapping};
     bottom_disc.id = id;
     top_disc = bottom_disc;
     top_disc.point = point_from_vector(bottom_disc.point, cylinder.direction, cylinder.height);
@@ -31,7 +32,8 @@ static      t_scene create_cone_end(t_object cone, t_scene scene, int id)
     top_disc = (t_object){.typpe = DISC, .normal = cone.direction,
         .color = cone.color, .diffuse = cone.diffuse, .brillance = cone.brillance,
         .reflection = cone.reflection, .transparency = cone.transparency,
-        .refraction = cone.refraction};
+        .refraction = cone.refraction, .texture_type = cone.texture_type,
+        .texture_algo = cone.texture_algo, .bump_mapping = cone.bump_mapping};
     top_disc.point = point_from_vector(cone.center, cone.direction, cone.height);
     top_disc.radius = cone.height * tan(cone.angle);
     top_disc.id = id;
