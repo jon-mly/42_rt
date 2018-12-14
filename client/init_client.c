@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 12:18:18 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/13 19:17:50 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/14 18:44:53 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,33 +80,68 @@ int			recv_client(t_env *e)
 		return (err);
 	}
 	char	data[sizeof(t_object) * obj_ct];
-	printf("size data %lu\n", sizeof(data));
-	t_point	*center = malloc(sizeof(t_point) * obj_ct);
 	if (!(e->scene.objects = malloc(sizeof(t_object) * obj_ct)))
 		exit(EXIT_FAILURE);
-	printf("size objects %lu\n", sizeof(e->scene.objects[0]));
-	err = recv(e->srv.socket, (void *)data, sizeof(t_object) * obj_ct, 0);
-	if (err == SOCKET_ERROR)
+	t_object tmp;
+	t_object *obj;
+	obj = malloc(sizeof(t_object) * obj_ct);
+	printf("obj_ct %d\n", obj_ct);
+//	for (int i = 0; i < obj_ct; i++)
+	int i = 0;
+	printf("debut reception\n");
+	while (i < obj_ct)
 	{
-		puts("4");
-		perror("recv()");
-		return (err);
-	}
-	write(1, "X\n", 2);
-	t_object *obj = malloc(sizeof(t_object) * obj_ct);
-	//printf("*data %c\n", *data);
-	for (int i = 0; i < obj_ct; i++)
+		ft_bzero(data, sizeof(t_object));
+		err = recv(e->srv.socket, (void *)data, sizeof(t_object), 0);
+		if (err == SOCKET_ERROR)
+		{
+			puts("4");
+			perror("recv()");
+			return (err);
+		}
+		//deserialize_obj(data, &tmp);
 		deserialize_obj(data, &e->scene.objects[i]);
-	printf("client obj->radius %f\n", e->scene.objects[0].radius);
-	printf("client obj[1]->radius %f\n", e->scene.objects[1].radius);
-	printf("client obj->diff %f\n", e->scene.objects[0].diffuse);
-	printf("client obj[1]->diff %f\n", e->scene.objects[1].diffuse);
+		//ft_memmove((t_object *)&obj[i], (t_object *)&tmp, sizeof(t_object));
+		//obj[i] = tmp;
+		i++;
+	}
+	printf("fin reception\n");
+	printf("\n");
+	//printf("client obj.radius %f\n", obj->radius);
+	//printf("client obj.reflection %f\n", obj->reflection);
+	printf("client obj[0].center.x %f\n", e->scene.objects[0].center.x);
+	printf("client obj[1].center.x %f\n", e->scene.objects[1].center.x);
+	printf("client obj[2].center.x %f\n", e->scene.objects[2].center.x);
+	printf("client obj[3].center.x %f\n", e->scene.objects[3].center.x);
+	printf("client obj[4].center.x %f\n", e->scene.objects[4].center.x);
+	printf("\n");
+	printf("client obj[0].center.y %f\n", e->scene.objects[0].center.y);
+	printf("client obj[1].center.y %f\n", e->scene.objects[1].center.y);
+	printf("client obj[2].center.y %f\n", e->scene.objects[2].center.y);
+	printf("client obj[3].center.y %f\n", e->scene.objects[3].center.y);
+	printf("client obj[4].center.y %f\n", e->scene.objects[4].center.y);
+	
+/*	printf("client obj[0].center.x %f\n", obj[0].center.x);
+	printf("client obj[1].center.x %f\n", obj[1].center.x);
+	printf("client obj[2].center.x %f\n", obj[2].center.x);
+	printf("client obj[3].center.x %f\n", obj[3].center.x);
+	printf("client obj[4].center.x %f\n", obj[4].center.x);
+	printf("\n");
+	printf("client obj[0].center.y %f\n", obj[0].center.y);
+	printf("client obj[1].center.y %f\n", obj[1].center.y);
+	printf("client obj[2].center.y %f\n", obj[2].center.y);
+	printf("client obj[3].center.y %f\n", obj[3].center.y);
+	printf("client obj[4].center.y %f\n", obj[4].center.y);
+	*/
+	//printf("client obj->radius %f\n", e->scene.objects[0].radius);
+	//printf("client obj[1]->radius %f\n", e->scene.objects[1].radius);
+	//printf("client obj->diff %f\n", e->scene.objects[0].diffuse);
+	//printf("client obj[1]->diff %f\n", e->scene.objects[1].diffuse);
 	//deserialize_obj(data, center);
 	///printf("client obj center.x %f\n", center->x);
 	//printf("client obj center.x %f\n", e->scene.objects->center.x);
 	//printf("client obj center.y %f\n", e->scene.objects->center.y);
 	//printf("client obj center.z %f\n", e->scene.objects->center.z);
-	write(1, "X\n", 2);
 	if (!(e->scene.lights = (t_light *)malloc(sizeof(t_light) * light_ct)))
 		exit(EXIT_FAILURE);
 	err = recv(e->srv.socket, e->scene.lights, sizeof(t_light) * light_ct, 0);
@@ -123,17 +158,12 @@ int			recv_client(t_env *e)
 		perror("recv()");
 		return (err);
 	}
-	write(1, "ici\n", 4);
 	//printf("client obj center.x %f\n", e->scene.objects->center.x);
 	//printf("client obj center.y %f\n", e->scene.objects->center.y);
 	//printf("client obj center.z %f\n", e->scene.objects->center.z);
 //	printf("client obj count %d\n", e->scene.objects_count);
-	write(1, "R\n", 2);
 //	printf("light %p\n", e->scene.lights);
 //	printf("client angle %f\n", e->scene.lights->angle);
-	write(1, "R\n", 2);
-	printf("client angle test");
-	write(1, "R\n", 2);
 	err = recv(e->srv.socket, &e->camera, sizeof(t_camera), 0);
 	if (err == SOCKET_ERROR)
 	{
@@ -143,8 +173,5 @@ int			recv_client(t_env *e)
 	}
 	//e->scene.objects_count = obj_ct;
 	//e->scene.lights_count = light_ct;
-	printf("client obj count %d\n", e->scene.objects_count);
-	printf("client light count %d\n", e->scene.lights_count);
-	printf("client cam width %f\n", e->camera.width);
 	return (err);
 }

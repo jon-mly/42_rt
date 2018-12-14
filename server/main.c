@@ -6,7 +6,7 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:44 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/12/11 13:55:55 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/14 18:23:44 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int				main(int ac, char **av)
 	data = *env;
 	if (pthread_create(&env->thr, NULL, waitcl, &data))
 	{
-		ft_putendl("Error function pthread_creat()");
+		ft_putendl("Error function pthread_create()");
 		exit(EXIT_FAILURE);
 	}
 	printf("server line_size %d\n", env->line_size);

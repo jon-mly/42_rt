@@ -104,6 +104,7 @@ texture DOTS_REVERTED
 # height 10
 # pi_divider 6
 # angles -20 110
+		  deserialize.c \
 # color 255 255 255
 # center 0 10 0
 # diffuse 40

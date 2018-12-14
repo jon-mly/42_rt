@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 14:24:22 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/10 18:54:07 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/14 17:12:59 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ void			*waitcl(void *arg)
 	{
 		server_connect(&e);
 		if (pthread_create(&thr, NULL, loop_data, &e))
+		{
+			ft_putendl("Error function pthread_create()");
+			exit(EXIT_FAILURE);
+		}
+		if (pthread_join(thr, NULL))
 		{
 			ft_putendl("Error function pthread_create()");
 			exit(EXIT_FAILURE);

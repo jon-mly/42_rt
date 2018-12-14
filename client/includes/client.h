@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 15:29:01 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/13 16:39:11 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/14 13:01:40 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,6 @@ typedef struct				s_object
 	float				rho;
 	float				sigma;
 	float				tau;
-	char				*name;
-	t_color				color;
 	t_point				center;
 	t_point				point;
 	t_point				origin;
@@ -174,6 +172,7 @@ typedef struct				s_object
 	t_vector			normal;
 	t_vector			first_vect;
 	t_vector			second_vect;
+	t_color				color;
 	t_object_type		typpe;
 	t_texture			texture_type;
 	t_texture_algo		texture_algo;
@@ -306,6 +305,7 @@ void						*waitcl(void *arg);
 void						exit_usage2(void);
 t_env						*init_env2(void);
 void						deserialize_obj(char *data, t_object *obj);
+void						deserialize_float(float *data, t_object *obj);
 
 int							error_gpu(t_opencl *opcl);
 void						opencl_init2(t_opencl *opcl, t_env *e);

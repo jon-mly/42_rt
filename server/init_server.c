@@ -6,12 +6,13 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 14:04:14 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/13 19:17:50 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/14 18:37:23 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 /*static	void	quit(int sig)
 {
 	(void)sig;
@@ -60,7 +61,7 @@ void			create_srv(t_env *e)
 	ft_putstr("Listening port ");
 	ft_putnbr(e->srv.port);
 	ft_putstr("...\n");
-	e->srv.err = listen(e->srv.socket, 5);
+	e->srv.err = listen(e->srv.socket, 10);
 	if (e->srv.err == SOCKET_ERROR)
 	{
 		ft_putendl("listening error");
@@ -70,8 +71,11 @@ void			create_srv(t_env *e)
 
 void			server_connect(t_env *e)
 {
-	if (e->srv.nbclient == 4)
+	if (e->srv.nbclient == 10)
+	{
 		pthread_exit(NULL);
+		e->srv.nbclient = 0;
+	}
 	ft_putendl("Connecting client...");
 	e->srv.socket_cl = accept(e->srv.socket, (t_sockaddr *)&e->srv.sin,
 			&e->srv.sin_sz);
@@ -92,12 +96,21 @@ void			server_connect(t_env *e)
 int				send_data(t_env *e)
 {
 	int		err;
-	char	data[sizeof(t_object) * e->scene.objects_count];
 
 	err = 0;
 	//printf("obj covered %d\n", e->scene.objects[0].covered);
-	printf("obj has_density %d\n", e->scene.objects[0].has_density);
-	//printf("obj[0].center.x %f\n", e->scene.objects[0].center.x);
+	printf("obj[0].center.x %f\n", e->scene.objects[0].center.x);
+	printf("obj[1].center.x %f\n", e->scene.objects[1].center.x);
+	printf("obj[2].center.x %f\n", e->scene.objects[2].center.x);
+	printf("obj[3].center.x %f\n", e->scene.objects[3].center.x);
+	printf("obj[4].center.x %f\n", e->scene.objects[4].center.x);
+	printf("\n");
+	printf("obj[0].center.y %f\n", e->scene.objects[0].center.y);
+	printf("obj[1].center.y %f\n", e->scene.objects[1].center.y);
+	printf("obj[2].center.y %f\n", e->scene.objects[2].center.y);
+	printf("obj[3].center.y %f\n", e->scene.objects[3].center.y);
+	printf("obj[4].center.y %f\n", e->scene.objects[4].center.y);
+	printf("e->scene.objects_count %d\n", e->scene.objects_count);
 	//printf("obj[0].center.y %f\n", e->scene.objects[0].center.y);
 	//printf("obj[0].center.z %f\n", e->scene.objects[0].center.z);
 	//printf("obj[0] angle %f\n", e->scene.objects[0].angle);
@@ -144,21 +157,35 @@ int				send_data(t_env *e)
 	//printf("obj center.x %f\n", e->scene.objects->center.x);
 	//printf("obj center.y %f\n", e->scene.objects->center.y);
 	//printf("obj center.z %f\n", e->scene.objects->center.z);
-	printf("server obj->radius %f\n", e->scene.objects[0].radius);
-	printf("server obj[1]->radius %f\n", e->scene.objects[1].radius);
-	for (int i = 0; i < e->scene.objects_count; i++)
-		serialize_obj(&e->scene.objects[i], data);
-	float test = atof(&data[5]);
-	//printf("server *test %f\n", *test);
-	printf("server *data %f\n", test);
-	err = send(e->srv.socket_cl, (void *)data,
-			sizeof(t_object) * e->scene.objects_count, 0);
-	if (err == SOCKET_ERROR)
+	//for (int i = 0; i < e->scene.objects_count; i++)
+	//tmp = e->scene.objects[1];
+	//printf("tmp.radius %f\n", tmp.radius);
+	//printf("tmp.reflection %f\n", tmp.reflection);
+	//printf("tmp.center.x %f\n", tmp.center.x);
+
+	char	data[sizeof(t_object) * e->scene.objects_count];
+	t_object tmp;
+	int i = 0;
+	printf("debut envoi\n");
+	while (i < e->scene.objects_count)
 	{
-		puts("4");
-		perror("send()");
-		return (err);
+		//pthread_mutex_lock(&mutex);
+		//ft_memmove((t_object *)&tmp, (t_object *)&e->scene.objects[i], sizeof(t_object));
+		//tmp = e->scene.objects[i];
+		serialize_obj(&e->scene.objects[i], data);
+		//serialize_obj(&tmp, data);
+		err = send(e->srv.socket_cl, (void *)data,
+			sizeof(t_object), 0);
+		if (err == SOCKET_ERROR)
+		{
+			puts("4");
+			perror("send()");
+			return (err);
+		}
+		i++;
+		//pthread_mutex_unlock(&mutex);
 	}
+	printf("fin envoi\n");
 	err = send(e->srv.socket_cl, e->scene.lights,
 			sizeof(t_light) * e->scene.lights_count, 0);
 	if (err == SOCKET_ERROR)

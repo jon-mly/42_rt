@@ -18,6 +18,7 @@ SRCS = main.c \
 		shapes_normal.c \
 		env_init.c \
 		serialize.c \
+		serialize_float.c \
 		graphic_manager.c \
 		exit.c \
 		camera_init.c \

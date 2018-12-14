@@ -6,7 +6,7 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 16:09:07 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/09/07 11:50:40 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/14 11:53:22 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static t_object		add_new_sphere(int fd)
 	sphere.center = point(10, 12, 6);
 	sphere.color = color(255, 255, 255, 0);
 	sphere = parse_object(fd, &sphere);
-	sphere.name = "Sphere";
 	return (sphere);
 }
 
@@ -61,7 +60,6 @@ static t_object		add_new_plane(int fd)
 	plane.point = point(0, 0, 0);
 	plane.color = color(255, 255, 255, 0);
 	plane = parse_object(fd, &plane);
-	plane.name = "Plane";
 	return (plane);
 }
 
@@ -88,7 +86,6 @@ static t_object		add_new_cone(int fd)
 	cone.direction = normalize_vector(vector(0, 0, 1));
 	cone.center = point(0, 0, 0);
 	cone.color = color(255, 255, 255, 0);
-	cone.name = "Cone";
 	cone = parse_object(fd, &cone);
 	cone.direction = rotate_cone_angles(cone, cone.direction, 1);
 	return (cone);
@@ -118,7 +115,6 @@ static t_object		add_new_cylinder(int fd)
 	cylinder.direction = normalize_vector(vector(0, 0, 1));
 	cylinder.point = point(0, 0, 0);
 	cylinder.color = color(255, 255, 255, 0);
-	cylinder.name = "Cylinder";
 	cylinder = parse_object(fd, &cylinder);
 	cylinder.direction = rotate_cylinder_angles(cylinder, cylinder.direction, 1);
 	return (cylinder);
@@ -136,7 +132,6 @@ static t_object		add_new_disc(int fd)
 	disc.color = color(255, 255, 255, 0);
 	disc.radius = 10;
 	disc = parse_object(fd, &disc);
-	disc.name = "Disc";
 	return (disc);
 }
 
@@ -154,7 +149,6 @@ static t_object		add_new_rectangle(int fd)
 	rectangle.width = 0;
 	rectangle.height = 0;
 	rectangle = parse_object(fd, &rectangle);
-	rectangle.name = "Rectangle";
 	rectangle.normal = rotate_vector_angles(rectangle, rectangle.normal, 1);
 	return (rectangle);
 }
@@ -172,7 +166,6 @@ static t_object		add_new_triangle(int fd)
 	triangle.point = point(0, 0, 0);
 	triangle = parse_object(fd, &triangle);
 	triangle.normal = normalize_vector(cross_product(triangle.first_vect, triangle.second_vect));
-	triangle.name = "Triangle";
 	return (triangle);
 }
 
@@ -189,7 +182,6 @@ static t_object		add_new_parallelogram(int fd)
 	parallelogram.point = point(0, 0, 0);
 	parallelogram = parse_object(fd, &parallelogram);
 	parallelogram.normal = normalize_vector(cross_product(parallelogram.first_vect, parallelogram.second_vect));
-	parallelogram.name = "parallelogram";
 	return (parallelogram);
 }
 
@@ -205,7 +197,6 @@ static t_object		add_new_hyperboloid(int fd)
 	hyperboloid.center = point(0, 0, 0);
 	hyperboloid.y_angle = 0;
 	hyperboloid.x_angle = 0;
-	hyperboloid.name = "hyperboloid";
 	hyperboloid = parse_object(fd, &hyperboloid);
 	return (hyperboloid);
 }

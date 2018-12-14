@@ -14,6 +14,7 @@ SRCS = main_client.c \
 		  init_client.c \
 		  init_env.c \
 		  deserialize.c \
+		  deserialize_float.c \
 		  parser_helper.c \
 		  math_tools2.c \
 		  math_tools.c \
