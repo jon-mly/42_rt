@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 14:04:14 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/14 18:37:23 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/15 19:09:53 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void			init_env_server(t_env *e)
 	e->srv.sin.sin_addr.s_addr = htonl(INADDR_ANY);
 	e->srv.sin.sin_family = AF_INET;
 	e->srv.sin.sin_port = htons(e->srv.port);
-	printf("server angle %f\n",e->scene.lights->angle);
 }
 
 void			create_srv(t_env *e)
@@ -110,7 +109,14 @@ int				send_data(t_env *e)
 	printf("obj[2].center.y %f\n", e->scene.objects[2].center.y);
 	printf("obj[3].center.y %f\n", e->scene.objects[3].center.y);
 	printf("obj[4].center.y %f\n", e->scene.objects[4].center.y);
-	printf("e->scene.objects_count %d\n", e->scene.objects_count);
+	printf("\n");
+	printf("obj[0].center.z %f\n", e->scene.objects[0].center.z);
+	printf("obj[1].center.z %f\n", e->scene.objects[1].center.z);
+	printf("obj[2].center.z %f\n", e->scene.objects[2].center.z);
+	printf("obj[3].center.z %f\n", e->scene.objects[3].center.z);
+	printf("obj[4].center.z %f\n", e->scene.objects[4].center.z);
+	printf("\n");
+//	printf("e->scene.objects_count %d\n", e->scene.objects_count);
 	//printf("obj[0].center.y %f\n", e->scene.objects[0].center.y);
 	//printf("obj[0].center.z %f\n", e->scene.objects[0].center.z);
 	//printf("obj[0] angle %f\n", e->scene.objects[0].angle);
@@ -162,10 +168,16 @@ int				send_data(t_env *e)
 	//printf("tmp.radius %f\n", tmp.radius);
 	//printf("tmp.reflection %f\n", tmp.reflection);
 	//printf("tmp.center.x %f\n", tmp.center.x);
+	struct timespec tim;
 
-	char	data[sizeof(t_object) * e->scene.objects_count];
+	tim = (struct timespec){0, 1};
+
+	int size;
+	char	data[sizeof(t_object)];
 	t_object tmp;
 	int i = 0;
+	size = strlen(data);
+	printf("size %d\n", size);
 	printf("debut envoi\n");
 	while (i < e->scene.objects_count)
 	{
@@ -173,9 +185,11 @@ int				send_data(t_env *e)
 		//ft_memmove((t_object *)&tmp, (t_object *)&e->scene.objects[i], sizeof(t_object));
 		//tmp = e->scene.objects[i];
 		serialize_obj(&e->scene.objects[i], data);
+	//	size = strlen(data);
+	//	printf("size %d\n", size);
+
 		//serialize_obj(&tmp, data);
-		err = send(e->srv.socket_cl, (void *)data,
-			sizeof(t_object), 0);
+		err = send(e->srv.socket_cl, (void *)data, sizeof(t_object), 0);
 		if (err == SOCKET_ERROR)
 		{
 			puts("4");
@@ -183,6 +197,7 @@ int				send_data(t_env *e)
 			return (err);
 		}
 		i++;
+		nanosleep(&tim, &tim);
 		//pthread_mutex_unlock(&mutex);
 	}
 	printf("fin envoi\n");

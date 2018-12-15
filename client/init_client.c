@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 12:18:18 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/14 18:44:53 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/15 19:17:10 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,14 @@ int			recv_client(t_env *e)
 		perror("recv()");
 		return (err);
 	}
-	char	data[sizeof(t_object) * obj_ct];
+	int size = sizeof(t_object);
+	char	data[size];
 	if (!(e->scene.objects = malloc(sizeof(t_object) * obj_ct)))
 		exit(EXIT_FAILURE);
 	t_object tmp;
 	t_object *obj;
 	obj = malloc(sizeof(t_object) * obj_ct);
-	printf("obj_ct %d\n", obj_ct);
+	//printf("obj_ct %d\n", obj_ct);
 //	for (int i = 0; i < obj_ct; i++)
 	int i = 0;
 	printf("debut reception\n");
@@ -120,6 +121,13 @@ int			recv_client(t_env *e)
 	printf("client obj[2].center.y %f\n", e->scene.objects[2].center.y);
 	printf("client obj[3].center.y %f\n", e->scene.objects[3].center.y);
 	printf("client obj[4].center.y %f\n", e->scene.objects[4].center.y);
+	printf("\n");
+	printf("client obj[0].center.z %f\n", e->scene.objects[0].center.z);
+	printf("client obj[1].center.z %f\n", e->scene.objects[1].center.z);
+	printf("client obj[2].center.z %f\n", e->scene.objects[2].center.z);
+	printf("client obj[3].center.z %f\n", e->scene.objects[3].center.z);
+	printf("client obj[4].center.z %f\n", e->scene.objects[4].center.z);
+	printf("\n");
 	
 /*	printf("client obj[0].center.x %f\n", obj[0].center.x);
 	printf("client obj[1].center.x %f\n", obj[1].center.x);
