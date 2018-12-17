@@ -94,7 +94,11 @@ int				recv_obj_light(t_env *e)
 	if ((e->err = recv_nb_light_obj(e)) == SOCKET_ERROR)
 		return (e->err);
 	point = malloc(sizeof(t_point) * 6);
-	while (++i < e->obj_ct)
+	printf("id : %d\n", e->srv.id);
+	printf("nb obj : %d\n", e->obj_ct);
+	printf("nb lights : %d\n", e->light_ct);
+	while (++i < 6)
+	// while (++i < e->obj_ct)
 	{
 		ft_bzero(e->data_o, sizeof(t_point));
 		// ft_bzero(e->data_o, sizeof(t_object));
@@ -134,7 +138,7 @@ int				recv_obj_light(t_env *e)
 	printf("client obj[4].center.x %f\n", e->scene.objects[4].center.x);
 	printf("client obj[5].center.x %f\n", e->scene.objects[5].center.x);*/
 	i = -1;
-	while (i++ < e->light_ct)
+	while (++i < e->light_ct)
 	{
 		ft_bzero(e->data_l, sizeof(t_light));
 		e->err = recv(e->srv.socket, (void *)e->data_l, sizeof(t_light), 0);

@@ -52,4 +52,11 @@ void			deserialize_light(char *data, t_light *light)
 	deserialize_flight(ftmp, light);
 	utmp = (unsigned char *)ftmp;
 	deserialize_ulight(utmp, light);
+
+	printf("Light :\n");
+	printf("- angle : %.2f\n", light->angle);
+	printf("- power : %.2f\n", light->power);
+	printf("- position : %.2f %.2f %.2f\n", light->posiition.x, light->posiition.y, light->posiition.z);
+	printf("- direction : %.2f %.2f %.2f\n", light->direction.x, light->direction.y, light->direction.z);
+	printf("- color : %u %u %u %u\n", light->color.r, light->color.g, light->color.b, light->color.a);
 }

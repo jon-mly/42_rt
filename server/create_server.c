@@ -56,7 +56,6 @@ void			server_connect(t_env *e)
 		e->srv.id++;
 		e->srv.nbclient++;
 	}
-	sleep(5);
 	ft_putendl("Connected to client");
 }
 
@@ -66,7 +65,7 @@ static	int		send_nb_light_obj(t_env *e)
 	e->err = send(e->srv.socket_cl, &e->srv.id, sizeof(int), 0);
 	if (e->err == SOCKET_ERROR)
 		return (e->err);
-	e->err = send(e->srv.socket_cl, &e->scene.objects_count, sizeof(int), 0);
+	// e->err = send(e->srv.socket_cl, &e->scene.objects_count, sizeof(int), 0);
 	e->err = send(e->srv.socket_cl, &obj, sizeof(int), 0);
 	if (e->err == SOCKET_ERROR)
 		return (e->err);

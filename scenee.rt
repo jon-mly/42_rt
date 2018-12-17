@@ -9,7 +9,6 @@ angles -38 0
 light {
 type AMBIANT
 color 255 255 220
-# direction 0 -1 3
 direction 10 -1 21
 power 800
 }
@@ -17,34 +16,33 @@ power 800
 light {
 type AMBIANT
 color 125 255 200
-# direction 0 -1 3
 direction 30 -10 5
 power 800
 }
 
-light {
-type AMBIANT
-color 125 255 200
-# direction 0 -1 3
-direction 60 50 9
-power 800
-}
+# light {
+# type AMBIANT
+# color 125 255 200
+# # direction 0 -1 3
+# direction 60 50 9
+# power 800
+# }
 
-light {
-type AMBIANT
-color 125 255 200
-# direction 0 -1 3
-direction 340 -20 3
-power 800
-}
+# light {
+# type AMBIANT
+# color 125 255 200
+# # direction 0 -1 3
+# direction 340 -20 3
+# power 800
+# }
 
-light {
-type AMBIANT
-color 125 255 200
-# direction 0 -1 3
-direction 100 -1 25
-power 800
-}
+# light {
+# type AMBIANT
+# color 125 255 200
+# # direction 0 -1 3
+# direction 100 -1 25
+# power 800
+# }
 
 sphere {
 center -160 20 -30
@@ -71,53 +69,53 @@ transparency 0
 texture DOTS_REVERTED
 }
 
-sphere {
-center 100 20 -30
-radius 60
-color 255 165 0
-diffuse 100
-reflect 5
-brillance 100
-refraction_index 100
-transparency 0
-# texture PERLIN
-# bump_mapping VERTICAL_SIN
-}
+# sphere {
+# center 100 20 -30
+# radius 60
+# color 255 165 0
+# diffuse 100
+# reflect 5
+# brillance 100
+# refraction_index 100
+# transparency 0
+# # texture PERLIN
+# # bump_mapping VERTICAL_SIN
+# }
 
-sphere {
-center 60 20 -30
-radius 60
-color 255 165 0
-diffuse 100
-reflect 5
-brillance 100
-refraction_index 100
-transparency 0
-# texture PERLIN
-# bump_mapping VERTICAL_SIN
-}
+# sphere {
+# center 60 20 -30
+# radius 60
+# color 255 165 0
+# diffuse 100
+# reflect 5
+# brillance 100
+# refraction_index 100
+# transparency 0
+# # texture PERLIN
+# # bump_mapping VERTICAL_SIN
+# }
 
-sphere {
-center 420 7 -3
-radius 5
-color 200 0 0
-diffuse 60
-reflect 40
-brillance 0
-refraction_index 100
-transparency 0
-texture DOTS_REVERTED
-}
+# sphere {
+# center 420 7 -3
+# radius 5
+# color 200 0 0
+# diffuse 60
+# reflect 40
+# brillance 0
+# refraction_index 100
+# transparency 0
+# texture DOTS_REVERTED
+# }
 
-sphere {
-center 212 38 -42
-radius 60
-color 255 165 0
-diffuse 100
-reflect 5
-brillance 100
-refraction_index 100
-transparency 0
-# texture PERLIN
-# bump_mapping VERTICAL_SIN
-}
+# sphere {
+# center 212 38 -42
+# radius 60
+# color 255 165 0
+# diffuse 100
+# reflect 5
+# brillance 100
+# refraction_index 100
+# transparency 0
+# # texture PERLIN
+# # bump_mapping VERTICAL_SIN
+# }
