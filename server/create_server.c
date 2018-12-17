@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 14:04:14 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/17 13:54:30 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/17 16:59:47 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int				send_obj_light(t_env *e)
 	i = -1;
 	if ((e->err = send_nb_light_obj(e)) == SOCKET_ERROR)
 		return (e->err);
-	while (i++ < e->scene.objects_count)
+	while (++i < e->scene.objects_count)
 	{
 		serialize_obj(&e->scene.objects[i], e->data_o);
 		e->err = send(e->srv.socket_cl, (void *)e->data_o, sizeof(t_object), 0);
@@ -100,7 +100,7 @@ int				send_obj_light(t_env *e)
 		nanosleep(&e->tim, &e->tim);
 	}
 	i = -1;
-	while (i++ < e->scene.lights_count)
+	while (++i < e->scene.lights_count)
 	{
 		serialize_light(&e->scene.lights[i], e->data_l);
 		e->err = send(e->srv.socket_cl, (void *)e->data_l, sizeof(t_light), 0);

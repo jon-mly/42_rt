@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 12:18:18 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/17 15:37:55 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/17 16:59:43 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int				recv_obj_light(t_env *e)
 	i = -1;
 	if ((e->err = recv_nb_light_obj(e)) == SOCKET_ERROR)
 		return (e->err);
-	while (i++ < e->obj_ct)
+	while (++i < e->obj_ct)
 	{
 		ft_bzero(e->data_o, sizeof(t_object));
 		e->err = recv(e->srv.socket, (void *)e->data_o, sizeof(t_object), 0);
