@@ -97,36 +97,35 @@ int				recv_obj_light(t_env *e)
 	while (++i < e->obj_ct)
 	{
 		ft_bzero(e->data_o, sizeof(t_point));
-		//ft_bzero(e->data_o, sizeof(t_object));
-		//e->err = recv(e->srv.socket, (void *)e->data_o, sizeof(t_object), 0);
-		e->err = recv(e->srv.socket, (void *)e->data_o, sizeof(t_point), 0);
+		// ft_bzero(e->data_o, sizeof(t_object));
+		e->err = recv(e->srv.socket, (void *)e->data_o, sizeof(t_object), 0);
 		if (e->err == SOCKET_ERROR)
 			return (e->err);
 		deserialize_pt(e->data_o, &point[i]);
-		//deserialize_obj(e->data_o, &e->scene.objects[i]);
+		// deserialize_obj(e->data_o, &e->scene.objects[i]);
 	}
 	
-	printf("client point[0].x %f\n", point[0].x);
-	printf("client point[1].x %f\n", point[1].x);
-	printf("client point[2].x %f\n", point[2].x);
-	printf("client point[3].x %f\n", point[3].x);
-	printf("client point[4].x %f\n", point[4].x);
-	printf("client point[5].x %f\n", point[5].x);
-	printf("\n");
-	printf("client point[0].y %f\n", point[0].y);
-	printf("client point[1].y %f\n", point[1].y);
-	printf("client point[2].y %f\n", point[2].y);
-	printf("client point[3].y %f\n", point[3].y);
-	printf("client point[4].y %f\n", point[4].y);
-	printf("client point[5].y %f\n", point[5].y);
-	printf("\n");
-	printf("client point[0].z %f\n", point[0].z);
-	printf("client point[1].z %f\n", point[1].z);
-	printf("client point[2].z %f\n", point[2].z);
-	printf("client point[3].z %f\n", point[3].z);
-	printf("client point[4].z %f\n", point[4].z);
-	printf("client point[5].z %f\n", point[5].z);
-	printf("\n");
+	// printf("client point[0].x %f\n", point[0].x);
+	// printf("client point[1].x %f\n", point[1].x);
+	// printf("client point[2].x %f\n", point[2].x);
+	// printf("client point[3].x %f\n", point[3].x);
+	// printf("client point[4].x %f\n", point[4].x);
+	// printf("client point[5].x %f\n", point[5].x);
+	// printf("\n");
+	// printf("client point[0].y %f\n", point[0].y);
+	// printf("client point[1].y %f\n", point[1].y);
+	// printf("client point[2].y %f\n", point[2].y);
+	// printf("client point[3].y %f\n", point[3].y);
+	// printf("client point[4].y %f\n", point[4].y);
+	// printf("client point[5].y %f\n", point[5].y);
+	// printf("\n");
+	// printf("client point[0].z %f\n", point[0].z);
+	// printf("client point[1].z %f\n", point[1].z);
+	// printf("client point[2].z %f\n", point[2].z);
+	// printf("client point[3].z %f\n", point[3].z);
+	// printf("client point[4].z %f\n", point[4].z);
+	// printf("client point[5].z %f\n", point[5].z);
+	// printf("\n");
 	
 	/*printf("client obj[0].center.x %f\n", e->scene.objects[0].center.x);
 	printf("client obj[1].center.x %f\n", e->scene.objects[1].center.x);

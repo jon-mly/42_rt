@@ -26,6 +26,7 @@ static	void	deserialize_uchar(unsigned char *data, t_object *obj)
 static	void	deserialize_int(int *data, t_object *obj)
 {
 	obj->id = *data;
+	printf("Object id : %d\n", obj->id);
 	data++;
 	obj->index = *data;
 	data++;
@@ -41,14 +42,11 @@ static	void	deserialize_int(int *data, t_object *obj)
 
 void			deserialize_pt(char *data, t_point *obj)
 {
-	float *ftmp;
+	t_point *ftmp;
 
-	ftmp = (float *)data;
-	obj->x = *ftmp;
-	ftmp++;
-	obj->y = *ftmp;
-	ftmp++;
-	obj->z = *ftmp;
+	ftmp = (t_point *)data;
+	*obj = *ftmp;
+	printf("Point x = %.2f, y = %.2f z = %.2f\n", obj->x, obj->y, obj->z);
 }
 
 void			deserialize_obj(char *data, t_object *obj)

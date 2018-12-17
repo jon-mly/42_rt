@@ -66,7 +66,7 @@ static	int		send_nb_light_obj(t_env *e)
 	e->err = send(e->srv.socket_cl, &e->srv.id, sizeof(int), 0);
 	if (e->err == SOCKET_ERROR)
 		return (e->err);
-	//e->err = send(e->srv.socket_cl, &e->scene.objects_count, sizeof(int), 0);
+	e->err = send(e->srv.socket_cl, &e->scene.objects_count, sizeof(int), 0);
 	e->err = send(e->srv.socket_cl, &obj, sizeof(int), 0);
 	if (e->err == SOCKET_ERROR)
 		return (e->err);
@@ -92,7 +92,7 @@ int				send_obj_light(t_env *e)
 	int		i;
 	t_point *point;
 
-	point = malloc(sizeof(t_point) * 3);
+	point = malloc(sizeof(t_point) * 6);
 	point[0] = (t_point){1, 2, 3};
 	point[1] = (t_point){4, 5, 6};
 	point[2] = (t_point){7, 8, 9};

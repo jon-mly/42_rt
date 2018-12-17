@@ -42,14 +42,10 @@ static	void	serialize_int(t_object *obj, int *data)
 
 void			serialize_pt(t_point *obj, char *data)
 {
-	float *ftmp;
+	t_point *ftmp;
 
-	ftmp = (float *)data;
-	*ftmp = obj->x;
-	ftmp++;
-	*ftmp = obj->y;
-	ftmp++;
-	*ftmp = obj->z;
+	ftmp = (t_point *)data;
+	*ftmp = *obj;
 	ftmp++;
 }
 
