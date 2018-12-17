@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 12:18:18 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/17 17:23:18 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/17 17:31:48 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int				recv_obj_light(t_env *e)
 	i = -1;
 	if ((e->err = recv_nb_light_obj(e)) == SOCKET_ERROR)
 		return (e->err);
-	point = malloc(sizeof(t_point) * 3);
+	point = malloc(sizeof(t_point) * 6);
 	while (++i < e->obj_ct)
 	{
 		ft_bzero(e->data_o, sizeof(t_point));
@@ -109,14 +109,23 @@ int				recv_obj_light(t_env *e)
 	printf("client point[0].x %f\n", point[0].x);
 	printf("client point[1].x %f\n", point[1].x);
 	printf("client point[2].x %f\n", point[2].x);
+	printf("client point[3].x %f\n", point[3].x);
+	printf("client point[4].x %f\n", point[4].x);
+	printf("client point[5].x %f\n", point[5].x);
 	printf("\n");
 	printf("client point[0].y %f\n", point[0].y);
 	printf("client point[1].y %f\n", point[1].y);
 	printf("client point[2].y %f\n", point[2].y);
+	printf("client point[3].y %f\n", point[3].y);
+	printf("client point[4].y %f\n", point[4].y);
+	printf("client point[5].y %f\n", point[5].y);
 	printf("\n");
 	printf("client point[0].z %f\n", point[0].z);
 	printf("client point[1].z %f\n", point[1].z);
 	printf("client point[2].z %f\n", point[2].z);
+	printf("client point[3].z %f\n", point[3].z);
+	printf("client point[4].z %f\n", point[4].z);
+	printf("client point[5].z %f\n", point[5].z);
 	printf("\n");
 	
 	/*printf("client obj[0].center.x %f\n", e->scene.objects[0].center.x);

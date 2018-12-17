@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 14:04:14 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/17 17:21:28 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/17 17:29:53 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void			server_connect(t_env *e)
 
 static	int		send_nb_light_obj(t_env *e)
 {
-	int obj = 3;
+	int obj = 6;
 	e->err = send(e->srv.socket_cl, &e->srv.id, sizeof(int), 0);
 	if (e->err == SOCKET_ERROR)
 		return (e->err);
@@ -96,11 +96,14 @@ int				send_obj_light(t_env *e)
 	point[0] = (t_point){1, 2, 3};
 	point[1] = (t_point){4, 5, 6};
 	point[2] = (t_point){7, 8, 9};
+	point[3] = (t_point){10, 11, 12};
+	point[4] = (t_point){13, 14, 15};
+	point[5] = (t_point){16, 17, 18};
 	i = -1;
 	if ((e->err = send_nb_light_obj(e)) == SOCKET_ERROR)
 		return (e->err);
 	//while (++i < e->scene.objects_count)
-	while (++i < 3)
+	while (++i < 6)
 	{
 		serialize_pt(&point[i], e->data_o);
 		//serialize_obj(&e->scene.objects[i], e->data_o);
