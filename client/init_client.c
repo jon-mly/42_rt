@@ -89,24 +89,24 @@ int				recv_obj_light(t_env *e)
 {
 	int 	i;
 
-	t_point *point;
+	// t_point *point;
 	i = -1;
 	if ((e->err = recv_nb_light_obj(e)) == SOCKET_ERROR)
 		return (e->err);
-	point = malloc(sizeof(t_point) * 6);
+	// point = malloc(sizeof(t_point) * 6);
 	printf("id : %d\n", e->srv.id);
 	printf("nb obj : %d\n", e->obj_ct);
 	printf("nb lights : %d\n", e->light_ct);
-	while (++i < 6)
-	// while (++i < e->obj_ct)
+	// while (++i < 6)
+	while (++i < e->obj_ct)
 	{
-		ft_bzero(e->data_o, sizeof(t_point));
+		// ft_bzero(e->data_o, sizeof(t_point));
 		// ft_bzero(e->data_o, sizeof(t_object));
 		e->err = recv(e->srv.socket, (void *)e->data_o, sizeof(t_object), 0);
 		if (e->err == SOCKET_ERROR)
 			return (e->err);
-		deserialize_pt(e->data_o, &point[i]);
-		// deserialize_obj(e->data_o, &e->scene.objects[i]);
+		// deserialize_pt(e->data_o, &point[i]);
+		deserialize_obj(e->data_o, &e->scene.objects[i]);
 	}
 	
 	// printf("client point[0].x %f\n", point[0].x);

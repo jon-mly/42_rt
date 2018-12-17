@@ -51,15 +51,18 @@ void			serialize_pt(t_point *obj, char *data)
 
 void			serialize_obj(t_object *obj, char *data)
 {
-	int				*itmp;
-	float			*ftmp;
-	unsigned char	*utmp;
+	// int				*itmp;
+	// float			*ftmp;
+	// unsigned char	*utmp;
 
-	itmp = (int *)data;
-	serialize_int(obj, itmp);
-	printf("*data %d\n", data[0]);
-	ftmp = (float *)itmp;
-	serialize_float(obj, ftmp);
-	utmp = (unsigned char *)ftmp;
-	serialize_uchar(obj, utmp);
+	// itmp = (int *)data;
+	// serialize_int(obj, itmp);
+	// printf("*data %d\n", data[0]);
+	// ftmp = (float *)itmp;
+	// serialize_float(obj, ftmp);
+	// utmp = (unsigned char *)ftmp;
+	// serialize_uchar(obj, utmp);
+	t_object	*otmp;
+	otmp = (t_object *)data;
+	*otmp = *obj;
 }

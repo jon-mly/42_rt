@@ -61,12 +61,12 @@ void			server_connect(t_env *e)
 
 static	int		send_nb_light_obj(t_env *e)
 {
-	int obj = 6;
+	// int obj = 6;
 	e->err = send(e->srv.socket_cl, &e->srv.id, sizeof(int), 0);
 	if (e->err == SOCKET_ERROR)
 		return (e->err);
-	// e->err = send(e->srv.socket_cl, &e->scene.objects_count, sizeof(int), 0);
-	e->err = send(e->srv.socket_cl, &obj, sizeof(int), 0);
+	e->err = send(e->srv.socket_cl, &e->scene.objects_count, sizeof(int), 0);
+	// e->err = send(e->srv.socket_cl, &obj, sizeof(int), 0);
 	if (e->err == SOCKET_ERROR)
 		return (e->err);
 	e->err = send(e->srv.socket_cl, &e->scene.lights_count, sizeof(int), 0);
@@ -89,25 +89,25 @@ static	int		send_cam_scene(t_env *e)
 int				send_obj_light(t_env *e)
 {
 	int		i;
-	t_point *point;
+	// t_point *point;
 
-	point = malloc(sizeof(t_point) * 6);
-	point[0] = (t_point){1, 2, 3};
-	point[1] = (t_point){4, 5, 6};
-	point[2] = (t_point){7, 8, 9};
-	point[3] = (t_point){10, 11, 12};
-	point[4] = (t_point){13, 14, 15};
-	point[5] = (t_point){16, 17, 18};
+	// point = malloc(sizeof(t_point) * 6);
+	// point[0] = (t_point){1, 2, 3};
+	// point[1] = (t_point){4, 5, 6};
+	// point[2] = (t_point){7, 8, 9};
+	// point[3] = (t_point){10, 11, 12};
+	// point[4] = (t_point){13, 14, 15};
+	// point[5] = (t_point){16, 17, 18};
 	i = -1;
 	if ((e->err = send_nb_light_obj(e)) == SOCKET_ERROR)
 		return (e->err);
-	//while (++i < e->scene.objects_count)
-	while (++i < 6)
+	while (++i < e->scene.objects_count)
+	// while (++i < 6)
 	{
-		serialize_pt(&point[i], e->data_o);
-		//serialize_obj(&e->scene.objects[i], e->data_o);
-		//e->err = send(e->srv.socket_cl, (void *)e->data_o, sizeof(t_object), 0);
-		e->err = send(e->srv.socket_cl, (void *)e->data_o, sizeof(t_point), 0);
+		// serialize_pt(&point[i], e->data_o);
+		serialize_obj(&e->scene.objects[i], e->data_o);
+		e->err = send(e->srv.socket_cl, (void *)e->data_o, sizeof(t_object), 0);
+		// e->err = send(e->srv.socket_cl, (void *)e->data_o, sizeof(t_point), 0);
 		if (e->err == SOCKET_ERROR)
 			return (e->err);
 		nanosleep(&e->tim, &e->tim);

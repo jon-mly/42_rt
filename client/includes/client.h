@@ -149,7 +149,6 @@ typedef struct				s_object
 	int					covered;
 	int					has_density;
 	float				norm;
-	float				test;
 	float				radius;
 	float				angle;
 	float				y_angle;
