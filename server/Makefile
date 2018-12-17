@@ -18,6 +18,7 @@ SRCS = main.c \
 		shapes_normal.c \
 		env_init.c \
 		serialize.c \
+		serialize_light.c \
 		serialize_float.c \
 		graphic_manager.c \
 		exit.c \
@@ -28,7 +29,8 @@ SRCS = main.c \
 		lighting.c \
 		deinit.c \
 		connexion.c \
-		init_server.c \
+		init_serv.c \
+		create_server.c \
 		$(HELPER_REP)constructors.c \
 		$(HELPER_REP)math_tools.c \
 		$(HELPER_REP)math_tools2.c \

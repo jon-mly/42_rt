@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 15:09:45 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/15 16:44:23 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/17 12:53:44 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,11 @@ static	void	serialize_uchar(t_object *obj, unsigned char *data)
 	*data = obj->color.b;
 	data++;
 	*data = obj->color.a;
-//	data++;
 }
 
 static	void	serialize_int(t_object *obj, int *data)
 {
 	*data = obj->id;
-	//printf("server data %d\n", *data);
 	data++;
 	*data = obj->index;
 	data++;
@@ -49,7 +47,6 @@ void			serialize_obj(t_object *obj, char *data)
 
 	itmp = (int *)data;
 	serialize_int(obj, itmp);
-	//printf("server itmp %d\n", *itmp);
 	ftmp = (float *)itmp;
 	serialize_float(obj, ftmp);
 	utmp = (unsigned char *)ftmp;

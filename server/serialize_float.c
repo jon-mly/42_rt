@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 12:10:35 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/15 18:38:59 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/17 13:48:08 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,11 @@ static	void	serialize_float2(t_object *obj, float *data)
 	data++;
 	*data = obj->tau;
 	data++;
-	printf("serialize obj->center.x %f\n", obj->center.x);
 	*data = obj->center.x;
-	printf("serialize *data.x %f\n", *data);
 	data++;
-	printf("serialize obj->center.y %f\n", obj->center.y);
 	*data = obj->center.y;
-	printf("serialize *data.y %f\n", *data);
 	data++;
-	printf("serialize obj->center.z %f\n", obj->center.z);
 	*data = obj->center.z;
-	printf("serialize *data.z %f\n", *data);
-	printf("\n");
 	data++;
 	*data = obj->point.x;
 	data++;

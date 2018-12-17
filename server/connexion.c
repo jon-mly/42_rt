@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 14:24:22 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/14 17:12:59 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/17 13:29:36 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,10 @@ void			*loop_data(void *arg)
 	int			err;
 
 	e = (t_env *)arg;
-	//while (1)
-	//{
-	if ((err = send_data(e)) == SOCKET_ERROR)
+	if ((err = send_obj_light(e)) == SOCKET_ERROR)
 	{
 		perror("send()");
 		exit(EXIT_FAILURE);
 	}
-	//}
 	return (NULL);
 }

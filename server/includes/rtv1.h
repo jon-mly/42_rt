@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/14 12:23:55 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/17 13:29:33 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,12 +180,12 @@ typedef struct				s_object
 
 typedef struct				s_light
 {
+	float				angle;
+	float				power;
 	t_point				posiition;
 	t_vector			direction;
-	float				angle;
-	t_light_type		typpe;
 	t_color				color;
-	float				power;
+	t_light_type		typpe;
 }							t_light;
 
 typedef struct				s_camera
@@ -268,6 +268,8 @@ typedef struct				s_env
 	void				*win_ptr;
 	void				*img_ptr;
 	char				*img_str;
+	char				data_o[SIZE_OBJ];
+	char				data_l[SIZE_LIGHT];
 	int					win_height;
 	int					win_width;
 	int					img_height;
@@ -279,6 +281,8 @@ typedef struct				s_env
 	int					obj_i;
 	int					is_direct_hit;
 	int					child;
+	int					err;
+	struct timespec		tim;
 	t_scene				scene;
 	t_object			object;
 	t_camera			camera;
@@ -292,7 +296,7 @@ typedef struct				s_env
 */
 
 void						server_connect(t_env *e);
-int							send_data(t_env *e);
+int							send_obj_light(t_env *e);
 int							recv_client(t_env *e);
 void						create_client(t_env *e);
 void						init_env_client(t_env *e, char *str);
@@ -304,6 +308,7 @@ void						exit_usage2(void);
 t_env						*init_env2(void);
 void						serialize_obj(t_object *obj, char *data);
 void						serialize_float(t_object *obj, float *data);
+void						serialize_light(t_light *light, char *data);
 
 int							error_gpu(t_opencl *opcl);
 void						opencl_init2(t_opencl *opcl, t_env *e);

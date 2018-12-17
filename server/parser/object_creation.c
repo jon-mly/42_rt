@@ -6,7 +6,7 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 16:09:07 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/12/14 11:53:22 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/17 13:49:24 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,6 @@ static t_object		add_new_hyperboloid(int fd)
 {
 	t_object	hyperboloid;
 
-	printf("Created\n");
 	hyperboloid.typpe = HYPERBOLOID;
 	hyperboloid.texture_type = NONE;
 	hyperboloid.bump_mapping = FLAT;

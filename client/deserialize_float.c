@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 12:26:42 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/15 18:39:04 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/17 10:24:49 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,17 @@ static	void	deserialize_float2(float *data, t_object *obj)
 	data++;
 	obj->tau = *data;
 	data++;
-	printf("deserialize *data.x %f\n", *data);
+	//printf("deserialize *data.x %f\n", *data);
 	obj->center.x = *data;
-	printf("deserialize obj->center.x %f\n", obj->center.x);
+	//printf("deserialize obj->center.x %f\n", obj->center.x);
 	data++;
-	printf("deserialize *data.y %f\n", *data);
+	//printf("deserialize *data.y %f\n", *data);
 	obj->center.y = *data;
-	printf("deserialize obj->center.y %f\n", obj->center.y);
+	//printf("deserialize obj->center.y %f\n", obj->center.y);
 	data++;
-	printf("deserialize *data.z %f\n", *data);
+	//printf("deserialize *data.z %f\n", *data);
 	obj->center.z = *data;
-	printf("deserialize obj->center.z %f\n", obj->center.z);
+	//printf("deserialize obj->center.z %f\n", obj->center.z);
 	data++;
 	obj->point.x = *data;
 	data++;
