@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 15:10:03 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/17 15:57:36 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/17 17:24:21 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,18 @@ static	void	deserialize_int(int *data, t_object *obj)
 	data++;
 	obj->has_density = *data;
 	data++;
+}
+
+void			deserialize_pt(char *data, t_point *obj)
+{
+	float *ftmp;
+
+	ftmp = (float *)data;
+	obj->x = *ftmp;
+	ftmp++;
+	obj->y = *ftmp;
+	ftmp++;
+	obj->z = *ftmp;
 }
 
 void			deserialize_obj(char *data, t_object *obj)

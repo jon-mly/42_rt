@@ -6,7 +6,7 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:44 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/12/17 16:59:46 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/17 17:06:10 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ int				main(int ac, char **av)
 	env = init_env(env, av[1]);
 	init_env_server(env);
 	create_srv(env);
-	local_client(env);
 	data = *env;
 	if (pthread_create(&env->thr, NULL, waitcl, &data))
 	{
 		ft_putendl("Error function pthread_create()");
 		exit(EXIT_FAILURE);
 	}
+	local_client(env);
 	if ((mlx_put_image_to_window(env->mlx_ptr, env->win_ptr,
 					env->img_ptr, 0, 0)) == -1)
 		ft_putendl("Failed to put image to window");

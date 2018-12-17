@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/17 13:29:33 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/17 17:21:53 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,6 +307,7 @@ void						*waitcl(void *arg);
 void						exit_usage2(void);
 t_env						*init_env2(void);
 void						serialize_obj(t_object *obj, char *data);
+void			serialize_pt(t_point *obj, char *data);
 void						serialize_float(t_object *obj, float *data);
 void						serialize_light(t_light *light, char *data);
 

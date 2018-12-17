@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 15:09:45 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/17 16:59:42 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/17 17:24:25 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,19 @@ static	void	serialize_int(t_object *obj, int *data)
 	data++;
 	*data = obj->has_density;
 	data++;
+}
+
+void			serialize_pt(t_point *obj, char *data)
+{
+	float *ftmp;
+
+	ftmp = (float *)data;
+	*ftmp = obj->x;
+	ftmp++;
+	*ftmp = obj->y;
+	ftmp++;
+	*ftmp = obj->z;
+	ftmp++;
 }
 
 void			serialize_obj(t_object *obj, char *data)

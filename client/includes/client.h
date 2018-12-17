@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 15:29:01 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/17 13:32:57 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/17 17:23:39 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,6 +310,7 @@ void						*waitcl(void *arg);
 void						exit_usage2(void);
 t_env						*init_env2(void);
 void						deserialize_obj(char *data, t_object *obj);
+void			deserialize_pt(char *data, t_point *obj);
 void						deserialize_float(float *data, t_object *obj);
 void						deserialize_light(char *data, t_light *light);
 

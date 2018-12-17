@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 14:04:14 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/17 16:59:47 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/17 17:21:28 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,18 @@ void			server_connect(t_env *e)
 		e->srv.id++;
 		e->srv.nbclient++;
 	}
+	sleep(5);
 	ft_putendl("Connected to client");
 }
 
 static	int		send_nb_light_obj(t_env *e)
 {
+	int obj = 3;
 	e->err = send(e->srv.socket_cl, &e->srv.id, sizeof(int), 0);
 	if (e->err == SOCKET_ERROR)
 		return (e->err);
-	e->err = send(e->srv.socket_cl, &e->scene.objects_count, sizeof(int), 0);
+	//e->err = send(e->srv.socket_cl, &e->scene.objects_count, sizeof(int), 0);
+	e->err = send(e->srv.socket_cl, &obj, sizeof(int), 0);
 	if (e->err == SOCKET_ERROR)
 		return (e->err);
 	e->err = send(e->srv.socket_cl, &e->scene.lights_count, sizeof(int), 0);
@@ -87,14 +90,22 @@ static	int		send_cam_scene(t_env *e)
 int				send_obj_light(t_env *e)
 {
 	int		i;
+	t_point *point;
 
+	point = malloc(sizeof(t_point) * 3);
+	point[0] = (t_point){1, 2, 3};
+	point[1] = (t_point){4, 5, 6};
+	point[2] = (t_point){7, 8, 9};
 	i = -1;
 	if ((e->err = send_nb_light_obj(e)) == SOCKET_ERROR)
 		return (e->err);
-	while (++i < e->scene.objects_count)
+	//while (++i < e->scene.objects_count)
+	while (++i < 3)
 	{
-		serialize_obj(&e->scene.objects[i], e->data_o);
-		e->err = send(e->srv.socket_cl, (void *)e->data_o, sizeof(t_object), 0);
+		serialize_pt(&point[i], e->data_o);
+		//serialize_obj(&e->scene.objects[i], e->data_o);
+		//e->err = send(e->srv.socket_cl, (void *)e->data_o, sizeof(t_object), 0);
+		e->err = send(e->srv.socket_cl, (void *)e->data_o, sizeof(t_point), 0);
 		if (e->err == SOCKET_ERROR)
 			return (e->err);
 		nanosleep(&e->tim, &e->tim);
