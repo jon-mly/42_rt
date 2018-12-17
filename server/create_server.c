@@ -77,9 +77,9 @@ static	int		send_nb_light_obj(t_env *e)
 
 static	int		send_cam_scene(t_env *e)
 {
-	e->err = send(e->srv.socket_cl, &e->scene, sizeof(t_scene), 0);
-	if (e->err == SOCKET_ERROR)
-		return (e->err);
+	// e->err = send(e->srv.socket_cl, &e->scene, sizeof(t_scene), 0);
+	// if (e->err == SOCKET_ERROR)
+	// 	return (e->err);
 	e->err = send(e->srv.socket_cl, &e->camera, sizeof(t_camera), 0);
 	if (e->err == SOCKET_ERROR)
 		return (e->err);
@@ -101,6 +101,8 @@ int				send_obj_light(t_env *e)
 	i = -1;
 	if ((e->err = send_nb_light_obj(e)) == SOCKET_ERROR)
 		return (e->err);
+	if ((e->err = send_cam_scene(e)) == SOCKET_ERROR)
+		return (e->err);
 	while (++i < e->scene.objects_count)
 	// while (++i < 6)
 	{
@@ -120,7 +122,5 @@ int				send_obj_light(t_env *e)
 		if (e->err == SOCKET_ERROR)
 			return (e->err);
 	}
-	if ((e->err = send_cam_scene(e)) == SOCKET_ERROR)
-		return (e->err);
 	return (e->err);
 }

@@ -21,6 +21,8 @@ static void		deinit_scene(t_scene scene)
 void			deinit_env(t_env *env)
 {
 	kill(env->child, SIGTERM);
+	// close(env->srv.socket);
+	// close(env->srv.socket_cl);
 	ft_putendl("Deinit triggered");
 	deinit_scene(env->scene);
 	ft_putendl("Scene is deinited");

@@ -76,9 +76,9 @@ static	int		recv_nb_light_obj(t_env *e)
 
 static	int		recv_cam_scene(t_env *e)
 {
-	e->err = recv(e->srv.socket, &e->scene, sizeof(t_scene), 0);
-	if (e->err == SOCKET_ERROR)
-		return (e->err);
+	// e->err = recv(e->srv.socket, &e->scene, sizeof(t_scene), 0);
+	// if (e->err == SOCKET_ERROR)
+	// 	return (e->err);
 	e->err = recv(e->srv.socket, &e->camera, sizeof(t_camera), 0);
 	if (e->err == SOCKET_ERROR)
 		return (e->err);
@@ -93,10 +93,17 @@ int				recv_obj_light(t_env *e)
 	i = -1;
 	if ((e->err = recv_nb_light_obj(e)) == SOCKET_ERROR)
 		return (e->err);
+
+	if ((e->err = recv_cam_scene(e)) == SOCKET_ERROR)
+		return (e->err);
 	// point = malloc(sizeof(t_point) * 6);
 	printf("id : %d\n", e->srv.id);
 	printf("nb obj : %d\n", e->obj_ct);
 	printf("nb lights : %d\n", e->light_ct);
+
+	e->scene.lights_count = e->light_ct;
+	e->scene.objects_count = e->obj_ct;
+
 	// while (++i < 6)
 	while (++i < e->obj_ct)
 	{
@@ -146,7 +153,5 @@ int				recv_obj_light(t_env *e)
 			return (e->err);
 		deserialize_light(e->data_l, &e->scene.lights[i]);
 	}
-	if ((e->err = recv_cam_scene(e)) == SOCKET_ERROR)
-		return (e->err);
 	return (e->err);
 }
