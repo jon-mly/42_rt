@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/17 09:55:05 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/17 12:53:38 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/18 17:05:56 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,15 @@ static	void	serialize_flight(t_light *light, float *data)
 
 void			serialize_light(t_light *light, char *data)
 {
-	float			*ftmp;
-	unsigned char	*utmp;
+//	float			*ftmp;
+//	unsigned char	*utmp;
+	t_light			*tmp;
 
-	ftmp = (float *)data;
-	serialize_flight(light, ftmp);
-	utmp = (unsigned char *)ftmp;
-	serialize_ulight(light, utmp);
+	tmp = (t_light *)data;
+	*tmp = *light;
+	tmp++;
+//	ftmp = (float *)data;
+//	serialize_flight(light, ftmp);
+//	utmp = (unsigned char *)ftmp;
+//	serialize_ulight(light, utmp);
 }

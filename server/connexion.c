@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 14:24:22 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/17 13:29:36 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/18 17:18:12 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 void			*waitcl(void *arg)
 {
 	t_env		*e;
+	t_env		tmp;
 	pthread_t	thr;
+	pthread_t	thr2[10];
 	
 	e = (t_env *)arg;
 	printf("e : %p\n", (void*)e);
@@ -28,15 +30,25 @@ void			*waitcl(void *arg)
 		;
 	pthread_cancel(thr);
 	printf("Server state is no more WAIT_CLIENTS\n");
-	if (pthread_create(&thr, NULL, loop_data, e))
+	int i = -1;
+	while (++i < e->srv.nbclient)
 	{
-		ft_putendl("Error function pthread_create()");
-		exit(EXIT_FAILURE);
+		tmp = *e;
+		tmp.srv.socket_cl = tmp.srv.sockets[i];
+		if (pthread_create(&thr2[i], NULL, loop_data, &tmp))
+		{
+			ft_putendl("Error function pthread_create()");
+			exit(EXIT_FAILURE);
+		}
 	}
-	if (pthread_join(thr, NULL))
+	i = -1;
+	while (++i < e->srv.nbclient)
 	{
-		ft_putendl("Error function pthread_create()");
-		exit(EXIT_FAILURE);
+		if (pthread_join(thr2[i], NULL))
+		{
+			ft_putendl("Error function pthread_create()");
+			exit(EXIT_FAILURE);
+		}
 	}
 	return (NULL);
 }
@@ -52,5 +64,5 @@ void			*loop_data(void *arg)
 		perror("send()");
 		exit(EXIT_FAILURE);
 	}
-	return (NULL);
+	pthread_exit(NULL);
 }

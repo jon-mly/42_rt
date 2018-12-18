@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 15:09:45 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/17 17:24:25 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/18 17:15:33 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,5 @@ void			serialize_obj(t_object *obj, char *data)
 	t_object	*otmp;
 	otmp = (t_object *)data;
 	*otmp = *obj;
+	otmp++;
 }

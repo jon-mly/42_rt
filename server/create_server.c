@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 14:04:14 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/17 17:29:53 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/18 16:53:05 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void			server_connect(t_env *e)
 		pthread_exit(NULL);
 		e->srv.nbclient = 0;
 	}
-	int flag = fcntl(e->srv.socket, F_GETFD);
+	//int flag = fcntl(e->srv.socket, F_GETFD);
 	e->srv.socket_cl = accept(e->srv.socket, (t_sockaddr *)&e->srv.sin,
 			&e->srv.sin_sz);
-	fcntl(e->srv.socket, F_SETFD, flag | O_NONBLOCK);
+	//fcntl(e->srv.socket, F_SETFD, flag | O_NONBLOCK);
 	e->srv.sockets[e->srv.nbclient] = e->srv.socket_cl;
 	if (e->srv.socket_cl == SOCKET_ERROR)
 	{
@@ -74,6 +74,9 @@ void			*await_new_client(void *arg)
 
 static	int		send_nb_light_obj(t_env *e)
 {
+	printf("nbclient %d\n", e->srv.nbclient);
+	printf("socketclient[0] %d\n", e->srv.sockets[0]);
+	printf("socketclient[1] %d\n", e->srv.sockets[1]);
 	e->err = send(e->srv.socket_cl, &e->srv.id, sizeof(int), 0);
 	if (e->err == SOCKET_ERROR)
 		return (e->err);

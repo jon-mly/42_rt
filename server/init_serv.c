@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/17 13:50:34 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/17 13:52:23 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/18 16:59:04 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,5 @@ void			init_env_server(t_env *e)
 	e->srv.sin.sin_family = AF_INET;
 	e->srv.sin.sin_port = htons(e->srv.port);
 	e->srv.state = WAIT_CLIENTS;
-	e->tim = (struct timespec){0, 200000};
+	e->tim = (struct timespec){0, 500000};
 }
