@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 14:24:22 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/18 17:18:12 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/18 17:56:45 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,23 @@ void			*waitcl(void *arg)
 	{
 		tmp = *e;
 		tmp.srv.socket_cl = tmp.srv.sockets[i];
+		printf("nbclient %d\n", tmp.srv.nbclient);
 		if (pthread_create(&thr2[i], NULL, loop_data, &tmp))
 		{
 			ft_putendl("Error function pthread_create()");
 			exit(EXIT_FAILURE);
 		}
-	}
-	i = -1;
-	while (++i < e->srv.nbclient)
-	{
 		if (pthread_join(thr2[i], NULL))
 		{
 			ft_putendl("Error function pthread_create()");
 			exit(EXIT_FAILURE);
 		}
 	}
-	return (NULL);
+	//i = -1;
+	//while (++i < e->srv.nbclient)
+	//{
+//	}
+	pthread_exit(NULL);
 }
 
 void			*loop_data(void *arg)
@@ -64,5 +65,5 @@ void			*loop_data(void *arg)
 		perror("send()");
 		exit(EXIT_FAILURE);
 	}
-	pthread_exit(NULL);
+	return (NULL);
 }
