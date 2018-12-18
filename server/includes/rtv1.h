@@ -48,6 +48,7 @@
 # define FOV 0.50
 
 # define KEY_ESC 53
+# define KEY_SPACE 49
 
 # define TRUE 1
 # define FALSE 0
@@ -112,6 +113,13 @@ typedef enum				e_bump_mapping
 	VERTICAL_SIN,
 	HORIZONTAL_SIN
 }							t_bump_mapping;
+
+typedef enum				e_server_state
+{
+	WAIT_CLIENTS,
+	WAIT_RENDER,
+	DISPLAY_RENDER
+}							t_server_state;
 
 /*
 ** ======= structures
@@ -255,10 +263,12 @@ typedef struct				s_srv
 	int					err;
 	int					port;
 	char				*addr;
+	int					sockets[10];
 	socklen_t			size_cl;
 	socklen_t			sin_sz;
 	t_sockaddr_in		sin;
 	t_sockaddr_in		sin_cl;
+	t_server_state		state;
 	t_hostent			*hostinfo;
 }							t_srv;
 
@@ -295,6 +305,7 @@ typedef struct				s_env
 ** ======= prototypes
 */
 
+void			*await_new_client(void *arg);
 void						server_connect(t_env *e);
 int							send_obj_light(t_env *e);
 int							recv_client(t_env *e);

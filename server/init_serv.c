@@ -27,5 +27,6 @@ void			init_env_server(t_env *e)
 	e->srv.sin.sin_addr.s_addr = htonl(INADDR_ANY);
 	e->srv.sin.sin_family = AF_INET;
 	e->srv.sin.sin_port = htons(e->srv.port);
+	e->srv.state = WAIT_CLIENTS;
 	e->tim = (struct timespec){0, 200000};
 }

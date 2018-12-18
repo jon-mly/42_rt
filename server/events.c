@@ -28,6 +28,13 @@ int			handle_key_event(int key, void *param)
 	env = (t_env*)param;
 	if (key == KEY_ESC)
 		exit_normally(env);
+	else if (key == KEY_SPACE)
+	{
+		if (env->srv.state == WAIT_CLIENTS) {
+			env->srv.state = WAIT_RENDER;
+			printf("Did change server state to WAIT_RENDER\n");
+		}
+	}
 	return (0);
 }
 

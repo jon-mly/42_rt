@@ -43,8 +43,11 @@ void			server_connect(t_env *e)
 		pthread_exit(NULL);
 		e->srv.nbclient = 0;
 	}
+	int flag = fcntl(e->srv.socket, F_GETFD);
 	e->srv.socket_cl = accept(e->srv.socket, (t_sockaddr *)&e->srv.sin,
 			&e->srv.sin_sz);
+	fcntl(e->srv.socket, F_SETFD, flag | O_NONBLOCK);
+	e->srv.sockets[e->srv.nbclient] = e->srv.socket_cl;
 	if (e->srv.socket_cl == SOCKET_ERROR)
 	{
 		ft_putendl("Error function accept()");
@@ -59,14 +62,22 @@ void			server_connect(t_env *e)
 	ft_putendl("Connected to client");
 }
 
+void			*await_new_client(void *arg)
+{
+	t_env		*env;
+
+	env = (t_env *)arg;
+	while (1)
+		server_connect(env);
+	return (NULL);
+}
+
 static	int		send_nb_light_obj(t_env *e)
 {
-	// int obj = 6;
 	e->err = send(e->srv.socket_cl, &e->srv.id, sizeof(int), 0);
 	if (e->err == SOCKET_ERROR)
 		return (e->err);
 	e->err = send(e->srv.socket_cl, &e->scene.objects_count, sizeof(int), 0);
-	// e->err = send(e->srv.socket_cl, &obj, sizeof(int), 0);
 	if (e->err == SOCKET_ERROR)
 		return (e->err);
 	e->err = send(e->srv.socket_cl, &e->scene.lights_count, sizeof(int), 0);
@@ -77,9 +88,6 @@ static	int		send_nb_light_obj(t_env *e)
 
 static	int		send_cam_scene(t_env *e)
 {
-	// e->err = send(e->srv.socket_cl, &e->scene, sizeof(t_scene), 0);
-	// if (e->err == SOCKET_ERROR)
-	// 	return (e->err);
 	e->err = send(e->srv.socket_cl, &e->camera, sizeof(t_camera), 0);
 	if (e->err == SOCKET_ERROR)
 		return (e->err);
@@ -89,27 +97,16 @@ static	int		send_cam_scene(t_env *e)
 int				send_obj_light(t_env *e)
 {
 	int		i;
-	// t_point *point;
 
-	// point = malloc(sizeof(t_point) * 6);
-	// point[0] = (t_point){1, 2, 3};
-	// point[1] = (t_point){4, 5, 6};
-	// point[2] = (t_point){7, 8, 9};
-	// point[3] = (t_point){10, 11, 12};
-	// point[4] = (t_point){13, 14, 15};
-	// point[5] = (t_point){16, 17, 18};
 	i = -1;
 	if ((e->err = send_nb_light_obj(e)) == SOCKET_ERROR)
 		return (e->err);
 	if ((e->err = send_cam_scene(e)) == SOCKET_ERROR)
 		return (e->err);
 	while (++i < e->scene.objects_count)
-	// while (++i < 6)
 	{
-		// serialize_pt(&point[i], e->data_o);
 		serialize_obj(&e->scene.objects[i], e->data_o);
 		e->err = send(e->srv.socket_cl, (void *)e->data_o, sizeof(t_object), 0);
-		// e->err = send(e->srv.socket_cl, (void *)e->data_o, sizeof(t_point), 0);
 		if (e->err == SOCKET_ERROR)
 			return (e->err);
 		nanosleep(&e->tim, &e->tim);

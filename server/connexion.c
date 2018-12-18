@@ -14,23 +14,29 @@
 
 void			*waitcl(void *arg)
 {
-	t_env		e;
+	t_env		*e;
 	pthread_t	thr;
 	
-	e = *(t_env *)arg;
-	while (1)
+	e = (t_env *)arg;
+	printf("e : %p\n", (void*)e);
+	if (pthread_create(&thr, NULL, await_new_client, e))
 	{
-		server_connect(&e);
-		if (pthread_create(&thr, NULL, loop_data, &e))
-		{
-			ft_putendl("Error function pthread_create()");
-			exit(EXIT_FAILURE);
-		}
-		if (pthread_join(thr, NULL))
-		{
-			ft_putendl("Error function pthread_create()");
-			exit(EXIT_FAILURE);
-		}
+		ft_putendl("Error function pthread_create()");
+		exit(EXIT_FAILURE);
+	}	
+	while (e->srv.state == WAIT_CLIENTS)
+		;
+	pthread_cancel(thr);
+	printf("Server state is no more WAIT_CLIENTS\n");
+	if (pthread_create(&thr, NULL, loop_data, e))
+	{
+		ft_putendl("Error function pthread_create()");
+		exit(EXIT_FAILURE);
+	}
+	if (pthread_join(thr, NULL))
+	{
+		ft_putendl("Error function pthread_create()");
+		exit(EXIT_FAILURE);
 	}
 	return (NULL);
 }

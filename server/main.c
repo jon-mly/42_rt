@@ -67,7 +67,7 @@ int				main(int ac, char **av)
 	init_env_server(env);
 	create_srv(env);
 	data = *env;
-	if (pthread_create(&env->thr, NULL, waitcl, &data))
+	if (pthread_create(&env->thr, NULL, waitcl, env))
 	{
 		ft_putendl("Error function pthread_create()");
 		exit(EXIT_FAILURE);
