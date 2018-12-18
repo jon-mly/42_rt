@@ -27,14 +27,19 @@ static	int		parse_arg(t_env *e, char *av, char *av2)
 void		await_data(t_env *env)
 {
 	env->srv.cl_state = WAIT_DATA;
+	ft_putendl("Will receive data");
 	recv_obj_light(env);
+	ft_putendl("Has received data");
 }
 
 void		perform_rendering(t_env *env)
 {
 	env->srv.cl_state = RENDERING;
+	ft_putendl("Will init opencl");
 	opencl_init(&env->opcl, env);
+	ft_putendl("Will begin render");
 	opencl_draw(&env->opcl, env);
+	ft_putendl("Did render");
 }
 
 void		send_rendering(t_env *env)
@@ -43,7 +48,7 @@ void		send_rendering(t_env *env)
 	if ((mlx_put_image_to_window(env->mlx_ptr, env->win_ptr,
 					env->img_ptr, 0, 0)) == -1)
 		ft_putendl("Failed to put image to window");
-	ft_putendl("did render");
+	ft_putendl("Did display image to window");
 	// TODO: send rendering
 }
 
@@ -80,6 +85,11 @@ int			main(int ac, char **av)
 	if (pthread_create(&(env->thr), NULL, loop_client_lifecycle, env))
 	{
 		ft_putendl("Error launching client lifecycle : pthread_create");
+		exit(EXIT_FAILURE);
+	}
+	if (pthread_join(env->thr, NULL))
+	{
+		ft_putendl("Error launching client lifecycle : pthread_join");
 		exit(EXIT_FAILURE);
 	}
 	mlx_loop(env->mlx_ptr);

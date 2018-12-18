@@ -72,7 +72,7 @@ int				main(int ac, char **av)
 		ft_putendl("Error function pthread_create()");
 		exit(EXIT_FAILURE);
 	}
-	local_client(env);
+	// local_client(env);
 	if ((mlx_put_image_to_window(env->mlx_ptr, env->win_ptr,
 					env->img_ptr, 0, 0)) == -1)
 		ft_putendl("Failed to put image to window");

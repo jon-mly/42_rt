@@ -89,7 +89,6 @@ int				recv_obj_light(t_env *e)
 	i = -1;
 	if ((e->err = recv_nb_light_obj(e)) == SOCKET_ERROR)
 		return (e->err);
-
 	if ((e->err = recv_cam_scene(e)) == SOCKET_ERROR)
 		return (e->err);
 	e->scene.lights_count = e->light_ct;

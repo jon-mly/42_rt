@@ -56,7 +56,7 @@ void			deserialize_light(char *data, t_light *light)
 	t_light			*ltmp;
 	ltmp = (t_light *)data;
 	*light = *ltmp;
-	ltmp++;
+	// ltmp++;
 	// printf("Light :\n");
 	// printf("- angle : %.2f\n", light->angle);
 	// printf("- power : %.2f\n", light->power);
