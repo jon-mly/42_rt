@@ -114,6 +114,13 @@ typedef enum				e_bump_mapping
 	HORIZONTAL_SIN
 }							t_bump_mapping;
 
+typedef enum				e_client_state
+{
+	WAIT_DATA,
+	RENDERING,
+	SENDING
+}							t_client_state;
+
 typedef enum				e_server_state
 {
 	WAIT_CLIENTS,
@@ -269,6 +276,7 @@ typedef struct				s_srv
 	t_sockaddr_in		sin;
 	t_sockaddr_in		sin_cl;
 	t_server_state		state;
+	t_client_state		cl_state;
 	t_hostent			*hostinfo;
 }							t_srv;
 

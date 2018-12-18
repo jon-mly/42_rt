@@ -64,6 +64,7 @@ void			deserialize_obj(char *data, t_object *obj)
 	t_object 	*otmp;
 	otmp = (t_object *)data;
 	*obj = *otmp;
+	otmp++;
 
 	// printf("Object :\n");
 	// printf("- id : %d\n", obj->id);

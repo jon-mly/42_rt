@@ -76,9 +76,6 @@ static	int		recv_nb_light_obj(t_env *e)
 
 static	int		recv_cam_scene(t_env *e)
 {
-	// e->err = recv(e->srv.socket, &e->scene, sizeof(t_scene), 0);
-	// if (e->err == SOCKET_ERROR)
-	// 	return (e->err);
 	e->err = recv(e->srv.socket, &e->camera, sizeof(t_camera), 0);
 	if (e->err == SOCKET_ERROR)
 		return (e->err);
@@ -89,61 +86,21 @@ int				recv_obj_light(t_env *e)
 {
 	int 	i;
 
-	// t_point *point;
 	i = -1;
 	if ((e->err = recv_nb_light_obj(e)) == SOCKET_ERROR)
 		return (e->err);
 
 	if ((e->err = recv_cam_scene(e)) == SOCKET_ERROR)
 		return (e->err);
-	// point = malloc(sizeof(t_point) * 6);
-	printf("id : %d\n", e->srv.id);
-	printf("nb obj : %d\n", e->obj_ct);
-	printf("nb lights : %d\n", e->light_ct);
-
 	e->scene.lights_count = e->light_ct;
 	e->scene.objects_count = e->obj_ct;
-
-	// while (++i < 6)
 	while (++i < e->obj_ct)
 	{
-		// ft_bzero(e->data_o, sizeof(t_point));
-		// ft_bzero(e->data_o, sizeof(t_object));
 		e->err = recv(e->srv.socket, (void *)e->data_o, sizeof(t_object), 0);
 		if (e->err == SOCKET_ERROR)
 			return (e->err);
-		// deserialize_pt(e->data_o, &point[i]);
 		deserialize_obj(e->data_o, &e->scene.objects[i]);
 	}
-	
-	// printf("client point[0].x %f\n", point[0].x);
-	// printf("client point[1].x %f\n", point[1].x);
-	// printf("client point[2].x %f\n", point[2].x);
-	// printf("client point[3].x %f\n", point[3].x);
-	// printf("client point[4].x %f\n", point[4].x);
-	// printf("client point[5].x %f\n", point[5].x);
-	// printf("\n");
-	// printf("client point[0].y %f\n", point[0].y);
-	// printf("client point[1].y %f\n", point[1].y);
-	// printf("client point[2].y %f\n", point[2].y);
-	// printf("client point[3].y %f\n", point[3].y);
-	// printf("client point[4].y %f\n", point[4].y);
-	// printf("client point[5].y %f\n", point[5].y);
-	// printf("\n");
-	// printf("client point[0].z %f\n", point[0].z);
-	// printf("client point[1].z %f\n", point[1].z);
-	// printf("client point[2].z %f\n", point[2].z);
-	// printf("client point[3].z %f\n", point[3].z);
-	// printf("client point[4].z %f\n", point[4].z);
-	// printf("client point[5].z %f\n", point[5].z);
-	// printf("\n");
-	
-	/*printf("client obj[0].center.x %f\n", e->scene.objects[0].center.x);
-	printf("client obj[1].center.x %f\n", e->scene.objects[1].center.x);
-	printf("client obj[2].center.x %f\n", e->scene.objects[2].center.x);
-	printf("client obj[3].center.x %f\n", e->scene.objects[3].center.x);
-	printf("client obj[4].center.x %f\n", e->scene.objects[4].center.x);
-	printf("client obj[5].center.x %f\n", e->scene.objects[5].center.x);*/
 	i = -1;
 	while (++i < e->light_ct)
 	{

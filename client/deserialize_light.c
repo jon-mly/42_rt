@@ -45,14 +45,18 @@ static	void	deserialize_flight(float *data, t_light *light)
 
 void			deserialize_light(char *data, t_light *light)
 {
-	float			*ftmp;
-	unsigned char	*utmp;
+	// float			*ftmp;
+	// unsigned char	*utmp;
 
-	ftmp = (float *)data;
-	deserialize_flight(ftmp, light);
-	utmp = (unsigned char *)ftmp;
-	deserialize_ulight(utmp, light);
+	// ftmp = (float *)data;
+	// deserialize_flight(ftmp, light);
+	// utmp = (unsigned char *)ftmp;
+	// deserialize_ulight(utmp, light);
 
+	t_light			*ltmp;
+	ltmp = (t_light *)data;
+	*light = *ltmp;
+	ltmp++;
 	// printf("Light :\n");
 	// printf("- angle : %.2f\n", light->angle);
 	// printf("- power : %.2f\n", light->power);
