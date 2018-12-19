@@ -71,17 +71,25 @@ void			*loop_data(void *arg)
 	//write(1, "X\n", 2);
 	int size = sizeof(char) * WIN_WIDTH * WIN_HEIGHT * e->bpp;
 	printf("server size %d\n", size);
-	char *ptr = e->img_str;
+	char *tmp = (char*)malloc(size);
+	char *ptr = tmp;
 	while (size > 0)
 	{
-	if ((err = recv(e->srv.socket_cl, ptr, size, 0)) < 0)
+		if ((err = recv(e->srv.socket_cl, ptr, (int)fmin(1024, size), 0)) < 0)
 		{
 			perror("recv()");
 			exit(EXIT_FAILURE);
 		}
 		size -= err;
 		ptr += err;
+		// printf("Received %12d - remaining %12d\n", err, size);
 	}
+	ft_memmove(e->img_str, tmp, size);
+	free(tmp);
+	ft_putendl("DID RECEIVE ALL");
+	if ((mlx_put_image_to_window(e->mlx_ptr, e->win_ptr,
+					e->img_ptr, 0, 0)) == -1)
+		ft_putendl("Failed to put image to window");
 	write(1, "X\n", 2);
 	printf("err %d\n", err);
 	pthread_exit(NULL);

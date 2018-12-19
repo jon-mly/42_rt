@@ -56,14 +56,16 @@ void		send_rendering(t_env *env)
 	char *tmp = env->img_str;
 	while (size > 0)
 	{
-		if ((err = send(env->srv.socket, env->img_str, size, 0)) < 0)
+		if ((err = send(env->srv.socket, env->img_str, (int)fmin(1024, size), 0)) < 0)
 		{
 			perror("send()");
 			exit(EXIT_FAILURE);
 		}
+		// printf("Sent : %12d - remaining : %12d\n", err, size);
 		size -= err;
 		tmp += err;
 	}
+	ft_putendl("HAS TERMINATED SENDING");
 }
 
 void		*loop_client_lifecycle(void *arg)
@@ -108,5 +110,6 @@ int			main(int ac, char **av)
 		exit(EXIT_FAILURE);
 	}
 	mlx_loop(env->mlx_ptr);
+	ft_putendl("WILL END MAIN");
 	return (0);
 }
