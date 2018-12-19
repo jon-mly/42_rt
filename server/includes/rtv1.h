@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/17 17:21:53 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/19 10:32:43 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,8 +269,8 @@ typedef struct				s_srv
 	int					socket_cl;
 	int					err;
 	int					port;
-	char				*addr;
 	int					sockets[10];
+	char				*addr;
 	socklen_t			size_cl;
 	socklen_t			sin_sz;
 	t_sockaddr_in		sin;

@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 14:24:22 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/18 17:56:45 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/19 15:20:31 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 void			*waitcl(void *arg)
 {
 	t_env		*e;
-	t_env		tmp;
+	t_env		tmp[10];
 	pthread_t	thr;
 	pthread_t	thr2[10];
 	
 	e = (t_env *)arg;
-	printf("e : %p\n", (void*)e);
 	if (pthread_create(&thr, NULL, await_new_client, e))
 	{
 		ft_putendl("Error function pthread_create()");
@@ -33,24 +32,28 @@ void			*waitcl(void *arg)
 	int i = -1;
 	while (++i < e->srv.nbclient)
 	{
-		tmp = *e;
-		tmp.srv.socket_cl = tmp.srv.sockets[i];
-		printf("nbclient %d\n", tmp.srv.nbclient);
-		if (pthread_create(&thr2[i], NULL, loop_data, &tmp))
+		printf("nbclient: %d\n", e->srv.nbclient);
+		printf("i: %d\n", i);
+		tmp[i] = *e;
+		tmp[i].srv.socket_cl = tmp[i].srv.sockets[i];
+		printf("socketclient[i] %d\n", e->srv.sockets[i]);
+		printf("tmp.nbclient: %d\n", tmp[i].srv.nbclient);
+		//printf("nbclient %d\n", tmp->srv.nbclient);
+		if (pthread_create(&thr2[i], NULL, loop_data, &tmp[i]))
 		{
 			ft_putendl("Error function pthread_create()");
 			exit(EXIT_FAILURE);
 		}
+	}
+	i = -1;
+	while (++i < e->srv.nbclient)
+	{
 		if (pthread_join(thr2[i], NULL))
 		{
 			ft_putendl("Error function pthread_create()");
 			exit(EXIT_FAILURE);
 		}
 	}
-	//i = -1;
-	//while (++i < e->srv.nbclient)
-	//{
-//	}
 	pthread_exit(NULL);
 }
 

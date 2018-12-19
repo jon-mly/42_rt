@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 12:18:18 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/17 17:31:48 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/19 11:00:26 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,8 @@ int				recv_obj_light(t_env *e)
 			return (e->err);
 		deserialize_light(e->data_l, &e->scene.lights[i]);
 	}
+	printf("client objects[0].center.x %f\n", e->scene.objects[0].center.x);
+	printf("client objects[0].center.y %f\n", e->scene.objects[0].center.y);
+	printf("client objects[0].center.z %f\n", e->scene.objects[0].center.z);
 	return (e->err);
 }

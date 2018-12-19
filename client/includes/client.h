@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 15:29:01 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/18 17:56:47 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/19 10:32:41 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,20 @@ typedef enum				e_bump_mapping
 	VERTICAL_SIN,
 	HORIZONTAL_SIN
 }							t_bump_mapping;
+
+typedef enum				e_client_state
+{
+	WAIT_DATA,
+	RENDERING,
+	SENDING
+}							t_client_state;
+
+typedef enum				e_server_state
+{
+	WAIT_CLIENTS,
+	WAIT_RENDER,
+	DISPLAY_RENDER
+}							t_server_state;
 
 /*
 ** ======= structures
@@ -254,11 +268,13 @@ typedef struct				s_srv
 	int					socket_cl;
 	int					err;
 	int					port;
+	int					sockets[10];
 	char				*addr;
 	socklen_t			size_cl;
 	socklen_t			sin_sz;
 	t_sockaddr_in		sin;
 	t_sockaddr_in		sin_cl;
+	t_client_state		cl_state;
 	t_hostent			*hostinfo;
 }							t_srv;
 
@@ -284,6 +300,7 @@ typedef struct				s_env
 	int					is_direct_hit;
 	int					child;
 	int					err;
+	struct timespec		tim;
 	t_scene				scene;
 	t_object			object;
 	t_camera			camera;

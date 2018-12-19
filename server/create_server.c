@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 14:04:14 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/18 17:56:46 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/19 13:34:23 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,26 @@ static	int		send_nb_light_obj(t_env *e)
 	printf("nbclient %d\n", e->srv.nbclient);
 	printf("socketclient[0] %d\n", e->srv.sockets[0]);
 	printf("socketclient[1] %d\n", e->srv.sockets[1]);
+	printf("socketclient[2] %d\n", e->srv.sockets[2]);
+	printf("socket_cl %d\n", e->srv.socket_cl);
 	e->err = send(e->srv.socket_cl, &e->srv.id, sizeof(int), 0);
 	if (e->err == SOCKET_ERROR)
+	{
+		perror("send()");
 		return (e->err);
+	}
 	e->err = send(e->srv.socket_cl, &e->scene.objects_count, sizeof(int), 0);
 	if (e->err == SOCKET_ERROR)
+	{
+		perror("send()");
 		return (e->err);
+	}
 	e->err = send(e->srv.socket_cl, &e->scene.lights_count, sizeof(int), 0);
 	if (e->err == SOCKET_ERROR)
+	{
+		perror("send()");
 		return (e->err);
+	}
 	return (e->err);
 }
 
@@ -102,16 +113,28 @@ int				send_obj_light(t_env *e)
 	int		i;
 
 	i = -1;
+	printf("e->scene.objects[0].center.x %f\n", e->scene.objects[0].center.x);
+	printf("e->scene.objects[0].center.y %f\n", e->scene.objects[0].center.y);
+	printf("e->scene.objects[0].center.z %f\n", e->scene.objects[0].center.z);
 	if ((e->err = send_nb_light_obj(e)) == SOCKET_ERROR)
+	{
+		perror("send()");
 		return (e->err);
+	}
 	if ((e->err = send_cam_scene(e)) == SOCKET_ERROR)
+	{
+		perror("send()");
 		return (e->err);
+	}
 	while (++i < e->scene.objects_count)
 	{
 		serialize_obj(&e->scene.objects[i], e->data_o);
 		e->err = send(e->srv.socket_cl, (void *)e->data_o, sizeof(t_object), 0);
 		if (e->err == SOCKET_ERROR)
+		{
+			perror("send()");
 			return (e->err);
+		}
 		nanosleep(&e->tim, &e->tim);
 	}
 	i = -1;
@@ -120,7 +143,10 @@ int				send_obj_light(t_env *e)
 		serialize_light(&e->scene.lights[i], e->data_l);
 		e->err = send(e->srv.socket_cl, (void *)e->data_l, sizeof(t_light), 0);
 		if (e->err == SOCKET_ERROR)
+		{
+			perror("send()");
 			return (e->err);
+		}
 	}
 	return (e->err);
 }
