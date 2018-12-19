@@ -6,7 +6,7 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:44 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/12/19 16:29:22 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/19 18:28:03 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,13 @@ int				main(int ac, char **av)
 		exit(EXIT_FAILURE);
 	}
 	local_client(env);
-	if ((mlx_put_image_to_window(env->mlx_ptr, env->win_ptr,
-					env->img_ptr, 0, 0)) == -1)
-		ft_putendl("Failed to put image to window");
+
+	//if ((mlx_put_image_to_window(env->mlx_ptr, env->win_ptr,
+	//				env->img_ptr, 0, 0)) == -1)
+	//	ft_putendl("Failed to put image to window");
 	mlx_hook(env->win_ptr, 2, 0, handle_key_event, (void*)env);
 	mlx_hook(env->win_ptr, 17, 0, exit_properly, (void*)env);
-	mlx_loop_hook(env->mlx_ptr, expose_event, (void*)env);
+	//mlx_loop_hook(env->mlx_ptr, expose_event, (void*)env);
 	write(1, "Z\n", 2);
 	mlx_loop(env->mlx_ptr);
 	return (0);

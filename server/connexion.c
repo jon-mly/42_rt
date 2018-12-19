@@ -6,30 +6,22 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 14:24:22 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/19 16:17:11 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/19 18:45:05 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-void			*waitcl(void *arg)
+void			*request_rendering(t_env *e)
 {
-	t_env		*e;
 	t_env		tmp[10];
-	pthread_t	thr;
 	pthread_t	thr2[10];
-	
-	e = (t_env *)arg;
-	if (pthread_create(&thr, NULL, await_new_client, e))
-	{
-		ft_putendl("Error function pthread_create()");
-		exit(EXIT_FAILURE);
-	}	
-	while (e->srv.state == WAIT_CLIENTS)
-		;
-	pthread_cancel(thr);
-	printf("Server state is no more WAIT_CLIENTS\n");
-	int i = -1;
+	int 		i;
+	int		bpp;
+	int		s_l;
+	int		endian;
+
+	i = -1;
 	while (++i < e->srv.nbclient)
 	{
 		printf("nbclient: %d\n", e->srv.nbclient);
@@ -54,6 +46,29 @@ void			*waitcl(void *arg)
 			exit(EXIT_FAILURE);
 		}
 	}
+	printf("request addr img %p\n", e->img_str);
+	if ((mlx_put_image_to_window(e->mlx_ptr, e->win_ptr,
+					e->img_ptr, 0, 0)) == -1)
+		ft_putendl("Failed to put image to window");
+	ft_putendl("YOUHOU");
+	return (NULL);
+}
+
+void			*waitcl(void *arg)
+{
+	t_env		*e;
+	pthread_t	thr;
+	
+	e = (t_env *)arg;
+	if (pthread_create(&thr, NULL, await_new_client, e))
+	{
+		ft_putendl("Error function pthread_create()");
+		exit(EXIT_FAILURE);
+	}	
+	while (e->srv.state == WAIT_CLIENTS)
+		;
+	pthread_cancel(thr);
+	printf("Server state is no more WAIT_CLIENTS\n");
 	pthread_exit(NULL);
 }
 
@@ -84,12 +99,11 @@ void			*loop_data(void *arg)
 		ptr += err;
 		// printf("Received %12d - remaining %12d\n", err, size);
 	}
-	ft_memmove(e->img_str, tmp, size);
+	int size2 = sizeof(char) * WIN_WIDTH * WIN_HEIGHT * e->bpp;
+	ft_memmove(e->img_str, tmp, size2);
+	printf("loup data addr img %p\n", e->img_str);
 	free(tmp);
 	ft_putendl("DID RECEIVE ALL");
-	if ((mlx_put_image_to_window(e->mlx_ptr, e->win_ptr,
-					e->img_ptr, 0, 0)) == -1)
-		ft_putendl("Failed to put image to window");
 	write(1, "X\n", 2);
 	printf("err %d\n", err);
 	pthread_exit(NULL);
