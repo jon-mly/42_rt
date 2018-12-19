@@ -72,16 +72,16 @@ void			*loop_data(void *arg)
 	int size = sizeof(char) * WIN_WIDTH * WIN_HEIGHT * e->bpp;
 	printf("server size %d\n", size);
 	char *ptr = e->img_str;
-	//while (size > 0)
-	//{
-	//if ((err = recv(e->srv.socket_cl, ptr, size, 0)) < 0)
-	//	{
-	//		perror("recv()");
-	//		exit(EXIT_FAILURE);
-	//	}
-	//	size -= err;
-	//	ptr += err;
-	//}
+	while (size > 0)
+	{
+	if ((err = recv(e->srv.socket_cl, ptr, size, 0)) < 0)
+		{
+			perror("recv()");
+			exit(EXIT_FAILURE);
+		}
+		size -= err;
+		ptr += err;
+	}
 	write(1, "X\n", 2);
 	printf("err %d\n", err);
 	pthread_exit(NULL);

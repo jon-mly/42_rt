@@ -221,6 +221,8 @@ typedef struct				s_camera
 	float				x_angle;
 	float				y_angle;
 	float				z_angle;
+	int					top_line;
+	int					bottom_line;
 }							t_camera;
 
 typedef struct				s_scene

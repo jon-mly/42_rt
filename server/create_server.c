@@ -74,11 +74,11 @@ void			*await_new_client(void *arg)
 
 static	int		send_nb_light_obj(t_env *e)
 {
-	printf("nbclient %d\n", e->srv.nbclient);
-	printf("socketclient[0] %d\n", e->srv.sockets[0]);
-	printf("socketclient[1] %d\n", e->srv.sockets[1]);
-	printf("socketclient[2] %d\n", e->srv.sockets[2]);
-	printf("socket_cl %d\n", e->srv.socket_cl);
+	// printf("nbclient %d\n", e->srv.nbclient);
+	// printf("socketclient[0] %d\n", e->srv.sockets[0]);
+	// printf("socketclient[1] %d\n", e->srv.sockets[1]);
+	// printf("socketclient[2] %d\n", e->srv.sockets[2]);
+	// printf("socket_cl %d\n", e->srv.socket_cl);
 	e->err = send(e->srv.socket_cl, &e->srv.id, sizeof(int), 0);
 	if (e->err == SOCKET_ERROR)
 	{
@@ -113,9 +113,9 @@ int				send_obj_light(t_env *e)
 	int		i;
 
 	i = -1;
-	printf("e->scene.objects[0].center.x %f\n", e->scene.objects[0].center.x);
-	printf("e->scene.objects[0].center.y %f\n", e->scene.objects[0].center.y);
-	printf("e->scene.objects[0].center.z %f\n", e->scene.objects[0].center.z);
+	// printf("e->scene.objects[0].center.x %f\n", e->scene.objects[0].center.x);
+	// printf("e->scene.objects[0].center.y %f\n", e->scene.objects[0].center.y);
+	// printf("e->scene.objects[0].center.z %f\n", e->scene.objects[0].center.z);
 	if ((e->err = send_nb_light_obj(e)) == SOCKET_ERROR)
 	{
 		perror("send()");
