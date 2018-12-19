@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 14:24:22 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/19 15:20:31 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/19 16:17:11 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,21 @@ void			*loop_data(void *arg)
 		perror("send()");
 		exit(EXIT_FAILURE);
 	}
-	return (NULL);
+	//write(1, "X\n", 2);
+	int size = sizeof(char) * WIN_WIDTH * WIN_HEIGHT * e->bpp;
+	printf("server size %d\n", size);
+	char *ptr = e->img_str;
+	//while (size > 0)
+	//{
+	//if ((err = recv(e->srv.socket_cl, ptr, size, 0)) < 0)
+	//	{
+	//		perror("recv()");
+	//		exit(EXIT_FAILURE);
+	//	}
+	//	size -= err;
+	//	ptr += err;
+	//}
+	write(1, "X\n", 2);
+	printf("err %d\n", err);
+	pthread_exit(NULL);
 }

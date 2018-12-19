@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 16:40:56 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/19 15:15:41 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/19 16:15:56 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,26 @@ void		perform_rendering(t_env *env)
 
 void		send_rendering(t_env *env)
 {
+	int	err;
 	env->srv.cl_state = SENDING;
 	if ((mlx_put_image_to_window(env->mlx_ptr, env->win_ptr,
 					env->img_ptr, 0, 0)) == -1)
 		ft_putendl("Failed to put image to window");
 	ft_putendl("Did display image to window");
 	// TODO: send rendering
+	int size = sizeof(char) * WIN_WIDTH * WIN_HEIGHT * 32;
+	printf("size %d\n", size);
+	char *tmp = env->img_str;
+	//while (size > 0)
+	//{
+	//	if ((err = send(env->srv.socket, env->img_str, size, 0)) < 0)
+	//	{
+	//		perror("send()");
+	//		exit(EXIT_FAILURE);
+	//	}
+	//	size -= err;
+	//	tmp += err;
+	//}
 }
 
 void		*loop_client_lifecycle(void *arg)

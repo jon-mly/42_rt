@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 14:04:14 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/19 13:34:23 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/19 16:20:16 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void			*await_new_client(void *arg)
 	env = (t_env *)arg;
 	while (1)
 		server_connect(env);
-	return (NULL);
+	pthread_exit(NULL);
 }
 
 static	int		send_nb_light_obj(t_env *e)

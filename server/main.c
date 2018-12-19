@@ -6,7 +6,7 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:44 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/12/19 13:22:19 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/19 16:29:22 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static	int		parse_arg(t_env *e, char *av, char *av2)
 int				main(int ac, char **av)
 {
 	t_env		*env;
-	t_env		data;
 
 	(ac != 4) ? exit_usage() : 0;
 	if (!(env = (t_env*)malloc(sizeof(t_env))))
@@ -66,19 +65,19 @@ int				main(int ac, char **av)
 	env = init_env(env, av[1]);
 	init_env_server(env);
 	create_srv(env);
-	data = *env;
 	if (pthread_create(&env->thr, NULL, waitcl, env))
 	{
 		ft_putendl("Error function pthread_create()");
 		exit(EXIT_FAILURE);
 	}
 	local_client(env);
-	if ((mlx_put_image_to_window(env->mlx_ptr, env->win_ptr,
-					env->img_ptr, 0, 0)) == -1)
-		ft_putendl("Failed to put image to window");
-	mlx_hook(env->win_ptr, 2, 0, handle_key_event, (void*)env);
-	mlx_hook(env->win_ptr, 17, 0, exit_properly, (void*)env);
-	mlx_loop_hook(env->mlx_ptr, expose_event, (void*)env);
+	//if ((mlx_put_image_to_window(env->mlx_ptr, env->win_ptr,
+	//				env->img_ptr, 0, 0)) == -1)
+	//	ft_putendl("Failed to put image to window");
+//	mlx_hook(env->win_ptr, 2, 0, handle_key_event, (void*)env);
+//	mlx_hook(env->win_ptr, 17, 0, exit_properly, (void*)env);
+//	mlx_loop_hook(env->mlx_ptr, expose_event, (void*)env);
+	write(1, "Z\n", 2);
 	mlx_loop(env->mlx_ptr);
 	return (0);
 }
