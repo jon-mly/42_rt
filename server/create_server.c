@@ -98,8 +98,8 @@ static t_render_bounds	bounds_at(int socket_index, int sockets_count)
 	t_render_bounds		bounds;
 
 	//FIXME: only for test purpose
-	socket_index += 2;
-	sockets_count = 5;
+	// socket_index += 2;
+	// sockets_count = 5;
 
 	bounds.top = (int)floor(WIN_HEIGHT * ((float)socket_index / (float)sockets_count));
 	bounds.bottom = (int)floor(WIN_HEIGHT * ((float)(socket_index + 1) / (float)sockets_count)) - 1;
@@ -107,9 +107,9 @@ static t_render_bounds	bounds_at(int socket_index, int sockets_count)
 	return (bounds);
 }
 
-static int		send_render_bounds(t_env *e, t_render_bounds bounds)
+static int		send_render_bounds(t_env *e)
 {
-	e->err = send(e->srv.socket_cl, (void*)&bounds, sizeof(t_render_bounds), 0);
+	e->err = send(e->srv.socket_cl, (void*)&e->bounds, sizeof(t_render_bounds), 0);
 	return (e->err);	
 }
 
@@ -129,7 +129,8 @@ int				send_obj_light(t_env *e)
 		perror("send()");
 		return (e->err);
 	}
-	if ((e->err = send_render_bounds(e, bounds_at(e->srv.crrnt_sckt_id, e->srv.nbclient))) == SOCKET_ERROR)
+	e->bounds = bounds_at(e->srv.crrnt_sckt_id, e->srv.nbclient);
+	if ((e->err = send_render_bounds(e)) == SOCKET_ERROR)
 	{
 		ft_putendl("Rendering bounds sending did fail");
 		perror("send()");

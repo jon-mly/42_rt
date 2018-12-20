@@ -97,8 +97,9 @@ void			*loop_data(void *arg)
 		size -= err;
 		ptr += err;
 	}
-	size = sizeof(char) * WIN_WIDTH * WIN_HEIGHT * 4;
-	ft_memmove(e->img_str, tmp, size);
+	int offset = sizeof(char) * WIN_WIDTH * e->bounds.top * 4;
+	size = sizeof(char) * WIN_WIDTH * (1 + e->bounds.bottom - e->bounds.top) * 4;
+	ft_memmove(e->img_str + offset, tmp + offset, size);
 	free(tmp);
 	printf("err %d\n", err);
 	pthread_exit(NULL);

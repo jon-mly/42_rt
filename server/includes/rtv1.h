@@ -310,6 +310,7 @@ typedef struct				s_env
 	int					child;
 	int					err;
 	struct timespec		tim;
+	t_render_bounds		bounds;
 	t_scene				scene;
 	t_object			object;
 	t_camera			camera;
