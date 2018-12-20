@@ -24,7 +24,7 @@ center -80 0 0
 radius 30
 color 255 0 0
 diffuse 70
-reflect 100
+reflect 30
 brillance 100
 transparency 0
 }
@@ -34,7 +34,7 @@ center 0 0 0
 radius 30
 color 0 255 0
 diffuse 70
-reflect 100
+reflect 30
 brillance 100
 transparency 0
 }
@@ -44,7 +44,7 @@ center 80 0 0
 radius 30
 color 0 0 255
 diffuse 70
-reflect 100
+reflect 30
 brillance 100
 transparency 0
 }
@@ -71,17 +71,17 @@ brillance 0
 
 ################ LIGHTS
 
-# light {
-# type AMBIANT
-# color 255 255 255
-# direction -5 -8 6
-# power 300
-# }
+light {
+type AMBIANT
+color 255 255 255
+direction -5 -8 6
+power 600
+}
 
 light {
 type OMNI
 color 255 0 0
-position -80 0 60
+position -110 0 60
 power 500
 }
 
@@ -95,6 +95,6 @@ power 500
 light {
 type OMNI
 color 0 0 255
-position 80 0 60
+position 110 0 60
 power 500
 }

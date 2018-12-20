@@ -3,12 +3,12 @@
 
 # define MAX_DEPTH 3
 # define ALIASING 1
-# define BLUR_SHADOWS 1
+# define BLUR_SHADOWS 0
 # define LIGHT_SPREAD 2
 # define LIGHT_SEP 1.5
 # define GI_ENABLED 0
 # define GI_SAMPLING 150
-# define EPSILON 0.01
+# define EPSILON 0.001
 
 # define CIRCLES_WIDTH 2.3
 # define CHECKER_WIDTH 40.0
@@ -31,7 +31,7 @@
 
 typedef enum	e_object_type
 {
-	SPHERE,
+	SPHERE = 0,
 	PLANE,
 	CYLINDER,
 	CONE,
@@ -44,14 +44,14 @@ typedef enum	e_object_type
 
 typedef enum	e_light_type
 {
-	OMNI,
+	OMNI = 0,
 	AMBIANT,
 	PROJECTOR
 }				t_light_type;
 
 typedef enum			e_texture
 {
-	NONE,
+	NONE = 0,
 	CHECKER,
 	HORIZONTAL_CIRCLE,
 	VERTICAL_CIRCLE,
@@ -66,14 +66,14 @@ typedef enum			e_texture
 
 typedef enum			e_texture_algo
 {
-	NO_ALGO,
+	NO_ALGO = 0,
 	PROCEDURAL,
 	PERLIN_ALGO
 }						t_texture_algo;
 
 typedef enum			e_bump_mapping
 {
-	FLAT,
+	FLAT = 0,
 	VERTICAL_SIN,
 	HORIZONTAL_SIN
 }						t_bump_mapping;
@@ -1883,13 +1883,7 @@ t_color			direct_illumination_by(t_light light, t_object intersected_object,
 	int			total_color[4] = {0};
 	float		norm;
 
-	if (current_light.typpe != OMNI)
-		printf("%d\n", current_light.typpe);
-	// if (current_light.typpe == AMBIANT)
-	// 	printf("STOP\n");
-	// max_iter = ((current_light.typpe != AMBIANT) && BLUR_SHADOWS) ? LIGHT_SPREAD * 7 : 1;
-	max_iter = (BLUR_SHADOWS) ? LIGHT_SPREAD * 7 : 1;
-	// printf("iter : %d\n", max_iter);
+	max_iter = ((light.typpe != AMBIANT) && BLUR_SHADOWS) ? LIGHT_SPREAD * 7 : 1;
 	rand = -1;
 	while (++rand < max_iter)
 	{

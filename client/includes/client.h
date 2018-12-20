@@ -64,9 +64,9 @@ typedef struct sockaddr_in 	t_sockaddr_in;
 typedef struct sockaddr 	t_sockaddr;
 typedef struct hostent		t_hostent;
 
-typedef enum				e_object_type
+typedef enum	e_object_type
 {
-	SPHERE,
+	SPHERE = 0,
 	PLANE,
 	CYLINDER,
 	CONE,
@@ -75,18 +75,18 @@ typedef enum				e_object_type
 	TRIANGLE,
 	PARALLELOGRAM,
 	HYPERBOLOID
-}							t_object_type;
+}				t_object_type;
 
-typedef enum				e_light_type
+typedef enum	e_light_type
 {
-	OMNI,
+	OMNI = 0,
 	AMBIANT,
 	PROJECTOR
-}							t_light_type;
+}				t_light_type;
 
-typedef enum				e_texture
+typedef enum			e_texture
 {
-	NONE,
+	NONE = 0,
 	CHECKER,
 	HORIZONTAL_CIRCLE,
 	VERTICAL_CIRCLE,
@@ -97,32 +97,32 @@ typedef enum				e_texture
 	PERLIN,
 	WOOD,
 	MARBLE
-}							t_texture;
+}						t_texture;
 
-typedef enum				e_texture_algo
+typedef enum			e_texture_algo
 {
-	NO_ALGO,
+	NO_ALGO = 0,
 	PROCEDURAL,
 	PERLIN_ALGO
-}							t_texture_algo;
+}						t_texture_algo;
 
-typedef enum				e_bump_mapping
+typedef enum			e_bump_mapping
 {
-	FLAT,
+	FLAT = 0,
 	VERTICAL_SIN,
 	HORIZONTAL_SIN
-}							t_bump_mapping;
+}						t_bump_mapping;
 
 typedef enum				e_client_state
 {
-	WAIT_DATA,
+	WAIT_DATA = 0,
 	RENDERING,
 	SENDING
 }							t_client_state;
 
 typedef enum				e_server_state
 {
-	WAIT_CLIENTS,
+	WAIT_CLIENTS = 0,
 	WAIT_RENDER,
 	DISPLAY_RENDER
 }							t_server_state;

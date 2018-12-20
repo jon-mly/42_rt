@@ -1,0 +1,75 @@
+###############################################################################
+# GEOMETRIC
+###############################################################################
+
+
+################ THEME
+
+theme {
+color 255 255 255
+power 10
+} 
+
+################ CAMERA
+
+camera {
+position 0 60 -50
+angles -15 0
+}
+
+################ OBJECTS
+
+# PLANES
+
+plane {
+normal 0 1 0
+point 0 -60 0
+color 255 255 255
+diffuse 100
+reflect 0
+brillance 0
+transparency 0
+texture CHECKER
+}
+
+sphere {
+center 0 20 60
+radius 30
+color 255 255 255
+diffuse 100
+reflect 100
+brillance 0
+transparency 0
+refraction_index 133
+}
+
+sphere {
+center -60 20 200
+radius 30
+color 255 255 0
+diffuse 100
+reflect 20
+brillance 100
+transparency 0
+refraction_index 133
+}
+
+sphere {
+center 60 20 200
+radius 30
+color 255 255 0
+diffuse 100
+reflect 20
+brillance 100
+transparency 0
+texture MARBLE
+}
+
+################ LIGHTS
+
+light {
+type AMBIANT
+color 255 255 255
+direction 0 -5 1
+power 1200
+}

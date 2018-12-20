@@ -1,0 +1,224 @@
+###############################################################################
+# GEOMETRIC
+###############################################################################
+
+
+################ THEME
+
+theme {
+color 255 255 255
+power 10
+} 
+
+################ CAMERA
+
+camera {
+position 0 1 0
+angles 0 0
+}
+
+################ OBJECTS
+
+# PLANES
+
+plane {
+normal 0 1 0
+point 0 50 0
+color 90 90 90
+diffuse 100
+reflect 0
+brillance 0
+transparency 0
+}
+
+plane {
+normal 0 1 0
+point 0 -50 0
+color 220 120 90
+diffuse 100
+reflect 0
+brillance 0
+transparency 0
+}
+
+# RIGHT TO LEFT CYLINDERS
+
+cylinder {
+position 50 0 100
+radius 3
+angles 90 90
+color 255 255 255
+diffuse 20
+reflect 0
+brillance 0
+transparency 90
+refraction_index 133
+}
+
+cylinder {
+position 40 0 120
+radius 3
+angles 90 100
+color 255 255 255
+diffuse 20
+reflect 0
+brillance 0
+transparency 80
+refraction_index 133
+}
+
+cylinder {
+position 30 0 140
+radius 3
+angles 90 110
+color 255 255 255
+diffuse 20
+reflect 0
+brillance 0
+transparency 70
+refraction_index 133
+}
+
+cylinder {
+position 20 0 160
+radius 3
+angles 90 120
+color 255 255 255
+diffuse 20
+reflect 0
+brillance 0
+transparency 60
+refraction_index 133
+}
+
+cylinder {
+position 10 0 180
+radius 3
+angles 90 130
+color 255 255 255
+diffuse 20
+reflect 0
+brillance 0
+transparency 50
+refraction_index 133
+}
+
+cylinder {
+position 0 0 200
+radius 3
+angles 90 140
+color 255 255 255
+diffuse 20
+reflect 0
+brillance 0
+transparency 40
+refraction_index 133
+}
+
+cylinder {
+position -10 0 220
+radius 3
+angles 90 150
+color 255 255 255
+diffuse 20
+reflect 0
+brillance 0
+transparency 30
+refraction_index 133
+}
+
+# LEFT TO RIGHT CYLINDERS
+
+cylinder {
+position -50 0 110
+radius 3
+angles 90 90
+color 255 255 255
+diffuse 20
+reflect 0
+brillance 0
+transparency 90
+refraction_index 133
+}
+
+cylinder {
+position -40 0 130
+radius 3
+angles 90 80
+color 255 255 255
+diffuse 20
+reflect 0
+brillance 0
+transparency 80
+refraction_index 133
+}
+
+cylinder {
+position -30 0 150
+radius 3
+angles 90 70
+color 255 255 255
+diffuse 20
+reflect 0
+brillance 0
+transparency 70
+refraction_index 133
+}
+
+cylinder {
+position -20 0 170
+radius 3
+angles 90 60
+color 255 255 255
+diffuse 20
+reflect 0
+brillance 0
+transparency 60
+refraction_index 133
+}
+
+cylinder {
+position -10 0 190
+radius 3
+angles 90 50
+color 255 255 255
+diffuse 20
+reflect 0
+brillance 0
+transparency 50
+refraction_index 133
+}
+
+cylinder {
+position 0 0 210
+radius 3
+angles 90 40
+color 255 255 255
+diffuse 20
+reflect 0
+brillance 0
+transparency 40
+refraction_index 133
+}
+
+cylinder {
+position 10 0 230
+radius 3
+angles 90 30
+color 255 255 255
+diffuse 20
+reflect 0
+brillance 0
+transparency 30
+refraction_index 133
+}
+
+
+################ LIGHTS
+
+light {
+type OMNI
+color 255 255 255
+position 0 0 0
+power 1200
+}
