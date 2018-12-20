@@ -1,10 +1,10 @@
 # define TRUE 1
 # define FALSE 0
 
-# define MAX_DEPTH 2
+# define MAX_DEPTH 3
 # define ALIASING 1
-# define BLUR_SHADOWS 0
-# define LIGHT_SPREAD 0
+# define BLUR_SHADOWS 1
+# define LIGHT_SPREAD 2
 # define LIGHT_SEP 1.5
 # define GI_ENABLED 0
 # define GI_SAMPLING 150
@@ -1883,7 +1883,13 @@ t_color			direct_illumination_by(t_light light, t_object intersected_object,
 	int			total_color[4] = {0};
 	float		norm;
 
-	max_iter = (current_light.typpe == AMBIANT || !BLUR_SHADOWS) ? 1 : LIGHT_SPREAD * 7;
+	if (current_light.typpe != OMNI)
+		printf("%d\n", current_light.typpe);
+	// if (current_light.typpe == AMBIANT)
+	// 	printf("STOP\n");
+	// max_iter = ((current_light.typpe != AMBIANT) && BLUR_SHADOWS) ? LIGHT_SPREAD * 7 : 1;
+	max_iter = (BLUR_SHADOWS) ? LIGHT_SPREAD * 7 : 1;
+	// printf("iter : %d\n", max_iter);
 	rand = -1;
 	while (++rand < max_iter)
 	{
