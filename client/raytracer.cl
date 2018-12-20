@@ -1947,11 +1947,9 @@ t_color			get_color_on_intersection(t_object ray, t_object intersected_object,
 
 	light_index = -1;
 	full_color = ambiant_color(*scene, intersected_object);
-	if (!with_GI) {
 	while (++light_index < scene->lights_count)
 		full_color = add_color(full_color, direct_illumination_by(light[light_index],
 			intersected_object, ray, scene, obj, TRUE));
-	}
 	if (with_GI)
 	{
 		indirect_color = indirect_diffuse_on_point(shape_normal(ray, intersected_object),
@@ -2035,7 +2033,6 @@ t_color			indirect_diffuse_on_point(t_vector normal, t_point origin,
 		(unsigned char)((float)total_color[2] / (float)GI_SAMPLING),
 		(unsigned char)((float)total_color[3] / (float)GI_SAMPLING),
 	});
-	// TODO: fade color
 }
 
 
