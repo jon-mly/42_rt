@@ -1,0 +1,75 @@
+###############################################################################
+# BUMP
+###############################################################################
+
+
+################ THEME
+
+theme {
+color 255 255 255
+power 10
+} 
+
+################ CAMERA
+
+camera {
+position 0 100 -200
+angles -15 0
+}
+
+################ OBJECTS
+
+# MIRROR
+plane {
+normal 0 0 -1
+point 0 0 200
+color 255 255 255
+diffuse 0
+brillance 100
+transparency 0
+refraction_index 100
+reflect 100
+}
+
+# BUMPED PLANE
+plane {
+normal 0 20 1
+point 0 -50 300
+color 0 38 255
+diffuse 70
+brillance 0
+transparency 0
+refraction_index 100
+reflect 50
+bump_mapping VERTICAL_SIN
+}
+
+# SPHERE FOR REFERENCE
+sphere {
+center -60 0 130
+radius 18
+color 255 215 0
+diffuse 100
+reflect 10
+brillance 100
+transparency 0
+refraction_index 100
+}
+
+################ LIGHTS
+
+light {
+type AMBIANT
+direction 0 -1 1
+color 255 255 255
+power 700
+}
+
+light {
+type OMNI
+angle 40
+direction 0 10 7
+color 255 255 255
+position 60 60 180
+power 3000
+}
