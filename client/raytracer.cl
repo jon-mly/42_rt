@@ -1,11 +1,11 @@
 # define TRUE 1
 # define FALSE 0
-# define MAX_DEPTH 1
+# define MAX_DEPTH 2
 # define ALIASING 1
 # define BLUR_SHADOWS 0
 # define LIGHT_SPREAD 0
 # define LIGHT_SEP 1.5
-# define GI_ENABLED 0
+# define GI_ENABLED 1
 # define GI_SAMPLING 150
 # define EPSILON 0.01
 
