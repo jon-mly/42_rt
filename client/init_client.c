@@ -71,7 +71,11 @@ static	int		recv_nb_light_obj(t_env *e)
 	if (!(e->scene.lights = (t_light *)malloc(sizeof(t_light) * e->light_ct)))
 		exit(EXIT_FAILURE);
 	return(e->err);
+}
 
+static int		recv_render_bounds(t_env *e)
+{
+	return (recv(e->srv.socket, &e->bounds, sizeof(t_render_bounds), 0));
 }
 
 static	int		recv_cam_scene(t_env *e)
@@ -88,6 +92,8 @@ int				recv_obj_light(t_env *e)
 
 	i = -1;
 	if ((e->err = recv_nb_light_obj(e)) == SOCKET_ERROR)
+		return (e->err);
+	if ((e->err = recv_render_bounds(e)) == SOCKET_ERROR)
 		return (e->err);
 	if ((e->err = recv_cam_scene(e)) == SOCKET_ERROR)
 		return (e->err);

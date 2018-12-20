@@ -280,6 +280,12 @@ typedef struct				s_srv
 	t_hostent			*hostinfo;
 }							t_srv;
 
+typedef struct				s_render_bounds
+{
+	int					top;
+	int					bottom;
+}							t_render_bounds;
+
 typedef struct				s_env
 {
 	void				*mlx_ptr;
@@ -303,6 +309,7 @@ typedef struct				s_env
 	int					child;
 	int					err;
 	struct timespec		tim;
+	t_render_bounds		bounds;
 	t_scene				scene;
 	t_object			object;
 	t_camera			camera;

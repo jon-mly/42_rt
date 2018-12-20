@@ -27,6 +27,7 @@ void			*request_rendering(t_env *e)
 		printf("i: %d\n", i);
 		tmp[i] = *e;
 		tmp[i].srv.socket_cl = tmp[i].srv.sockets[i];
+		tmp[i].srv.crrnt_sckt_id = i;
 		if (pthread_create(&thr2[i], NULL, loop_data, &tmp[i]))
 		{
 			ft_putendl("Error function pthread_create()");
@@ -74,12 +75,13 @@ void			*loop_data(void *arg)
 	int			err;
 	int 		size;
 	char 		*tmp;
-	char 		*ptr = tmp;
+	char 		*ptr;
 
 	e = (t_env *)arg;
 	size = sizeof(char) * WIN_WIDTH * WIN_HEIGHT * 4;
 	if ((tmp = (char*)malloc(size)) == NULL)
 		return (NULL);
+	ptr = tmp;
 	if ((err = send_obj_light(e)) == SOCKET_ERROR)
 	{
 		perror("send()");

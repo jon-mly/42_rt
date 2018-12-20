@@ -272,6 +272,7 @@ typedef struct				s_srv
 	int					err;
 	int					port;
 	int					sockets[10];
+	int					crrnt_sckt_id;
 	char				*addr;
 	socklen_t			size_cl;
 	socklen_t			sin_sz;
@@ -281,6 +282,12 @@ typedef struct				s_srv
 	t_client_state		cl_state;
 	t_hostent			*hostinfo;
 }							t_srv;
+
+typedef struct				s_render_bounds
+{
+	int					top;
+	int					bottom;
+}							t_render_bounds;
 
 typedef struct				s_env
 {
