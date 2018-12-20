@@ -24,13 +24,9 @@ void			*request_rendering(t_env *e)
 	i = -1;
 	while (++i < e->srv.nbclient)
 	{
-		printf("nbclient: %d\n", e->srv.nbclient);
 		printf("i: %d\n", i);
 		tmp[i] = *e;
 		tmp[i].srv.socket_cl = tmp[i].srv.sockets[i];
-		printf("socketclient[i] %d\n", e->srv.sockets[i]);
-		printf("tmp.nbclient: %d\n", tmp[i].srv.nbclient);
-		//printf("nbclient %d\n", tmp->srv.nbclient);
 		if (pthread_create(&thr2[i], NULL, loop_data, &tmp[i]))
 		{
 			ft_putendl("Error function pthread_create()");
@@ -76,18 +72,19 @@ void			*loop_data(void *arg)
 {
 	t_env		*e;
 	int			err;
+	int 		size;
+	char 		*tmp;
+	char 		*ptr = tmp;
 
 	e = (t_env *)arg;
+	size = sizeof(char) * WIN_WIDTH * WIN_HEIGHT * 4;
+	if ((tmp = (char*)malloc(size)) == NULL)
+		return (NULL);
 	if ((err = send_obj_light(e)) == SOCKET_ERROR)
 	{
 		perror("send()");
 		exit(EXIT_FAILURE);
 	}
-	//write(1, "X\n", 2);
-	int size = sizeof(char) * WIN_WIDTH * WIN_HEIGHT * e->bpp;
-	printf("server size %d\n", size);
-	char *tmp = (char*)malloc(size);
-	char *ptr = tmp;
 	while (size > 0)
 	{
 		if ((err = recv(e->srv.socket_cl, ptr, (int)fmin(1024, size), 0)) < 0)
@@ -97,14 +94,10 @@ void			*loop_data(void *arg)
 		}
 		size -= err;
 		ptr += err;
-		// printf("Received %12d - remaining %12d\n", err, size);
 	}
-	int size2 = sizeof(char) * WIN_WIDTH * WIN_HEIGHT * e->bpp;
-	ft_memmove(e->img_str, tmp, size2);
-	printf("loup data addr img %p\n", e->img_str);
+	size = sizeof(char) * WIN_WIDTH * WIN_HEIGHT * 4;
+	ft_memmove(e->img_str, tmp, size);
 	free(tmp);
-	ft_putendl("DID RECEIVE ALL");
-	write(1, "X\n", 2);
 	printf("err %d\n", err);
 	pthread_exit(NULL);
 }

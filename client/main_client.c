@@ -27,19 +27,14 @@ static	int		parse_arg(t_env *e, char *av, char *av2)
 void		await_data(t_env *env)
 {
 	env->srv.cl_state = WAIT_DATA;
-	ft_putendl("Will receive data");
 	recv_obj_light(env);
-	ft_putendl("Has received data");
 }
 
 void		perform_rendering(t_env *env)
 {
 	env->srv.cl_state = RENDERING;
-	ft_putendl("Will init opencl");
 	opencl_init(&env->opcl, env);
-	ft_putendl("Will begin render");
 	opencl_draw(&env->opcl, env);
-	ft_putendl("Did render");
 }
 
 void		send_rendering(t_env *env)
@@ -49,14 +44,11 @@ void		send_rendering(t_env *env)
 	if ((mlx_put_image_to_window(env->mlx_ptr, env->win_ptr,
 					env->img_ptr, 0, 0)) == -1)
 		ft_putendl("Failed to put image to window");
-	ft_putendl("Did display image to window");
-	// TODO: send rendering
-	int size = sizeof(char) * WIN_WIDTH * WIN_HEIGHT * 32;
-	printf("size %d\n", size);
+	int size = sizeof(char) * WIN_WIDTH * WIN_HEIGHT * 4;
 	char *tmp = env->img_str;
 	while (size > 0)
 	{
-		if ((err = send(env->srv.socket, env->img_str, (int)fmin(1024, size), 0)) < 0)
+		if ((err = send(env->srv.socket, tmp, (int)fmin(1024, size), 0)) < 0)
 		{
 			perror("send()");
 			exit(EXIT_FAILURE);
@@ -98,7 +90,6 @@ int			main(int ac, char **av)
 	mlx_hook(env->win_ptr, 17, 0, exit_properly, (void*)env);
 	mlx_loop_hook(env->mlx_ptr, expose_event, (void*)env);
 	set_opencl_env(&env->opcl);
-	//loop_client_lifecycle(env);
 	if (pthread_create(&(env->thr), NULL, loop_client_lifecycle, env))
 	{
 		ft_putendl("Error launching client lifecycle : pthread_create");
@@ -110,6 +101,5 @@ int			main(int ac, char **av)
 		exit(EXIT_FAILURE);
 	}
 	mlx_loop(env->mlx_ptr);
-	ft_putendl("WILL END MAIN");
 	return (0);
 }
