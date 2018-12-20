@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/19 10:32:43 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/19 18:03:25 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,8 @@ typedef struct				s_camera
 	float				x_angle;
 	float				y_angle;
 	float				z_angle;
+	int					top_line;
+	int					bottom_line;
 }							t_camera;
 
 typedef struct				s_scene
@@ -313,7 +315,8 @@ typedef struct				s_env
 ** ======= prototypes
 */
 
-void			*await_new_client(void *arg);
+void						*request_rendering(t_env *e);
+void						*await_new_client(void *arg);
 void						server_connect(t_env *e);
 int							send_obj_light(t_env *e);
 int							recv_client(t_env *e);

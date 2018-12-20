@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 16:40:56 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/19 15:15:41 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/19 16:15:56 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,37 @@ static	int		parse_arg(t_env *e, char *av, char *av2)
 void		await_data(t_env *env)
 {
 	env->srv.cl_state = WAIT_DATA;
-	ft_putendl("Will receive data");
 	recv_obj_light(env);
-	ft_putendl("Has received data");
 }
 
 void		perform_rendering(t_env *env)
 {
 	env->srv.cl_state = RENDERING;
-	ft_putendl("Will init opencl");
 	opencl_init(&env->opcl, env);
-	ft_putendl("Will begin render");
 	opencl_draw(&env->opcl, env);
-	ft_putendl("Did render");
 }
 
 void		send_rendering(t_env *env)
 {
+	int	err;
 	env->srv.cl_state = SENDING;
 	if ((mlx_put_image_to_window(env->mlx_ptr, env->win_ptr,
 					env->img_ptr, 0, 0)) == -1)
 		ft_putendl("Failed to put image to window");
-	ft_putendl("Did display image to window");
-	// TODO: send rendering
+	int size = sizeof(char) * WIN_WIDTH * WIN_HEIGHT * 4;
+	char *tmp = env->img_str;
+	while (size > 0)
+	{
+		if ((err = send(env->srv.socket, tmp, (int)fmin(1024, size), 0)) < 0)
+		{
+			perror("send()");
+			exit(EXIT_FAILURE);
+		}
+		// printf("Sent : %12d - remaining : %12d\n", err, size);
+		size -= err;
+		tmp += err;
+	}
+	ft_putendl("HAS TERMINATED SENDING");
 }
 
 void		*loop_client_lifecycle(void *arg)
@@ -82,7 +90,6 @@ int			main(int ac, char **av)
 	mlx_hook(env->win_ptr, 17, 0, exit_properly, (void*)env);
 	mlx_loop_hook(env->mlx_ptr, expose_event, (void*)env);
 	set_opencl_env(&env->opcl);
-	//loop_client_lifecycle(env);
 	if (pthread_create(&(env->thr), NULL, loop_client_lifecycle, env))
 	{
 		ft_putendl("Error launching client lifecycle : pthread_create");

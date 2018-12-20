@@ -6,7 +6,7 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:31 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/08/07 11:21:20 by aabelque         ###   ########.fr       */
+/*   Updated: 2018/12/19 18:02:56 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@ int			handle_key_event(int key, void *param)
 		exit_normally(env);
 	else if (key == KEY_SPACE)
 	{
-		if (env->srv.state == WAIT_CLIENTS) {
+		if (env->srv.state == WAIT_CLIENTS)
+		{
 			env->srv.state = WAIT_RENDER;
 			printf("Did change server state to WAIT_RENDER\n");
+			request_rendering(env);
 		}
 	}
 	return (0);
