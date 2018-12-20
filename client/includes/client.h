@@ -230,6 +230,8 @@ typedef struct				s_scene
 	t_light				*lights;
 	int					objects_count;
 	int					lights_count;
+	int					top_bound;
+	int					bottom_bound;
 	t_color		theme;
 	float		power;
 }							t_scene;

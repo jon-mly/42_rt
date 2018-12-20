@@ -99,6 +99,8 @@ int				recv_obj_light(t_env *e)
 		return (e->err);
 	e->scene.lights_count = e->light_ct;
 	e->scene.objects_count = e->obj_ct;
+	e->scene.top_bound = e->bounds.top;
+	e->scene.bottom_bound = e->bounds.bottom;
 	while (++i < e->obj_ct)
 	{
 		e->err = recv(e->srv.socket, (void *)e->data_o, sizeof(t_object), 0);
@@ -115,8 +117,5 @@ int				recv_obj_light(t_env *e)
 			return (e->err);
 		deserialize_light(e->data_l, &e->scene.lights[i]);
 	}
-	printf("client objects[0].center.x %f\n", e->scene.objects[0].center.x);
-	printf("client objects[0].center.y %f\n", e->scene.objects[0].center.y);
-	printf("client objects[0].center.z %f\n", e->scene.objects[0].center.z);
 	return (e->err);
 }

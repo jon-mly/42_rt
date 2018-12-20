@@ -14,7 +14,6 @@
 
 void			opencl_draw(t_opencl *opcl, t_env *e)
 {
-	printf("obj %d - lig %d\n", e->obj_ct, e->light_ct);
 	opcl->err = clEnqueueWriteBuffer(opcl->commands, opcl->structobj,
 			CL_TRUE, 0, sizeof(t_object) * e->scene.objects_count,
 			(void *)e->scene.objects, 0, NULL, NULL);
@@ -35,12 +34,9 @@ void			opencl_draw(t_opencl *opcl, t_env *e)
 			&opcl->structobj);
 	opcl->err |= clSetKernelArg(opcl->kernel, 4, sizeof(cl_mem),
 			&opcl->structlight);
-	putchar('1');
 	opcl->err = clEnqueueNDRangeKernel(opcl->commands, opcl->kernel,
 			2, NULL, opcl->imgxy, NULL, 0, NULL, NULL);
-	putchar('2');
 	opcl->err = clEnqueueReadImage(opcl->commands, opcl->output,
 			CL_TRUE, opcl->region, opcl->origin, 0, 0, e->img_str,
 			0, NULL, NULL);
-	printf("err: %d\n", opcl->err);
 }

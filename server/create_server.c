@@ -98,10 +98,11 @@ static t_render_bounds	bounds_at(int socket_index, int sockets_count)
 	t_render_bounds		bounds;
 
 	//FIXME: only for test purpose
-	sockets_count = 8;
+	socket_index += 2;
+	sockets_count = 5;
 
 	bounds.top = (int)floor(WIN_HEIGHT * ((float)socket_index / (float)sockets_count));
-	bounds.bottom = (int)floor(WIN_HEIGHT * ((float)(socket_index + 1) / (float)sockets_count));
+	bounds.bottom = (int)floor(WIN_HEIGHT * ((float)(socket_index + 1) / (float)sockets_count)) - 1;
 	printf("top : %d, bottom : %d\n", bounds.top, bounds.bottom);
 	return (bounds);
 }

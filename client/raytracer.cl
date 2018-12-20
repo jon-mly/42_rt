@@ -162,15 +162,17 @@ typedef struct				s_object
 	t_bump_mapping		bump_mapping;
 }							t_object;
 
-typedef struct	s_scene
+typedef struct				s_scene
 {
-	t_object	*objects;
-	t_light		*lights;
-	int			objects_count;
-	int			lights_count;
+	t_object			*objects;
+	t_light				*lights;
+	int					objects_count;
+	int					lights_count;
+	int					top_bound;
+	int					bottom_bound;
 	t_color		theme;
 	float		power;
-}				t_scene;
+}							t_scene;
 
 int				omni_color_coord(float cosinus, float distance, int obj_color, int light_color);
 int             projector_color_coord(float intensity, float distance, int obj_color, int light_color);
@@ -2388,8 +2390,10 @@ __kernel void				pixel_raytracing_gpu(__write_only image2d_t out, global t_scene
 	float		aliasing_variation;
 	t_color		average;
 
-	x = get_global_id(0);
 	y = get_global_id(1);
+	if (y < scene->top_bound || y > scene->bottom_bound)
+		return;
+	x = get_global_id(0);
 	aliasing_iter = -1;
 	while (++aliasing_iter < ALIASING)
 	{
