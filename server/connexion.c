@@ -74,12 +74,15 @@ void			*loop_data(void *arg)
 	int			err;
 	int 		size;
 	char 		*tmp;
-	char 		*ptr = tmp;
+	char 		*ptr;
+
+	int t = 0;
 
 	e = (t_env *)arg;
 	size = sizeof(char) * WIN_WIDTH * WIN_HEIGHT * 4;
 	if ((tmp = (char*)malloc(size)) == NULL)
 		return (NULL);
+	ptr = tmp;
 	if ((err = send_obj_light(e)) == SOCKET_ERROR)
 	{
 		perror("send()");
@@ -92,6 +95,7 @@ void			*loop_data(void *arg)
 			perror("recv()");
 			exit(EXIT_FAILURE);
 		}
+		t++;
 		size -= err;
 		ptr += err;
 	}

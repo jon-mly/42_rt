@@ -28,15 +28,6 @@ void			init_env_client(t_env *e, char *str)
 	e->srv.sin_cl.sin_port = htons(e->srv.port);
 }
 
-/*void		loop_data(t_env *e)
-{
-	while (1)
-	{
-		recv_client(e);
-		opencl_draw(&e->opcl, env);
-	}
-}*/
-
 void			create_client(t_env *e)
 {
 	ft_putendl("Connecting to server...");
@@ -109,8 +100,5 @@ int				recv_obj_light(t_env *e)
 			return (e->err);
 		deserialize_light(e->data_l, &e->scene.lights[i]);
 	}
-	printf("client objects[0].center.x %f\n", e->scene.objects[0].center.x);
-	printf("client objects[0].center.y %f\n", e->scene.objects[0].center.y);
-	printf("client objects[0].center.z %f\n", e->scene.objects[0].center.z);
 	return (e->err);
 }
