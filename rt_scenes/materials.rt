@@ -1,0 +1,319 @@
+###############################################################################
+# MATERIALS
+###############################################################################
+
+
+################ THEME
+
+theme {
+color 255 255 255
+power 10
+} 
+
+################ CAMERA
+
+camera {
+position 0 10 -60
+angles 0 0
+}
+
+################ OBJECTS
+
+# BACKGROUND
+
+plane {
+normal 0 0 -1
+point 0 0 150
+color 220 220 220
+diffuse 90
+reflect 10
+brillance 0
+transparency 0
+}
+
+plane {
+normal 0 1 0
+point 0 -54 0
+color 220 220 220
+diffuse 90
+reflect 10
+brillance 0
+transparency 0
+}
+
+# MARBLE
+
+cylinder {
+point 0 -10 100
+finite 
+covered
+radius 15
+height 45
+angles -90 90
+texture MARBLE
+diffuse 100
+reflect 20
+brillance 100
+transparency 0
+}
+
+cone {
+center 0 35 100
+finite 
+covered
+pi_divider 9
+height 40
+angles 90 90
+texture MARBLE
+diffuse 100
+reflect 20
+brillance 100
+transparency 0
+}
+
+sphere {
+center 0 50 100
+radius 12
+texture MARBLE
+diffuse 100
+reflect 20
+brillance 100
+transparency 0
+}
+
+# PERLIN
+
+cylinder {
+point 40 -10 100
+finite 
+covered
+radius 15
+height 45
+angles -90 90
+texture PERLIN
+diffuse 100
+reflect 80
+brillance 100
+transparency 50
+refraction_index 120
+}
+
+cone {
+center 40 35 100
+finite 
+covered
+pi_divider 9
+height 40
+angles 90 90
+texture PERLIN
+diffuse 100
+reflect 80
+brillance 100
+transparency 50
+refraction_index 120
+}
+
+sphere {
+center 40 50 100
+radius 12
+texture PERLIN
+diffuse 100
+reflect 80
+brillance 100
+transparency 50
+refraction_index 120
+}
+
+# WOOD
+
+cylinder {
+point -40 -10 100
+finite 
+covered
+radius 15
+height 45
+angles -90 90
+texture WOOD
+diffuse 100
+reflect 0
+brillance 3
+transparency 0
+}
+
+cone {
+center -40 35 100
+finite 
+covered
+pi_divider 9
+height 40
+angles 90 90
+texture WOOD
+diffuse 100
+reflect 0
+brillance 3
+transparency 0
+}
+
+sphere {
+center -40 50 100
+radius 12
+texture WOOD
+diffuse 100
+reflect 0
+brillance 3
+transparency 0
+}
+
+# GLASS
+
+cylinder {
+point -80 -10 100
+finite 
+covered
+radius 15
+height 45
+angles -90 90
+color 255 255 255
+diffuse 1
+reflect 100
+brillance 80
+transparency 95
+refraction_index 133
+}
+
+cone {
+center -80 35 100
+finite 
+covered
+pi_divider 9
+height 40
+angles 90 90
+color 255 255 255
+diffuse 1
+reflect 100
+brillance 80
+transparency 95
+refraction_index 133
+}
+
+sphere {
+center -80 50 100
+radius 12
+color 255 255 255
+diffuse 1
+reflect 100
+brillance 80
+transparency 95
+refraction_index 133
+}
+
+# DOTS
+
+cylinder {
+point 80 -10 100
+finite 
+covered
+radius 15
+height 45
+angles -90 90
+texture DOTS_REVERTED
+color 255 255 255
+diffuse 100
+reflect 20
+brillance 80
+transparency 0
+}
+
+cone {
+center 80 35 100
+finite 
+covered
+pi_divider 9
+height 40
+angles 90 90
+texture DOTS_REVERTED
+color 255 255 255
+diffuse 100
+reflect 20
+brillance 80
+transparency 0
+}
+
+sphere {
+center 80 50 100
+radius 12
+texture DOTS_REVERTED
+color 255 255 255
+diffuse 100
+reflect 20
+brillance 80
+transparency 0
+}
+
+
+################ LIGHTS
+
+# GENERAL AMBIANT
+light {
+type AMBIANT
+color 255 255 255
+direction 0 -5 3
+power 100
+}
+
+light {
+type OMNI
+color 255 255 255
+position 0 200 -300
+power 1200
+}
+
+# MARBLE PROJECTOR
+light {
+type PROJECTOR
+color 255 255 255
+direction 0 5 2
+angle 55
+position 0 -53 60
+power 800
+}
+
+# PERLIN PROJECTOR
+light {
+type PROJECTOR
+color 255 255 255
+direction 0 5 2
+angle 55
+position 40 -53 60
+power 800
+}
+
+# WOOD PROJECTOR
+light {
+type PROJECTOR
+color 255 255 255
+direction 0 5 2
+angle 55
+position -40 -53 60
+power 800
+}
+
+# GLASS PROJECTOR
+light {
+type PROJECTOR
+color 255 255 255
+direction 0 5 2
+angle 55
+position -80 -53 60
+power 800
+}
+
+# DOTS PROJECTOR
+light {
+type PROJECTOR
+color 255 255 255
+direction 0 5 2
+angle 55
+position 80 -53 60
+power 800
+}

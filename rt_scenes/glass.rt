@@ -1,0 +1,112 @@
+###############################################################################
+# GEOMETRIC
+###############################################################################
+
+
+################ THEME
+
+theme {
+color 255 255 255
+power 0
+} 
+
+################ CAMERA
+
+camera {
+position 0 0 0
+angles 0 0
+}
+
+################ OBJECTS
+
+hyperboloid {
+rho 5
+sigma 20
+angles 0 90
+center -50 0 100
+color 255 255 255
+diffuse 0
+reflect 100
+brillance 80
+transparency 95
+refraction_index 133
+}
+
+hyperboloid {
+rho 5
+sigma 20
+angles 0 90
+center 50 0 100
+color 255 255 255
+diffuse 0
+reflect 100
+brillance 80
+transparency 95
+refraction_index 133
+}
+
+cylinder {
+point 0 0 100
+angles -90 0
+radius 7
+color 255 255 255
+diffuse 0
+reflect 100
+brillance 80
+transparency 95
+refraction_index 133
+}
+
+cone {
+center 0 0 100
+angles 0 -90
+pi_divider 12
+color 255 255 255
+diffuse 0
+reflect 100
+brillance 80
+transparency 95
+refraction_index 133
+}
+
+sphere {
+center 0 30 100
+radius 13
+color 255 255 255
+diffuse 0
+reflect 100
+brillance 80
+transparency 95
+refraction_index 133
+}
+
+sphere {
+center 0 -30 100
+radius 13
+color 255 255 255
+diffuse 0
+reflect 100
+brillance 80
+transparency 95
+refraction_index 133
+}
+
+plane {
+normal 0 0 1
+point 0 0 200
+color 255 255 255
+diffuse 100
+reflect 0
+transparency 0
+brillance 0
+}
+
+
+################ LIGHTS
+
+light {
+type OMNI
+color 255 255 255
+position 0 0 -50
+power 2500
+}

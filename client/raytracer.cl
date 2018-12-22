@@ -1,19 +1,19 @@
 # define TRUE 1
 # define FALSE 0
 
-# define MAX_DEPTH 3
+# define MAX_DEPTH 5
 # define ALIASING 1
 # define BLUR_SHADOWS 0
 # define LIGHT_SPREAD 2
 # define LIGHT_SEP 1.5
 # define GI_ENABLED 0
 # define GI_SAMPLING 150
-# define EPSILON 0.001
+# define EPSILON 0.01
 
 # define CIRCLES_WIDTH 2.3
 # define CHECKER_WIDTH 40.0
-# define DOTS_WIDTH 2.6
-# define DOTS_SPREAD 4.5
+# define DOTS_WIDTH 2.3
+# define DOTS_SPREAD 5.0
 # define BUMP_HEIGHT 0.1
 # define BUMP_WIDTH 5
 
