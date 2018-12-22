@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.h                                           :+:      :+:    :+:   */
+/*   rtv1.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/10 15:29:01 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/21 19:00:17 by aabelque         ###   ########.fr       */
+/*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
+/*   Updated: 2018/12/21 18:04:18 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CLIENT_H
-# define CLIENT_H
+#ifndef RT_H
+# define RT_H
 
 /*
 ** ====== includes
@@ -45,6 +45,7 @@
 # define FOV 0.50
 
 # define KEY_ESC 53
+# define KEY_SPACE 49
 
 # define TRUE 1
 # define FALSE 0
@@ -59,9 +60,9 @@
 
 typedef struct sockaddr_in	t_sockaddr_in;
 typedef struct sockaddr		t_sockaddr;
-typedef struct hostent		t_hostent;
+typedef	struct hostent		t_hostent;
 
-typedef enum				e_object_type
+typedef	enum				e_object_type
 {
 	SPHERE,
 	PLANE,
@@ -184,8 +185,8 @@ typedef struct				s_object
 	t_vector			second_vect;
 	t_color				color;
 	t_object_type		typpe;
-	t_texture			texture_type;
-	t_texture_algo		texture_algo;
+	t_texture			txt_type;
+	t_texture_algo		txt_algo;
 	t_bump_mapping		bump_mapping;
 }							t_object;
 
@@ -227,8 +228,6 @@ typedef struct				s_scene
 	t_light				*lights;
 	int					objects_count;
 	int					lights_count;
-	int					top_bound;
-	int					bottom_bound;
 	t_color				theme;
 	float				power;
 }							t_scene;
@@ -270,20 +269,22 @@ typedef struct				s_srv
 	int					err;
 	int					port;
 	int					sockets[10];
+	int					crrnt_sckt_id;
 	char				*addr;
 	socklen_t			size_cl;
 	socklen_t			sin_sz;
 	t_sockaddr_in		sin;
 	t_sockaddr_in		sin_cl;
+	t_server_state		state;
 	t_client_state		cl_state;
 	t_hostent			*hostinfo;
 }							t_srv;
 
-typedef struct				s_render_bounds
+typedef struct				s_renderbds
 {
 	int					top;
 	int					bottom;
-}							t_render_bounds;
+}							t_renderbds;
 
 typedef struct				s_env
 {
@@ -293,9 +294,9 @@ typedef struct				s_env
 	char				*img_str;
 	char				data_o[SIZE_OBJ];
 	char				data_l[SIZE_LIGHT];
+	int					size;
 	int					i;
-	int					obj_ct;
-	int					light_ct;
+	int					offset;
 	int					win_height;
 	int					win_width;
 	int					img_height;
@@ -309,7 +310,7 @@ typedef struct				s_env
 	int					child;
 	int					err;
 	struct timespec		tim;
-	t_render_bounds		bounds;
+	t_renderbds			bounds;
 	t_scene				scene;
 	t_object			object;
 	t_camera			camera;
@@ -322,26 +323,31 @@ typedef struct				s_env
 ** ======= prototypes
 */
 
-void						await_data(t_env *env);
-void						perform_rendering(t_env *env);
-void						send_rendering(t_env *env);
 void						ft_error(char *str);
+void						*request_rendering(t_env *e);
+void						*await_new_client(void *arg);
 void						server_connect(t_env *e);
-int							send_data(t_env *e);
-int							recv_obj_light(t_env *e);
+int							send_obj_light(t_env *e);
+int							recv_client(t_env *e);
 void						create_client(t_env *e);
 void						init_env_client(t_env *e, char *str);
 void						create_srv(t_env *e);
 void						init_env_server(t_env *e);
 void						*loop_data(void *arg);
-void						loop_recv(t_env *e);
 void						*waitcl(void *arg);
 void						exit_usage2(void);
 t_env						*init_env2(void);
-void						deserialize_obj(char *data, t_object *obj);
-void						deserialize_pt(char *data, t_point *obj);
-void						deserialize_float(float *data, t_object *obj);
-void						deserialize_light(char *data, t_light *light);
+void						serialize_obj(t_object *obj, char *data);
+void						serialize_pt(t_point *obj, char *data);
+void						serialize_float(t_object *obj, float *data);
+void						serialize_light(t_light *light, char *data);
+
+void						parse_obj_help(t_object *obj);
+t_object					add_new_cone(int fd);
+t_object					add_new_sphere(int fd);
+t_object					add_new_plane(int fd);
+t_object					add_new_disc(int fd);
+t_object					add_new_cylinder(int fd);
 int							error_gpu(t_opencl *opcl);
 void						opencl_init2(t_opencl *opcl, t_env *e);
 void						opencl_draw(t_opencl *opcl, t_env *e);
@@ -423,8 +429,8 @@ t_scene						create_dependant_objects(t_object object, int fd,
 		t_scene scene, int id);
 t_vector					rotate_cylinder_angles(t_object cylinder,
 		t_vector vect, int reverse);
-t_vector					rotate_cone_angles(t_object cone,
-		t_vector vect, int reverse);
+t_vector					rotate_cone_angles(t_object cone, t_vector vect,
+			int reverse);
 t_vector					rotate_vector_angles(t_object reference,
 		t_vector vect, int reverse);
 t_vector					cross_product(t_vector vect_1, t_vector vect_2);

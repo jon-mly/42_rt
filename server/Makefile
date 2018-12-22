@@ -9,38 +9,35 @@ MINILIBX = $(MLX)/mlx.a
 
 INCLUDE_FLAG = -I ./includes/
 
-SRCS_REP = ./
+SRCS_REP = srcs/
 HELPER_REP = helpers/
 PARSER_REP = parser/
 SHAPES_REP = shapes/
 SRCS = main.c \
-		shapes_intersection.c \
-		shapes_normal.c \
 		env_init.c \
 		serialize.c \
 		serialize_light.c \
-		serialize_float.c \
-		graphic_manager.c \
 		exit.c \
 		camera_init.c \
 		events.c \
-		pixel_drawing.c \
-		raytracing.c \
-		lighting.c \
 		deinit.c \
 		connexion.c \
 		init_serv.c \
+		send_data.c \
 		create_server.c \
 		$(HELPER_REP)constructors.c \
 		$(HELPER_REP)math_tools.c \
 		$(HELPER_REP)math_tools2.c \
+		$(HELPER_REP)math_tools3.c \
 		$(HELPER_REP)parser_helper.c \
 		$(HELPER_REP)lighting_helper.c \
 		$(PARSER_REP)light_creation.c \
 		$(PARSER_REP)object_creation.c \
+		$(PARSER_REP)object_creation2.c \
 		$(PARSER_REP)scene_creation.c \
 		$(PARSER_REP)camera_parser.c \
 		$(PARSER_REP)object_parser.c \
+		$(PARSER_REP)object_parser2.c \
 		$(PARSER_REP)finite_objects_expander.c \
 		$(SHAPES_REP)cylinder.c \
 		$(SHAPES_REP)cone.c \
@@ -68,7 +65,7 @@ $(NAME): $(O_SRCS)
 	mv $(NAME) ../
 	@echo "\033[3;32m[ ✔ ] RT ready.\033[0m"
 
-%.o: %.c ./includes/rtv1.h Makefile
+%.o: %.c ./includes/rt.h Makefile
 	@gcc $(INCLUDE_FLAG) -c $< -o $@
 
 all: $(NAME)
