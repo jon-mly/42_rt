@@ -74,8 +74,8 @@ void				create_prog(t_opencl *opcl)
 	cl_int			error;
 	size_t			file_length;
 
-	file_length = file_len(open("./client/raytracer.cl", O_RDONLY));
-	opcl->kernel_src = get_kernel_source("./client/raytracer.cl");
+	file_length = file_len(open("./client/srcs/raytracer.cl", O_RDONLY));
+	opcl->kernel_src = get_kernel_source("./client/srcs/raytracer.cl");
 	if (!(opcl->program = clCreateProgramWithSource(opcl->context, 1,
 					(const char **)&opcl->kernel_src,
 					(const size_t *)&file_length, &opcl->err))
