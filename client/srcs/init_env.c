@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/03 15:05:50 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/22 23:38:59 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/03 17:33:55 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ t_env			*init_env2(void)
 {
 	t_env	*env;
 
+	env->win_height = WIN_HEIGHT;
+	env->win_width = WIN_WIDTH;
+	env->img_width = WIN_WIDTH;
+	env->img_height = WIN_HEIGHT;
 	env->mlx_ptr = NULL;
 	env->img_ptr = NULL;
 	env->img_str = NULL;

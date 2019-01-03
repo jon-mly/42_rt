@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 16:40:56 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/22 23:39:00 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/03 17:33:57 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void			*loop_client_lifecycle(void *arg)
 int				main(int ac, char **av)
 {
 	t_env	*env;
+	int		err;
 
 	if (ac != 4)
 		exit_usage2();
