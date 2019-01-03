@@ -2,6 +2,10 @@ all:
 	@make -C server/
 	@make -C client/
 
+norme:
+	@make norme -C client/
+	@make norme -C server/
+
 clean:
 	@make clean -C client/
 	@make clean -C server/

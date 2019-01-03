@@ -66,7 +66,7 @@ normelibft:
 norme:
 	@norminette $(SRC)
 	@norminette includes/
-	@echo "\033[3;32m[ ✔ ] Norme is done.\033[0m"
+	@echo "\033[3;32m[ ✔ ] Client norme done.\033[0m"
 
 clean:
 	make clean -C $(LIBFT_REP)
