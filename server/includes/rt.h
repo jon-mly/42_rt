@@ -434,5 +434,6 @@ t_vector					rotate_cone_angles(t_object cone, t_vector vect,
 t_vector					rotate_vector_angles(t_object reference,
 		t_vector vect, int reverse);
 t_vector					cross_product(t_vector vect_1, t_vector vect_2);
+int							is_empty(char *line);
 
 #endif

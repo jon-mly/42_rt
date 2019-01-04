@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 14:31:37 by aabelque          #+#    #+#             */
-/*   Updated: 2019/01/03 15:03:35 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/04 17:12:16 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,14 @@ t_camera					set_camera(int fd, t_env *env)
 	char		**line;
 
 	camera = get_default_camera_parameters(env);
-	while ((line = split_new_line(fd)) && ft_strequ(line[0], "}") == FALSE)
+	while ((line = split_new_line(fd)) && ft_strequ(line[0], "</camera>") == FALSE)
 	{
-		if (line_len(line) == 4 && ft_strequ(line[0], "position"))
+		printf("camera line[0] = %s\n", line[0]);
+		printf("camera line[1] = %s\n", line[1]);
+		if (line_len(line) == 5 && ft_strequ(line[0], "\t<position>"))
 			camera.spot = point(ft_atoi(line[1]), ft_atoi(line[2]),
 				ft_atoi(line[3]));
-		else if (line_len(line) == 3 && ft_strequ(line[0], "angles"))
+		else if (line_len(line) == 4 && ft_strequ(line[0], "\t<angles>"))
 		{
 			camera.x_angle = degrees_to_radian(ft_atoi(line[1]));
 			camera.y_angle = degrees_to_radian(ft_atoi(line[2]));

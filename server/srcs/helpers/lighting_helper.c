@@ -12,6 +12,22 @@
 
 #include "rt.h"
 
+int			is_empty(char *line)
+{
+	int		i;
+
+	i = -1;
+	if (!line)
+		return (1);
+	while (line[++i] != '\0')
+	{
+		if (line[i] != '\n' && line[i] != '\0' && line[i] != ' '
+				&& line[i] != '\t' && line[i] != '\v' && line[i] != '\r')
+			return (0);
+	}
+	return (1);
+}
+
 int			hit_test(t_object *clt_obj, t_object *obj, t_object l_ray,
 		float norm)
 {

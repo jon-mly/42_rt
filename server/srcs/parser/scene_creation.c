@@ -6,7 +6,7 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 16:48:17 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/12/21 17:37:40 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/04 17:36:33 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,26 +53,31 @@ static void			extend_scene2(int fd, t_scene *scene, char **line)
 
 static t_scene		extend_scene(int fd, t_scene scene, char **line, t_env *env)
 {
-	if (ft_strequ(line[0], "theme") && line_len(line) == 4)
+	printf("line = %d\n", line_len(line));
+	printf("line[0] = %s\n", line[0]);
+	if (ft_strequ(line[0], "<theme>") && line_len(line) == 5)
+	{
+		printf("color line[1] = %s\n", line[1]);
 		scene.theme = color(ft_atoi(line[1]), ft_atoi(line[2]),
 				ft_atoi(line[3]), 0);
-	else if (ft_strequ(line[0], "power") && line_len(line) == 2)
+	}
+	else if (ft_strequ(line[0], "\t<power>") && line_len(line) == 3)
 		scene.power = fmin(fmax(ft_atoi(line[1]) / 100.0, 0), 1);
-	if (line_len(line) != 2 || !(ft_strequ(line[1], "{")))
+	if (line_len(line) != 1)
 		return (scene);
-	if (ft_strequ(line[0], "light"))
+	if (ft_strequ(line[0], "<light>"))
 	{
 		scene.lights_count++;
 		scene.lights = add_light(fd, scene.lights, scene.lights_count);
 	}
-	else if (ft_strequ(line[0], "sphere") || ft_strequ(line[0], "cone") ||
-			ft_strequ(line[0], "cylinder") || ft_strequ(line[0], "plane") ||
-			ft_strequ(line[0], "disc") || ft_strequ(line[0], "rectangle") ||
-			ft_strequ(line[0], "triangle") ||
-			ft_strequ(line[0], "parallelogram") ||
-			ft_strequ(line[0], "hyperboloid"))
+	else if (ft_strequ(line[0], "<sphere>") || ft_strequ(line[0], "<cone>") ||
+			ft_strequ(line[0], "<cylinder>") || ft_strequ(line[0], "<plane>") ||
+			ft_strequ(line[0], "<disc>") || ft_strequ(line[0], "<rectangle>") ||
+			ft_strequ(line[0], "<triangle>") ||
+			ft_strequ(line[0], "<parallelogram>") ||
+			ft_strequ(line[0], "<hyperboloid>"))
 		extend_scene2(fd, &scene, line);
-	else if (ft_strequ(line[0], "camera"))
+	else if (ft_strequ(line[0], "<camera>"))
 		env->camera = set_camera(fd, env);
 	return (scene);
 }

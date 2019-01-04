@@ -6,7 +6,7 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 16:09:07 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/12/21 17:41:07 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/04 16:08:34 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,21 +81,21 @@ static t_object		add_new_hyperboloid(int fd)
 
 t_object			add_new_object(int fd, char *type)
 {
-	if (ft_strequ(type, "cylinder"))
+	if (ft_strequ(type, "<cylinder>"))
 		return (add_new_cylinder(fd));
-	else if (ft_strequ(type, "sphere"))
+	else if (ft_strequ(type, "<sphere>"))
 		return (add_new_sphere(fd));
-	else if (ft_strequ(type, "plane"))
+	else if (ft_strequ(type, "<plane>"))
 		return (add_new_plane(fd));
-	else if (ft_strequ(type, "disc"))
+	else if (ft_strequ(type, "<disc>"))
 		return (add_new_disc(fd));
-	else if (ft_strequ(type, "rectangle"))
+	else if (ft_strequ(type, "<rectangle>"))
 		return (add_new_rectangle(fd));
-	else if (ft_strequ(type, "triangle"))
+	else if (ft_strequ(type, "<triangle>"))
 		return (add_new_triangle(fd));
-	else if (ft_strequ(type, "parallelogram"))
+	else if (ft_strequ(type, "<parallelogram>"))
 		return (add_new_parallelogram(fd));
-	else if (ft_strequ(type, "hyperboloid"))
+	else if (ft_strequ(type, "<hyperboloid>"))
 		return (add_new_hyperboloid(fd));
 	else
 		return (add_new_cone(fd));

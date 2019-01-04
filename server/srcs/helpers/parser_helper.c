@@ -55,6 +55,8 @@ char		**split_new_line(int fd)
 		return (NULL);
 	if ((res = get_next_line(fd, line)) < 0)
 		exit_usage();
+	if (res != 0 && (!*line || is_empty(*line) == 1))
+		ft_error("Empty line not allowed in XML");
 	if (res == 1)
 	{
 		ft_striter(*line, &(exit_if_non_ascii));

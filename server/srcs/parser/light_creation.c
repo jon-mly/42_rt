@@ -6,7 +6,7 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 15:36:32 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/12/21 16:55:36 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/04 16:18:53 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,24 @@ static t_light		*extend_lights(t_light **lights, int count)
 
 static	t_light		add_light_help(t_light new_light, char **line)
 {
-	if (line_len(line) == 4 && ft_strequ(line[0], "position"))
+	printf("light line = %d\n", line_len(line));
+	printf("light line[0] = %s\n", line[0]);
+	printf("light line[1] = %s\n", line[1]);
+	if (line_len(line) == 5 && ft_strequ(line[0], "\t<position>"))
 		new_light.posiition = point(ft_atoi(line[1]), ft_atoi(line[2]),
 				ft_atoi(line[3]));
-	else if (line_len(line) == 4 && ft_strequ(line[0], "color"))
+	else if (line_len(line) == 5 && ft_strequ(line[0], "\t<color>"))
 		new_light.color = color(ft_atoi(line[1]), ft_atoi(line[2]),
 				ft_atoi(line[3]), 0);
-	else if (line_len(line) == 4 && ft_strequ(line[0], "direction"))
+	else if (line_len(line) == 5 && ft_strequ(line[0], "\t<direction>"))
 		new_light.direction = normalize_vector(vector(ft_atoi(line[1]),
 					ft_atoi(line[2]), ft_atoi(line[3])));
-	else if (line_len(line) == 2 && ft_strequ(line[0], "power"))
+	else if (line_len(line) == 3 && ft_strequ(line[0], "\t<power>"))
 		new_light.power = fmax(ft_atoi(line[1]), 0);
-	else if (line_len(line) == 2 && ft_strequ(line[0], "angle"))
+	else if (line_len(line) == 3 && ft_strequ(line[0], "\t<angle>"))
 		new_light.angle = degrees_to_radian(fmax(fmin(ft_atoi(line[1]), 90),
 					0));
-	else if (line_len(line) == 2 && ft_strequ(line[0], "type"))
+	else if (line_len(line) == 3 && ft_strequ(line[0], "\t<type>"))
 	{
 		if (ft_strequ(line[1], "OMNI"))
 			new_light.typpe = OMNI;
@@ -92,7 +95,7 @@ t_light				*add_light(int fd, t_light *existing_lights, int count)
 	new_light.posiition = point(0, 0, 0);
 	new_light.color = color(255, 255, 255, 0);
 	new_light.power = 100.0;
-	while ((line = split_new_line(fd)) && ft_strequ(line[0], "}") == FALSE)
+	while ((line = split_new_line(fd)) && ft_strequ(line[0], "</light>") == FALSE)
 	{
 		new_light = add_light_help(new_light, line);
 		clear_line(line);
