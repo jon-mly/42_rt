@@ -61,18 +61,18 @@ angles 0 0
 # }
 
 # 0
-# cone {
-# center 0 0 100
-# angles 0 -90
-# pi_divider 12
-# color 255 0 0
-# diffuse 30
-# # reflect 100
-# reflect 0
-# brillance 80
-# transparency 95
-# refraction_index 133
-# }
+cone {
+center 0 0 100
+angles 0 -90
+pi_divider 12
+color 255 0 0
+diffuse 30
+# reflect 100
+reflect 0
+brillance 80
+transparency 95
+refraction_index 133
+}
 
 # 1
 sphere {
@@ -88,17 +88,17 @@ refraction_index 133
 }
 
 # 2
-sphere {
-center 0 -30 100
-radius 16
-color 0 0 255
-diffuse 30
-# reflect 100
-reflect 0
-brillance 80
-transparency 95
-refraction_index 133
-}
+# sphere {
+# center 0 -30 100
+# radius 16
+# color 0 0 255
+# diffuse 30
+# # reflect 100
+# reflect 0
+# brillance 80
+# transparency 95
+# refraction_index 133
+# }
 
 # 3
 plane {
@@ -109,6 +109,8 @@ diffuse 100
 reflect 0
 transparency 0
 brillance 0
+texture CHECKER
+refraction_index 100
 }
 
 plane {
@@ -125,6 +127,17 @@ plane {
 normal 1 0 0
 point 60 0 200
 color 0 255 0
+diffuse 100
+reflect 0
+transparency 0
+brillance 0
+}
+
+
+plane {
+normal 0 1 0
+point 60 -60 200
+color 0 0 255
 diffuse 100
 reflect 0
 transparency 0

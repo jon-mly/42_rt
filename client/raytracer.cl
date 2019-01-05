@@ -1,7 +1,7 @@
 # define TRUE 1
 # define FALSE 0
 
-# define MAX_DEPTH 3
+# define MAX_DEPTH 6
 # define ALIASING 1
 # define BLUR_SHADOWS 0
 # define LIGHT_SPREAD 2
@@ -2187,6 +2187,7 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 		}
 		if (closest_object_index != -1)
 		{
+			// #initial
 			// if (inside_object && current_object_id == obj[closest_object_index].id)
 			// 	inside_object = FALSE;
 			// else if (!inside_object)
@@ -2194,14 +2195,37 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 			// 	current_object_id = obj[closest_object_index].id;
 			// 	inside_object = TRUE;
 			// }
-			if (inside_object > 0 && current_object_id == obj[closest_object_index].id)
-				inside_object--;
-			else if ((inside_object > 0 && current_object_id != obj[closest_object_index].id) || !inside_object)
+
+			// #test 1
+			// if (inside_object > 0 && current_object_id == obj[closest_object_index].id)
+			// 	inside_object--;
+			// else if ((inside_object > 0 && current_object_id != obj[closest_object_index].id) || !inside_object)
+			// {
+			// 	current_object_id = obj[closest_object_index].id;
+			// 	inside_obj_index = closest_object_index;
+			// 	inside_object++;
+			// }
+
+			// #test 2 : prioritizing an IOR over another
+			// -> keep the same IOR until the object is exited
+			if (inside_object == 0)
 			{
+				// The ray has never intersected an object before
 				current_object_id = obj[closest_object_index].id;
 				inside_obj_index = closest_object_index;
-				inside_object++;
+				inside_object = 1;
 			}
+
+		else if (inside_object > 0 && current_object_id == obj[closest_object_index].id)
+			{
+				// the ray has intersected a second time the "main" object
+				inside_object = 0;
+			}
+			// else if (inside_object > 0 && current_object_id != obj[closest_object_index].id)
+			// {
+			// 	// Has intersected an object while Inside the "main" object
+			// 	inside_object++;
+			// }
 			ray.norm = closest_distance;
 			ray.intersectiion = point_from_vector(ray.origin, ray.direction, closest_distance);
 			intersected_object = object_with_local_parameters(obj[closest_object_index],
@@ -2221,7 +2245,7 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 				1, ray.transparency);
 		else
 			ray = init_refracted_ray(ray, intersected_object,
-				intersected_object.refraction, intersected_object.transparency);
+				ray.refraction, intersected_object.transparency);
 	}
 	return (colorout);
 }
