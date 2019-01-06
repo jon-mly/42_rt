@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
-/*   Updated: 2019/01/06 17:40:34 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/06 17:44:54 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -400,7 +400,8 @@ t_light						*add_light_xml(int fd, t_light *existing_lights,
 		int count, int chx);
 t_object					add_new_object_xml(int fd, char *type, int chx);
 t_object					add_new_object(int fd, char *type, int chx);
-t_scene						create_scene_xml(t_env *env, char *file_name, int fd);
+t_scene						create_scene_xml(t_env *env, char *file_name,
+		int fd);
 t_scene						create_scene(t_env *env, char *file_name, int fd);
 t_object					cylinder_intersection(t_object ray,
 		t_object cylinder);
