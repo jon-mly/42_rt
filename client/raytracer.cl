@@ -8,7 +8,7 @@
 # define LIGHT_SEP 1.5
 # define GI_ENABLED 0
 # define GI_SAMPLING 150
-# define EPSILON 0.01
+# define EPSILON 0.05
 
 # define CIRCLES_WIDTH 2.3
 # define CHECKER_WIDTH 40.0
@@ -2149,6 +2149,95 @@ t_object		init_refracted_ray(t_object original_ray, t_object intersected_object,
 	return (ray);
 }
 
+/*
+** Adds the index to the array if not contained already, otherwise removes it.
+**
+** Is used to keep track of the objects the refracted ray is in.
+** This method implies that the objects are simple shapes described by
+** quadratic functions.
+**
+** The index defines a unit, not an object as contained in t_object*.
+*/
+
+void			update_tab(int intersected_obj_id, int *tab)
+{
+	int			i;
+
+	i = -1;
+	while (++i < MAX_DEPTH * 2)
+	{
+		if (tab[i] == intersected_obj_id)
+		{
+			tab[i] = -1;
+			return;
+		}
+	}
+	i = 0;
+	while (i < MAX_DEPTH * 2 && tab[i] >= 0)
+		i++;
+	if (i < MAX_DEPTH * 2)
+		tab[i] = intersected_obj_id;
+}
+
+float			get_next_refraction_index(int *tab, __global t_object *objects)
+{
+	float		index;
+	int			i;
+	int			obj_count;
+
+// AVERAGE method
+	// i = -1;
+	// index = 0.0;
+	// obj_count = 0;
+	// while (++i < MAX_DEPTH * 2)
+	// {
+	// 	if (tab[i] >= 0)
+	// 	{
+	// 		obj_count++;
+	// 		// TODO: change to take account of composed objects
+	// 		index += objects[tab[i]].refraction;
+	// 	}
+	// }
+	// if (obj_count == 0)
+	// 	return (1.0);
+	// printf("%.3f\n", index / (float)obj_count);
+	// return (index / (float)obj_count);
+
+// MAX INDEX method
+	i = -1;
+	index = 0.0;
+	while (++i < MAX_DEPTH * 2)
+	{
+		if (tab[i] >= 0 && objects[tab[i]].refraction > index)
+			index = objects[tab[i]].refraction;
+	}
+	if (index < EPSILON)
+		return (1.0);
+	return (index);
+}
+
+int				ray_in_object(int *tab)
+{
+	int			i;
+
+	i = -1;
+	while (++i < MAX_DEPTH * 2)
+	{
+		if (tab[i] >= 0)
+			return (TRUE);
+	}
+	return (FALSE);
+}
+
+void			set_empty_array(int *tab)
+{
+	int			i;
+
+	i = -1;
+	while (++i < MAX_DEPTH * 2)
+		tab[i] = -1;
+}
+
 t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, global t_light *light,
 	t_object ray, int depth, int current_object_id)
 {
@@ -2160,7 +2249,12 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 	t_color				added_color;
 	t_color				colorout;
 	t_object			intersected_object;
+	int					tab[MAX_DEPTH * 2];
 
+	set_empty_array(tab);
+	// for (int i = 0; i < MAX_DEPTH * 2; i++)
+	// 	printf("%d | ", w[i]);
+	// printf("\n");
 	colorout = BLACK;
 	inside_obj_index = -1;
 	object_index = -1;
@@ -2195,37 +2289,10 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 			// 	current_object_id = obj[closest_object_index].id;
 			// 	inside_object = TRUE;
 			// }
+			inside_object = ray_in_object(tab);
 
-			// #test 1
-			// if (inside_object > 0 && current_object_id == obj[closest_object_index].id)
-			// 	inside_object--;
-			// else if ((inside_object > 0 && current_object_id != obj[closest_object_index].id) || !inside_object)
-			// {
-			// 	current_object_id = obj[closest_object_index].id;
-			// 	inside_obj_index = closest_object_index;
-			// 	inside_object++;
-			// }
+			update_tab(closest_object_index, tab);
 
-			// #test 2 : prioritizing an IOR over another
-			// -> keep the same IOR until the object is exited
-			if (inside_object == 0)
-			{
-				// The ray has never intersected an object before
-				current_object_id = obj[closest_object_index].id;
-				inside_obj_index = closest_object_index;
-				inside_object = 1;
-			}
-
-		else if (inside_object > 0 && current_object_id == obj[closest_object_index].id)
-			{
-				// the ray has intersected a second time the "main" object
-				inside_object = 0;
-			}
-			// else if (inside_object > 0 && current_object_id != obj[closest_object_index].id)
-			// {
-			// 	// Has intersected an object while Inside the "main" object
-			// 	inside_object++;
-			// }
 			ray.norm = closest_distance;
 			ray.intersectiion = point_from_vector(ray.origin, ray.direction, closest_distance);
 			intersected_object = object_with_local_parameters(obj[closest_object_index],
@@ -2240,12 +2307,14 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 		}
 		if (closest_object_index == -1 || intersected_object.transparency == 0)
 			return (colorout);			
-		if (inside_object == 0)
-			ray = init_refracted_ray(ray, intersected_object,
-				1, ray.transparency);
-		else
-			ray = init_refracted_ray(ray, intersected_object,
-				ray.refraction, intersected_object.transparency);
+		// if (inside_object == 0)
+		// 	ray = init_refracted_ray(ray, intersected_object,
+		// 		1, ray.transparency);
+		// else
+		// 	ray = init_refracted_ray(ray, intersected_object,
+		// 		ray.refraction, intersected_object.transparency);
+		ray = init_refracted_ray(ray, intersected_object,
+				get_next_refraction_index(tab, obj), ray.transparency);
 	}
 	return (colorout);
 }
@@ -2381,15 +2450,18 @@ t_color			primary_ray(global t_scene *scene, global t_object *obj,
 		ray.intersectiion = point_from_vector(ray.origin, ray.direction, closest_distance);
 		intersected_object = object_with_local_parameters(obj[closest_object_index],
 			textured_color_if_needed(obj[closest_object_index], ray.intersectiion), 0);
-		colorout = get_color_on_intersection(ray, intersected_object, scene, light, obj, GI_ENABLED);
-		if (intersected_object.reflection > 0)
-			reflected_color = reflected_raytracing(scene, obj, light,
-				init_reflected_ray(ray, intersected_object), 1);
+		// colorout = get_color_on_intersection(ray, intersected_object, scene, light, obj, GI_ENABLED);
+		// if (intersected_object.reflection > 0)
+		// 	reflected_color = reflected_raytracing(scene, obj, light,
+		// 		init_reflected_ray(ray, intersected_object), 1);
 		if (intersected_object.transparency > 0)
-			refracted_color = refracted_raytracing(scene, obj, light,
+			colorout = refracted_raytracing(scene, obj, light,
 				init_refracted_ray(ray, intersected_object,
 					intersected_object.refraction, intersected_object.transparency), 1, intersected_object.id);
-		colorout = add_color(colorout, add_color(refracted_color, reflected_color));
+			// refracted_color = refracted_raytracing(scene, obj, light,
+			// 	init_refracted_ray(ray, intersected_object,
+			// 		intersected_object.refraction, intersected_object.transparency), 1, intersected_object.id);
+		// colorout = add_color(colorout, add_color(refracted_color, reflected_color));
 	}
 	colorout = add_color(colorout, direct_light_raytracing(scene, obj, light, ray,
 		(closest_object_index != -1) ? ray.norm : -1));
