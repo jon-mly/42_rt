@@ -6,13 +6,13 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 12:22:41 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/21 16:58:39 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/06 15:13:16 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void		parse_obj_help(t_object *obj)
+void		parse_obj_help_xml(t_object *obj)
 {
 	if (obj->txt_type == CHECKER || obj->txt_type == HORIZONTAL_CIRCLE
 			|| obj->txt_type == VERTICAL_CIRCLE || obj->txt_type == DOTS

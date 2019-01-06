@@ -6,7 +6,7 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:27 by jmlynarc          #+#    #+#             */
-/*   Updated: 2019/01/04 14:40:31 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/06 17:40:36 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ t_env			*init_env(t_env *env, char *file_name)
 	env->win_ptr = NULL;
 	setup_window(env);
 	env->camera = init_camera(env);
-	env->scene = create_scene(env, file_name, fd);
+	if (env->chx == 1) 
+		env->scene = create_scene_xml(env, file_name, fd);
+	else
+		env->scene = create_scene(env, file_name, fd);
 	return (env);
 }

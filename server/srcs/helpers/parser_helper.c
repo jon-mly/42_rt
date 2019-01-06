@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 14:20:22 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/21 10:15:54 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/06 17:40:44 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void		exit_if_non_ascii(char *c)
 		exit_invalid_file();
 }
 
-char		**split_new_line(int fd)
+char		**split_new_line(int fd, int chx)
 {
 	char		**line;
 	char		**splited_content;
@@ -55,8 +55,9 @@ char		**split_new_line(int fd)
 		return (NULL);
 	if ((res = get_next_line(fd, line)) < 0)
 		exit_usage();
-	if (res != 0 && (!*line || is_empty(*line) == 1))
-		ft_error("Empty line not allowed in XML");
+	if (chx == 1)
+		if (res != 0 && (!*line || is_empty(*line) == 1))
+			ft_error("Empty line not allowed in XML");
 	if (res == 1)
 	{
 		ft_striter(*line, &(exit_if_non_ascii));

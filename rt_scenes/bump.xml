@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<theme>
+	<color> 255 255 255 </color>
+	<power> 10 </power>
+</theme>
+<camera>
+	<position> 0 100 -200 </position>
+	<angles> -15 0 </angles>
+</camera>
+<plane>
+	<normal> 0 0 -1 </normal>
+	<point> 0 0 200 </point>
+	<color> 255 255 255 </color>
+	<diffuse> 0 </diffuse>
+	<brillance> 100 </brillance>
+	<transparency> 0 </transparency>
+	<refraction_index> 100 </refraction_index>
+	<reflect> 100 </reflect>
+</plane>
+<plane>
+	<normal> 0 20 1 </normal>
+	<point> 0 -50 300 </point>
+	<color> 0 38 255 </color>
+	<diffuse> 70 </diffuse>
+	<brillance> 0 </brillance>
+	<transparency> 0 </transparency>
+	<refraction_index> 100 </refraction_index>
+	<reflect> 50 </reflect>
+	<bump_mapping> VERTICAL_SIN </bump_mapping>
+</plane>
+<sphere>
+	<center> -60 0 130 </center>
+	<radius> 18 </radius>
+	<color> 255 215 0 </color>
+	<diffuse> 100 </diffuse>
+	<reflect> 10 </reflect>
+	<brillance> 100 </brillance>
+	<transparency> 0 </transparency>
+	<refraction_index> 100 </refraction_index>
+</sphere>
+<light>
+	<type> AMBIANT </type>
+	<direction> 0 -1 1 </direction>
+	<color> 255 255 255 </color>
+	<power> 700 </power>
+</light>
+<light>
+	<type> OMNI </type>
+	<angle> 40 </angle>
+	<direction> 0 10 7 </direction>
+	<color> 255 255 255 </color>
+	<position> 60 60 180 </position>
+	<power> 3000 </power>
+</light>

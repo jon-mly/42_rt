@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 12:00:40 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/21 17:11:16 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/06 17:40:43 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 ** }
 */
 
-t_object		add_new_sphere(int fd)
+t_object		add_new_sphere_xml(int fd, int chx)
 {
 	t_object	sphere;
 
@@ -33,7 +33,7 @@ t_object		add_new_sphere(int fd)
 	sphere.radius = 1;
 	sphere.center = point(10, 12, 6);
 	sphere.color = color(255, 255, 255, 0);
-	sphere = parse_object(fd, &sphere);
+	sphere = parse_object_xml(fd, &sphere, chx);
 	return (sphere);
 }
 
@@ -48,7 +48,7 @@ t_object		add_new_sphere(int fd)
 ** }
 */
 
-t_object		add_new_plane(int fd)
+t_object		add_new_plane_xml(int fd, int chx)
 {
 	char		**line;
 	t_object	plane;
@@ -59,7 +59,7 @@ t_object		add_new_plane(int fd)
 	plane.normal = normalize_vector(vector(0, 1, 0));
 	plane.point = point(0, 0, 0);
 	plane.color = color(255, 255, 255, 0);
-	plane = parse_object(fd, &plane);
+	plane = parse_object_xml(fd, &plane, chx);
 	return (plane);
 }
 
@@ -75,7 +75,7 @@ t_object		add_new_plane(int fd)
 ** }
 */
 
-t_object		add_new_cone(int fd)
+t_object		add_new_cone_xml(int fd, int chx)
 {
 	t_object	cone;
 
@@ -86,7 +86,7 @@ t_object		add_new_cone(int fd)
 	cone.direction = normalize_vector(vector(0, 0, 1));
 	cone.center = point(0, 0, 0);
 	cone.color = color(255, 255, 255, 0);
-	cone = parse_object(fd, &cone);
+	cone = parse_object_xml(fd, &cone, chx);
 	cone.direction = rotate_cone_angles(cone, cone.direction, 1);
 	return (cone);
 }
@@ -104,7 +104,7 @@ t_object		add_new_cone(int fd)
 ** }
 */
 
-t_object		add_new_cylinder(int fd)
+t_object		add_new_cylinder_xml(int fd, int chx)
 {
 	t_object	cylinder;
 
@@ -115,13 +115,13 @@ t_object		add_new_cylinder(int fd)
 	cylinder.direction = normalize_vector(vector(0, 0, 1));
 	cylinder.point = point(0, 0, 0);
 	cylinder.color = color(255, 255, 255, 0);
-	cylinder = parse_object(fd, &cylinder);
+	cylinder = parse_object_xml(fd, &cylinder, chx);
 	cylinder.direction = rotate_cylinder_angles(cylinder,
 			cylinder.direction, 1);
 	return (cylinder);
 }
 
-t_object		add_new_disc(int fd)
+t_object		add_new_disc_xml(int fd, int chx)
 {
 	t_object	disc;
 
@@ -132,6 +132,6 @@ t_object		add_new_disc(int fd)
 	disc.point = point(0, 0, 0);
 	disc.color = color(255, 255, 255, 0);
 	disc.radius = 10;
-	disc = parse_object(fd, &disc);
+	disc = parse_object_xml(fd, &disc, chx);
 	return (disc);
 }

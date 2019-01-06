@@ -1,0 +1,191 @@
+<?xml version="1.0"?>
+<theme>
+	<color> 255 255 255 </color>
+	<power> 10 </power>
+</theme>
+<camera>
+	<position> 0 190 50 </position>
+	<angles> -28 0 </angles>
+</camera>
+<rectangle>
+	<point> -200 0 300 </point>
+	<angles> 0 0 </angles>
+	<width> 400 </width>
+	<height> 800 </height>
+	<diffuse> 100 </diffuse>
+	<brillance> 0 </brillance>
+	<reflect> 0 </reflect>
+	<texture> WOOD </texture>
+	<transparency> 0 </transparency>
+</rectangle>
+<cylinder>
+	<finite> 1 </finite>
+	<angles> 0 90 </angles>
+	<height> 200 </height>
+	<radius> 16 </radius>
+	<position> -170 0 330 </position>
+	<texture> WOOD </texture>
+	<diffuse> 100 </diffuse>
+	<brillance> 0 </brillance>
+	<reflect> 0 </reflect>
+	<transparency> 0 </transparency>
+</cylinder>
+<cylinder>
+	<finite> 1 </finite>
+	<angles> 0 90 </angles>
+	<height> 200 </height>
+	<radius> 16 </radius>
+	<position> 170 0 330 </position>
+	<texture> WOOD </texture>
+	<diffuse> 100 </diffuse>
+	<brillance> 0 </brillance>
+	<reflect> 0 </reflect>
+	<transparency> 0 </transparency>
+</cylinder>
+<cylinder>
+	<finite> 1 </finite>
+	<covered> 1 </covered>
+	<position> -130 -1 420 </position>
+	<angles> 0 -90 </angles>
+	<height> 60 </height>
+	<radius> 12 </radius>
+	<color> 230 230 255 </color>
+	<diffuse> 100 </diffuse>
+	<reflect> 100 </reflect>
+	<transparency> 90 </transparency>
+	<refraction_index> 133 </refraction_index>
+</cylinder>
+<cylinder>
+	<finite> 1 </finite>
+	<covered> 1 </covered>
+	<position> -130 -1 920 </position>
+	<angles> 0 -90 </angles>
+	<height> 60 </height>
+	<radius> 12 </radius>
+	<color> 230 230 255 </color>
+	<diffuse> 100 </diffuse>
+	<reflect> 100 </reflect>
+	<transparency> 90 </transparency>
+	<refraction_index> 133 </refraction_index>
+</cylinder>
+<cylinder>
+	<finite> 1 </finite>
+	<covered> 1 </covered>
+	<position> 130 -1 420 </position>
+	<angles> 0 -90 </angles>
+	<height> 60 </height>
+	<radius> 12 </radius>
+	<color> 230 230 255 </color>
+	<diffuse> 100 </diffuse>
+	<reflect> 100 </reflect>
+	<transparency> 90 </transparency>
+	<refraction_index> 133 </refraction_index>
+</cylinder>
+<cylinder>
+	<finite> 1 </finite>
+	<covered> 1 </covered>
+	<position> 130 -1 920 </position>
+	<angles> 0 -90 </angles>
+	<height> 60 </height>
+	<radius> 12 </radius>
+	<color> 230 230 255 </color>
+	<diffuse> 100 </diffuse>
+	<reflect> 100 </reflect>
+	<transparency> 90 </transparency>
+	<refraction_index> 133 </refraction_index>
+</cylinder>
+<cylinder>
+	<finite> 1 </finite>
+	<covered> 1 </covered>
+	<position> 0 0 700 </position>
+	<angles> 0 -90 </angles>
+	<height> 7 </height>
+	<radius> 52 </radius>
+	<texture> MARBLE </texture>
+	<diffuse> 100 </diffuse>
+	<reflect> 20 </reflect>
+	<brillance> 20 </brillance>
+	<transparency> 0 </transparency>
+</cylinder>
+<cylinder>
+	<finite> 1 </finite>
+	<position> 0 0 700 </position>
+	<angles> 0 -90 </angles>
+	<height> 104 </height>
+	<radius> 15 </radius>
+	<texture> MARBLE </texture>
+	<diffuse> 100 </diffuse>
+	<reflect> 20 </reflect>
+	<brillance> 20 </brillance>
+	<transparency> 0 </transparency>
+</cylinder>
+<sphere>
+	<center> 0 130 700 </center>
+	<radius> 30 </radius>
+	<texture> DOTS_REVERTED </texture>
+	<color> 30 30 30 </color>
+	<diffuse> 100 </diffuse>
+	<brillance> 100 </brillance>
+	<reflect> 100 </reflect>
+</sphere>
+<plane>
+	<normal> 1 0 0 </normal>
+	<point> -500 0 0 </point>
+	<color> 255 253 208 </color>
+	<diffuse> 100 </diffuse>
+	<brillance> 0 </brillance>
+	<reflect> 0 </reflect>
+	<transparency> 0 </transparency>
+</plane>
+<plane>
+	<normal> 1 0 0 </normal>
+	<point> 500 0 0 </point>
+	<color> 255 253 208 </color>
+	<diffuse> 100 </diffuse>
+	<brillance> 0 </brillance>
+	<reflect> 0 </reflect>
+	<transparency> 0 </transparency>
+</plane>
+<plane>
+	<normal> 0 0 -1 </normal>
+	<point> 0 0 1600 </point>
+	<color> 129 20 83 </color>
+	<diffuse> 100 </diffuse>
+	<brillance> 0 </brillance>
+	<reflect> 0 </reflect>
+	<transparency> 0 </transparency>
+</plane>
+<plane>
+	<normal> 0 1 0 </normal>
+	<point> 0 -200 0 </point>
+	<color> 129 20 83 </color>
+	<diffuse> 70 </diffuse>
+	<brillance> 0 </brillance>
+	<reflect> 0 </reflect>
+	<transparency> 0 </transparency>
+	<texture> WOOD </texture>
+</plane>
+<light>
+	<type> OMNI </type>
+	<position> 0 250 0 </position>
+	<color> 255 250 230 </color>
+	<power> 2500 </power>
+</light>
+<light>
+	<type> OMNI </type>
+	<position> 0 250 700 </position>
+	<color> 255 250 230 </color>
+	<power> 2500 </power>
+</light>
+<light>
+	<type> OMNI </type>
+	<position> 0 250 1400 </position>
+	<color> 255 250 230 </color>
+	<power> 2500 </power>
+</light>
+<light>
+	<type> OMNI </type>
+	<position> 0 130 700 </position>
+	<color> 255 250 230 </color>
+	<power> 1500 </power>
+</light>

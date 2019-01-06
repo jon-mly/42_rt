@@ -6,7 +6,7 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 17:43:51 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/12/21 10:15:29 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/06 17:40:45 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int			is_empty(char *line)
 	while (line[++i] != '\0')
 	{
 		if (line[i] != '\n' && line[i] != '\0' && line[i] != ' '
-				&& line[i] != '\t' && line[i] != '\v' && line[i] != '\r')
+				&& line[i] != '\t' && line[i] != '\v' && line[i] != '\r'
+				&& line[i] != '\f')
 			return (0);
 	}
 	return (1);

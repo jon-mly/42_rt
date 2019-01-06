@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   camera_parser.c                                    :+:      :+:    :+:   */
+/*   camera_parser_xml.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/22 14:31:37 by aabelque          #+#    #+#             */
-/*   Updated: 2019/01/04 17:12:16 by aabelque         ###   ########.fr       */
+/*   Created: 2019/01/06 16:10:48 by aabelque          #+#    #+#             */
+/*   Updated: 2019/01/06 17:15:24 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,15 @@ static	t_camera			convert_camera_vector(t_camera camera)
 	return (camera);
 }
 
-t_camera					set_camera(int fd, t_env *env)
+t_camera					set_camera_xml(int fd, t_env *env)
 {
 	t_camera	camera;
 	char		**line;
 
 	camera = get_default_camera_parameters(env);
-	while ((line = split_new_line(fd)) && ft_strequ(line[0], "</camera>") == FALSE)
+	while ((line = split_new_line(fd, env->chx))
+			&& ft_strequ(line[0], "</camera>") == FALSE)
 	{
-		printf("camera line[0] = %s\n", line[0]);
-		printf("camera line[1] = %s\n", line[1]);
 		if (line_len(line) == 5 && ft_strequ(line[0], "\t<position>"))
 			camera.spot = point(ft_atoi(line[1]), ft_atoi(line[2]),
 				ft_atoi(line[3]));

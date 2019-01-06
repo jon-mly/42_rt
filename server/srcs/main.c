@@ -6,7 +6,7 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:44 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/12/21 11:08:13 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/06 17:40:35 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,33 @@ static	int		parse_arg(t_env *e, char *av, char *av2)
 	return (0);
 }
 
+static	int		choose_rt_or_xml(char *av)
+{
+	char		**tab;
+	int			chx;
+
+	chx = 0;
+	tab = ft_strsplit(av, '.');
+	if (!(ft_strequ(tab[1], "xml") || ft_strequ(tab[1], "rt")))
+		ft_error("Bad extension -> .rt or .xml only");
+	else if (ft_strequ(tab[1], "xml"))
+		chx = 1;
+	else
+		chx = 0;
+	return (chx);
+}
+
 int				main(int ac, char **av)
 {
 	t_env		*env;
+	int			chx;
 
+	chx = 0;
 	(ac != 4) ? exit_usage() : 0;
 	if (!(env = (t_env*)malloc(sizeof(t_env))))
 		exit(EXIT_FAILURE);
 	parse_arg(env, av[2], av[3]);
+	env->chx = choose_rt_or_xml(av[1]);
 	env = init_env(env, av[1]);
 	init_env_server(env);
 	create_srv(env);

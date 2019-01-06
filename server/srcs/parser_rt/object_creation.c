@@ -6,13 +6,13 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 16:09:07 by jmlynarc          #+#    #+#             */
-/*   Updated: 2019/01/04 16:08:34 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/06 17:28:40 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-static t_object		add_new_rectangle(int fd)
+static t_object		add_new_rectangle(int fd, int chx)
 {
 	t_object	rectangle;
 
@@ -25,12 +25,12 @@ static t_object		add_new_rectangle(int fd)
 	rectangle.normal = vector(0, 1, 0);
 	rectangle.width = 0;
 	rectangle.height = 0;
-	rectangle = parse_object(fd, &rectangle);
+	rectangle = parse_object(fd, &rectangle, chx);
 	rectangle.normal = rotate_vector_angles(rectangle, rectangle.normal, 1);
 	return (rectangle);
 }
 
-static t_object		add_new_triangle(int fd)
+static t_object		add_new_triangle(int fd, int chx)
 {
 	t_object	triangle;
 
@@ -41,13 +41,13 @@ static t_object		add_new_triangle(int fd)
 	triangle.first_vect = vector(1, 0, 0);
 	triangle.second_vect = vector(0, 0, 1);
 	triangle.point = point(0, 0, 0);
-	triangle = parse_object(fd, &triangle);
+	triangle = parse_object(fd, &triangle, chx);
 	triangle.normal = normalize_vector(cross_product(triangle.first_vect,
 				triangle.second_vect));
 	return (triangle);
 }
 
-static t_object		add_new_parallelogram(int fd)
+static t_object		add_new_parallelogram(int fd, int chx)
 {
 	t_object	parall;
 
@@ -58,13 +58,13 @@ static t_object		add_new_parallelogram(int fd)
 	parall.first_vect = vector(1, 0, 0);
 	parall.second_vect = vector(0, 0, 1);
 	parall.point = point(0, 0, 0);
-	parall = parse_object(fd, &parall);
+	parall = parse_object(fd, &parall, chx);
 	parall.normal = normalize_vector(cross_product(parall.first_vect,
 				parall.second_vect));
 	return (parall);
 }
 
-static t_object		add_new_hyperboloid(int fd)
+static t_object		add_new_hyperboloid(int fd, int chx)
 {
 	t_object	hyperboloid;
 
@@ -75,28 +75,28 @@ static t_object		add_new_hyperboloid(int fd)
 	hyperboloid.center = point(0, 0, 0);
 	hyperboloid.y_angle = 0;
 	hyperboloid.x_angle = 0;
-	hyperboloid = parse_object(fd, &hyperboloid);
+	hyperboloid = parse_object(fd, &hyperboloid, chx);
 	return (hyperboloid);
 }
 
-t_object			add_new_object(int fd, char *type)
+t_object			add_new_object(int fd, char *type, int chx)
 {
-	if (ft_strequ(type, "<cylinder>"))
-		return (add_new_cylinder(fd));
-	else if (ft_strequ(type, "<sphere>"))
-		return (add_new_sphere(fd));
-	else if (ft_strequ(type, "<plane>"))
-		return (add_new_plane(fd));
-	else if (ft_strequ(type, "<disc>"))
-		return (add_new_disc(fd));
-	else if (ft_strequ(type, "<rectangle>"))
-		return (add_new_rectangle(fd));
-	else if (ft_strequ(type, "<triangle>"))
-		return (add_new_triangle(fd));
-	else if (ft_strequ(type, "<parallelogram>"))
-		return (add_new_parallelogram(fd));
-	else if (ft_strequ(type, "<hyperboloid>"))
-		return (add_new_hyperboloid(fd));
+	if (ft_strequ(type, "cylinder"))
+		return (add_new_cylinder(fd, chx));
+	else if (ft_strequ(type, "sphere"))
+		return (add_new_sphere(fd, chx));
+	else if (ft_strequ(type, "plane"))
+		return (add_new_plane(fd, chx));
+	else if (ft_strequ(type, "disc"))
+		return (add_new_disc(fd, chx));
+	else if (ft_strequ(type, "rectangle"))
+		return (add_new_rectangle(fd, chx));
+	else if (ft_strequ(type, "triangle"))
+		return (add_new_triangle(fd, chx));
+	else if (ft_strequ(type, "parallelogram"))
+		return (add_new_parallelogram(fd, chx));
+	else if (ft_strequ(type, "hyperboloid"))
+		return (add_new_hyperboloid(fd, chx));
 	else
-		return (add_new_cone(fd));
+		return (add_new_cone(fd, chx));
 }

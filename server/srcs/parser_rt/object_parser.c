@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 15:41:10 by aabelque          #+#    #+#             */
-/*   Updated: 2019/01/04 17:36:33 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/06 17:26:57 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static	void		parse_object5(int fd, t_object *object, char **line)
 {
-	if (line_len(line) == 3 && ft_strequ(line[0], "\t<texture>"))
+	if (line_len(line) == 2 && ft_strequ(line[0], "texture"))
 	{
 		if (ft_strequ(line[1], "CHECKER"))
 			object->txt_type = CHECKER;
@@ -41,92 +41,86 @@ static	void		parse_object5(int fd, t_object *object, char **line)
 
 static	void		parse_object4(int fd, t_object *object, char **line)
 {
-	if (line_len(line) == 3 && ft_strequ(line[0], "\t<refraction_index>"))
+	if (line_len(line) == 2 && ft_strequ(line[0], "refraction_index"))
 		object->refraction = fmax(ft_atof(line[1]), 1) / 100.0;
-	else if (line_len(line) == 3 && ft_strequ(line[0], "\t<finite>"))
-		object->finite = ft_atoi(line[1]);
-	else if (line_len(line) == 3 && ft_strequ(line[0], "\t<covered>"))
-		object->covered = ft_atoi(line[1]);
-	else if (line_len(line) == 3 && ft_strequ(line[0], "\t<height>"))
+	else if (line_len(line) == 1 && ft_strequ(line[0], "finite"))
+		object->finite = 1;
+	else if (line_len(line) == 1 && ft_strequ(line[0], "covered"))
+		object->covered = 1;
+	else if (line_len(line) == 2 && ft_strequ(line[0], "height"))
 		object->height = ft_atof(line[1]);
-	else if (line_len(line) == 3 && ft_strequ(line[0], "\t<width>"))
+	else if (line_len(line) == 2 && ft_strequ(line[0], "width"))
 		object->width = ft_atof(line[1]);
-	else if (line_len(line) == 3 && ft_strequ(line[0], "\t<rho>"))
+	else if (line_len(line) == 2 && ft_strequ(line[0], "rho"))
 		object->rho = ft_atof(line[1]);
-	else if (line_len(line) == 3 && ft_strequ(line[0], "\t<sigma>"))
+	else if (line_len(line) == 2 && ft_strequ(line[0], "sigma"))
 		object->sigma = ft_atof(line[1]);
-	else if (line_len(line) == 3 && ft_strequ(line[0], "\t<tau>"))
+	else if (line_len(line) == 2 && ft_strequ(line[0], "tau"))
 		object->tau = ft_atof(line[1]);
 }
 
 static	void		parse_object3(int fd, t_object *object, char **line)
 {
-	if (line_len(line) == 5 && ft_strequ(line[0], "\t<normal>"))
+	if (line_len(line) == 4 && ft_strequ(line[0], "normal"))
 		object->normal = normalize_vector(vector(ft_atof(line[1]),
 					ft_atof(line[2]), ft_atof(line[3])));
-	else if (line_len(line) == 3 && ft_strequ(line[0], "\t<pi_divider>"))
+	else if (line_len(line) == 2 && ft_strequ(line[0], "pi_divider"))
 		object->angle = M_PI / ft_atof(line[1]);
-	else if (line_len(line) == 5 && ft_strequ(line[0], "\t<direction>"))
+	else if (line_len(line) == 4 && ft_strequ(line[0], "direction"))
 		object->direction = normalize_vector(vector(ft_atof(line[1]),
 					ft_atof(line[2]), ft_atof(line[3])));
-	else if (line_len(line) == 4 && ft_strequ(line[0], "\t<angles>"))
+	else if (line_len(line) == 3 && ft_strequ(line[0], "angles"))
 	{
 		object->y_angle = degrees_to_radian(ft_atof(line[1]));
 		object->x_angle = degrees_to_radian(ft_atof(line[2]));
 	}
-	else if (line_len(line) == 3 && ft_strequ(line[0], "\t<diffuse>"))
+	else if (line_len(line) == 2 && ft_strequ(line[0], "diffuse"))
 		object->diffuse = fmin(fmax(ft_atof(line[1]) / 100.0, 0), 1);
-	else if (line_len(line) == 3 && ft_strequ(line[0], "\t<brillance>"))
+	else if (line_len(line) == 2 && ft_strequ(line[0], "brillance"))
 		object->brillance = fmin(fmax(ft_atof(line[1]) / 100.0, 0), 1);
-	else if (line_len(line) == 3 && ft_strequ(line[0], "\t<reflect>"))
+	else if (line_len(line) == 2 && ft_strequ(line[0], "reflect"))
 		object->reflection = fmin(fmax(ft_atof(line[1]) / 100.0, 0), 1);
-	else if (line_len(line) == 3 && ft_strequ(line[0], "\t<transparency>"))
+	else if (line_len(line) == 2 && ft_strequ(line[0], "transparency"))
 		object->transparency = fmin(fmax(ft_atof(line[1]) / 100.0, 0), 1);
 }
 
 static	void		parse_object2(int fd, t_object *object, char **line)
 {
-	printf("parse objline[0] = %s\n", line[0]);
-	if (line_len(line) == 5 && ft_strequ(line[0], "\t<color>"))
+	if (line_len(line) == 4 && ft_strequ(line[0], "color"))
 		object->color = color(ft_atof(line[1]), ft_atof(line[2]),
 				ft_atof(line[3]), 0);
-	else if (line_len(line) == 5 && ft_strequ(line[0], "\t<position>"))
+	else if (line_len(line) == 4 && ft_strequ(line[0], "position"))
 		object->point = point(ft_atof(line[1]), ft_atof(line[2]),
 				ft_atof(line[3]));
-	else if (line_len(line) == 5 && ft_strequ(line[0], "\t<point>"))
+	else if (line_len(line) == 4 && ft_strequ(line[0], "point"))
 		object->point = point(ft_atof(line[1]), ft_atof(line[2]),
 				ft_atof(line[3]));
-	else if (line_len(line) == 5 && ft_strequ(line[0], "\t<first_vector>"))
+	else if (line_len(line) == 4 && ft_strequ(line[0], "first_vector"))
 		object->first_vect = point(ft_atof(line[1]), ft_atof(line[2]),
 				ft_atof(line[3]));
-	else if (line_len(line) == 5 && ft_strequ(line[0], "\t<second_vector>"))
+	else if (line_len(line) == 4 && ft_strequ(line[0], "second_vector"))
 		object->second_vect = point(ft_atof(line[1]), ft_atof(line[2]),
 				ft_atof(line[3]));
-	else if (line_len(line) == 3 && ft_strequ(line[0], "\t<radius>"))
+	else if (line_len(line) == 2 && ft_strequ(line[0], "radius"))
 		object->radius = ft_atof(line[1]);
-	else if (line_len(line) == 5 && ft_strequ(line[0], "\t<center>"))
+	else if (line_len(line) == 4 && ft_strequ(line[0], "center"))
 		object->center = point(ft_atof(line[1]), ft_atof(line[2]),
 				ft_atof(line[3]));
 }
 
-t_object			parse_object(int fd, t_object *obj)
+t_object			parse_object(int fd, t_object *obj, int chx)
 {
 	char		**line;
 
 	obj->finite = 0;
 	obj->covered = 0;
-	while ((line = split_new_line(fd)) && (line[0][1] != '/'))
-			// && !ft_strequ(line[0], "</cylinder>") && !ft_strequ(line[0], "</plane>")
-			// && !ft_strequ(line[0], "</disc>") && !ft_strequ(line[0], "</rectangle>")
-			// && !ft_strequ(line[0], "</triangle>")
-			// && !ft_strequ(line[0], "</parallelogram>")
-			// && !ft_strequ(line[0], "</hyperboloid>")))
+	while ((line = split_new_line(fd, chx)) && !ft_strequ(line[0], "}"))
 	{
 		parse_object2(fd, obj, line);
 		parse_object3(fd, obj, line);
 		parse_object4(fd, obj, line);
 		parse_object5(fd, obj, line);
-		if (line_len(line) == 3 && ft_strequ(line[0], "\t<bump_mapping>"))
+		if (line_len(line) == 2 && ft_strequ(line[0], "bump_mapping"))
 		{
 			if (ft_strequ(line[1], "VERTICAL_SIN"))
 				obj->bump_mapping = VERTICAL_SIN;

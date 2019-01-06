@@ -24,6 +24,8 @@ def main():
 						my_str += words[i] + " "
 						i += 1
 					my_str.replace("\n", " ")
+                                        if not my_str:
+                                            my_str = "1 ";
 					print("	<" + words[0] + "> " + my_str + "</" + words[0] + ">")
 			line = fp.readline()
 			cnt += 1

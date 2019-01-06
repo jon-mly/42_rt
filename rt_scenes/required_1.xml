@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<theme>
+	<color> 255 255 255 </color>
+	<power> 20 </power>
+</theme>
+<camera>
+	<position> 0 0 0  </position>
+	<angles> 0 0 </angles>
+</camera>
+<plane>
+	<normal> 0 1 0 </normal>
+	<point> 0 -30 0 </point>
+	<color> 200 200 200 </color>
+	<diffuse> 100 </diffuse>
+	<reflect> 0 </reflect>
+	<brillance> 0 </brillance>
+	<transparency> 0 </transparency>
+	<bump_mapping> VERTICAL_SIN </bump_mapping>
+</plane>
+<plane>
+	<normal> 0 0 -1 </normal>
+	<point> 0 0 150 </point>
+	<color> 15 15 255 </color>
+	<diffuse> 100 </diffuse>
+	<reflect> 0 </reflect>
+	<brillance> 0 </brillance>
+	<transparency> 0 </transparency>
+	<bump_mapping> HORIZONTAL_SIN </bump_mapping>
+</plane>
+<sphere>
+	<center> -35 -10 80 </center>
+	<color> 255 10 10 </color>
+	<radius> 12 </radius>
+	<diffuse> 100 </diffuse>
+	<reflect> 0 </reflect>
+	<brillance> 100 </brillance>
+	<transparency> 0 </transparency>
+</sphere>
+<sphere>
+	<center> 35 -10 80 </center>
+	<color> 10 255 20 </color>
+	<radius> 12 </radius>
+	<diffuse> 100 </diffuse>
+	<reflect> 0 </reflect>
+	<brillance> 100 </brillance>
+	<transparency> 0 </transparency>
+</sphere>
+<cylinder>
+	<angles> -90 45 </angles>
+	<point> -20 0 110 </point>
+	<radius> 7 </radius>
+	<color> 255 50 255 </color>
+	<diffuse> 100 </diffuse>
+	<reflect> 0 </reflect>
+	<brillance> 100 </brillance>
+	<transparency> 0 </transparency>
+</cylinder>
+<cone>
+	<center> 20 0 110 </center>
+	<pi_divider> 10 </pi_divider>
+	<angles> -90 -45 </angles>
+	<color> 255 255 50 </color>
+	<diffuse> 100 </diffuse>
+	<reflect> 0 </reflect>
+	<brillance> 100 </brillance>
+	<transparency> 0 </transparency>
+</cone>
+<light>
+	<type> OMNI </type>
+	<position> -60 20 -10 </position>
+	<color> 255 255 255 </color>
+	<power> 400 </power>
+</light>
+<light>
+	<type> OMNI </type>
+	<position> 60 0 -10 </position>
+	<color> 255 255 255 </color>
+	<power> 600 </power>
+</light>

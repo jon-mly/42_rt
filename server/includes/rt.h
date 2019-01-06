@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/21 18:04:18 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/06 17:40:34 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,6 +294,7 @@ typedef struct				s_env
 	char				*img_str;
 	char				data_o[SIZE_OBJ];
 	char				data_l[SIZE_LIGHT];
+	int					chx;
 	int					size;
 	int					i;
 	int					offset;
@@ -338,16 +339,19 @@ void						*waitcl(void *arg);
 void						exit_usage2(void);
 t_env						*init_env2(void);
 void						serialize_obj(t_object *obj, char *data);
-void						serialize_pt(t_point *obj, char *data);
-void						serialize_float(t_object *obj, float *data);
 void						serialize_light(t_light *light, char *data);
-
+t_object					add_new_cone(int fd, int chx);
+t_object					add_new_sphere(int fd, int chx);
+t_object					add_new_plane(int fd, int chx);
+t_object					add_new_disc(int fd, int chx);
+t_object					add_new_cylinder(int fd, int chx);
 void						parse_obj_help(t_object *obj);
-t_object					add_new_cone(int fd);
-t_object					add_new_sphere(int fd);
-t_object					add_new_plane(int fd);
-t_object					add_new_disc(int fd);
-t_object					add_new_cylinder(int fd);
+void						parse_obj_help_xml(t_object *obj);
+t_object					add_new_cone_xml(int fd, int chx);
+t_object					add_new_sphere_xml(int fd, int chx);
+t_object					add_new_plane_xml(int fd, int chx);
+t_object					add_new_disc_xml(int fd, int chx);
+t_object					add_new_cylinder_xml(int fd, int chx);
 int							error_gpu(t_opencl *opcl);
 void						opencl_init2(t_opencl *opcl, t_env *e);
 void						opencl_draw(t_opencl *opcl, t_env *e);
@@ -365,6 +369,7 @@ t_env						*init_env(t_env *env, char *file_name);
 void						calculate_scene(t_env *env);
 t_camera					init_camera(t_env *env);
 t_camera					set_camera(int fd, t_env *env);
+t_camera					set_camera_xml(int fd, t_env *env);
 int							handle_key_event(int key, void *param);
 int							expose_event(void *param);
 int							exit_properly(void *param);
@@ -382,17 +387,20 @@ float						dot_product(t_vector vect_1, t_vector vect_2);
 float						points_norm(t_point p1, t_point p2);
 t_object					intersect_object(t_object ray, t_object object);
 t_vector					shape_normal(t_object ray, t_object object);
-void						pixel_raytracing(int x, int y, t_env *env);
 t_scene						get_sample_scene(void);
 t_color						get_color_on_intersection(t_object ray,
 		t_object *clt_obj, t_env *e);
 void						deinit_env(t_env *env);
 int							line_len(char **line);
 void						clear_line(char **line);
-char						**split_new_line(int fd);
+char						**split_new_line(int fd, int chx);
 t_light						*add_light(int fd, t_light *existing_lights,
-		int count);
-t_object					add_new_object(int fd, char *type);
+		int count, int chx);
+t_light						*add_light_xml(int fd, t_light *existing_lights,
+		int count, int chx);
+t_object					add_new_object_xml(int fd, char *type, int chx);
+t_object					add_new_object(int fd, char *type, int chx);
+t_scene						create_scene_xml(t_env *env, char *file_name, int fd);
 t_scene						create_scene(t_env *env, char *file_name, int fd);
 t_object					cylinder_intersection(t_object ray,
 		t_object cylinder);
@@ -420,7 +428,8 @@ void						ft_ocl_kernel_error(const int ret,
 size_t						file_len(int fd);
 int							hit_test(t_object *clt_obj, t_object *obj,
 		t_object l_ray, float norm);
-t_object					parse_object(int fd, t_object *object);
+t_object					parse_object_xml(int fd, t_object *object, int chx);
+t_object					parse_object(int fd, t_object *object, int chx);
 t_object					*expand_objects(t_object *objects,
 		int previous_count);
 t_vector					point_from_vector(t_point origin,

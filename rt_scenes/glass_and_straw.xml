@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<camera>
+	<position> 0 -10 -50 </position>
+	<angles> -16 0 </angles>
+</camera>
+<light>
+	<type> AMBIANT </type>
+	<direction> 1 -1 1 </direction>
+	<color> 255 255 255 </color>
+	<power> 1000 </power>
+</light>
+<plane>
+	<point> 0 -64 0 </point>
+	<direction> 0 1 0 </direction>
+	<color> 50 50 50 </color>
+	<diffuse> 100 </diffuse>
+	<brillance> 0 </brillance>
+	<transparency> 0 </transparency>
+	<reflect> 0 </reflect>
+</plane>
+<cylinder>
+	<finite> 1 </finite>
+	<covered> 1 </covered>
+	<height> 21 </height>
+	<radius> 12 </radius>
+	<color> 255 255 255 </color>
+	<diffuse> 1 </diffuse>
+	<brillance> 60 </brillance>
+	<reflect> 10 </reflect>
+	<transparency> 95 </transparency>
+	<refraction_index> 100 </refraction_index>
+	<angles> 0 -90 </angles>
+	<position> 0 -30 30 </position>
+</cylinder>
+<cylinder>
+	<finite> 1 </finite>
+	<covered> 1 </covered>
+	<height> 30 </height>
+	<radius> 4 </radius>
+	<color> 255 255 255 </color>
+	<diffuse> 1 </diffuse>
+	<brillance> 60 </brillance>
+	<reflect> 10 </reflect>
+	<transparency> 95 </transparency>
+	<refraction_index> 100 </refraction_index>
+	<angles> 0 90 </angles>
+	<position> 0 -31 30 </position>
+</cylinder>
+<cone>
+	<pi_divider> 3 </pi_divider>
+	<finite> 1 </finite>
+	<covered> 1 </covered>
+	<height> 10 </height>
+	<center> 0 -54 30 </center>
+	<color> 255 255 255 </color>
+	<transparency> 95 </transparency>
+	<refraction_index> 100 </refraction_index>
+	<reflect> 10 </reflect>
+	<brillance> 60 </brillance>
+	<diffuse> 1 </diffuse>
+	<angles> 0 90 </angles>
+</cone>
+<cylinder>
+	<finite> 1 </finite>
+	<height> 27 </height>
+	<radius> 1 </radius>
+	<color> 220 220 220 </color>
+	<diffuse> 1 </diffuse>
+	<transparency> 95 </transparency>
+	<refraction_index> 100 </refraction_index>
+	<brillance> 10 </brillance>
+	<reflect> 0 </reflect>
+	<angles> 90 -65 </angles>
+	<position> 0 -30 30 </position>
+</cylinder>
