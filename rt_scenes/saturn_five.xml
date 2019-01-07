@@ -1,0 +1,256 @@
+<?xml version="1.0"?>
+<camera>
+	<position> 0 -70 40 </position>
+	<angles> 20 0 </angles>
+</camera>
+<light>
+	<type> AMBIANT </type>
+	<color> 40 40 150 </color>
+	<power> 600 </power>
+	<direction> -1 -1 3 </direction>
+</light>
+<light>
+	<type> PROJECTOR </type>
+	<color> 255 255 255 </color>
+	<direction> -2 8 1 </direction>
+	<position> 30 -89 180 </position>
+	<angle> 50 </angle>
+	<power> 2000 </power>
+</light>
+<light>
+	<type> PROJECTOR </type>
+	<color> 255 255 255 </color>
+	<direction> -3 0 5 </direction>
+	<position> 30 -89 180 </position>
+	<angle> 40 </angle>
+	<power> 1600 </power>
+</light>
+<light>
+	<type> PROJECTOR </type>
+	<color> 255 255 255 </color>
+	<direction> 2 8 1 </direction>
+	<position> -30 -89 180 </position>
+	<angle> 50 </angle>
+	<power> 2000 </power>
+</light>
+<light>
+	<type> PROJECTOR </type>
+	<color> 255 255 255 </color>
+	<direction> 3 0 5 </direction>
+	<position> -30 -89 180 </position>
+	<angle> 40 </angle>
+	<power> 1600 </power>
+</light>
+<cylinder>
+	<finite> 1 </finite>
+	<covered> 1 </covered>
+	<point> 0 -80 200 </point>
+	<color> 255 255 255 </color>
+	<diffuse> 100 </diffuse>
+	<reflect> 20 </reflect>
+	<radius> 10 </radius>
+	<height> 100 </height>
+	<angles> 0 -90 </angles>
+</cylinder>
+<cone>
+	<finite> 1 </finite>
+	<center> 0 47 200 </center>
+	<pi_divider> 9 </pi_divider>
+	<color> 80 80 80 </color>
+	<diffuse> 100 </diffuse>
+	<reflect> 20 </reflect>
+	<height> 27 </height>
+	<angles> 0 90 </angles>
+</cone>
+<cylinder>
+	<finite> 1 </finite>
+	<point> 0 26 200 </point>
+	<radius> 7 </radius>
+	<height> 35 </height>
+	<angles> 0 -90 </angles>
+	<color> 255 255 255 </color>
+	<diffuse> 100 </diffuse>
+	<reflect> 20 </reflect>
+</cylinder>
+<cone>
+	<finite> 1 </finite>
+	<center> 0 80 200 </center>
+	<color> 80 80 80 </color>
+	<pi_divider> 9 </pi_divider>
+	<height> 19 </height>
+	<diffuse> 100 </diffuse>
+	<reflect> 20 </reflect>
+	<angles> 0 90 </angles>
+</cone>
+<cylinder>
+	<finite> 1 </finite>
+	<point> 0 68 200 </point>
+	<radius> 4 </radius>
+	<height> 13 </height>
+	<angles> 0 -90 </angles>
+	<color> 255 255 255 </color>
+	<diffuse> 100 </diffuse>
+	<reflect> 20 </reflect>
+</cylinder>
+<cone>
+	<finite> 1 </finite>
+	<center> 0 92 200 </center>
+	<color> 80 80 80 </color>
+	<pi_divider> 9 </pi_divider>
+	<height> 11 </height>
+	<diffuse> 100 </diffuse>
+	<reflect> 20 </reflect>
+	<angles> 0 90 </angles>
+</cone>
+<cylinder>
+	<finite> 1 </finite>
+	<point> 0 85 200 </point>
+	<radius> 2 </radius>
+	<height> 10 </height>
+	<angles> 0 -90 </angles>
+	<color> 255 255 255 </color>
+	<diffuse> 100 </diffuse>
+	<reflect> 20 </reflect>
+</cylinder>
+<cone>
+	<finite> 1 </finite>
+	<center> 0 101 200 </center>
+	<color> 255 255 255 </color>
+	<pi_divider> 10 </pi_divider>
+	<height> 6 </height>
+	<diffuse> 100 </diffuse>
+	<reflect> 20 </reflect>
+	<angles> 0 90 </angles>
+</cone>
+<cylinder>
+	<finite> 1 </finite>
+	<point> 0 98 200 </point>
+	<radius> 1 </radius>
+	<height> 13 </height>
+	<angles> 0 -90 </angles>
+	<color> 255 255 255 </color>
+	<diffuse> 100 </diffuse>
+	<reflect> 20 </reflect>
+</cylinder>
+<cone>
+	<finite> 1 </finite>
+	<center> 0 116 200 </center>
+	<color> 255 255 255 </color>
+	<pi_divider> 16 </pi_divider>
+	<height> 5 </height>
+	<diffuse> 100 </diffuse>
+	<reflect> 20 </reflect>
+	<angles> 0 90 </angles>
+</cone>
+<cone>
+	<finite> 1 </finite>
+	<covered> 1 </covered>
+	<center> 8 -68 200 </center>
+	<color> 80 80 80 </color>
+	<pi_divider> 8 </pi_divider>
+	<height> 12 </height>
+	<diffuse> 100 </diffuse>
+	<reflect> 20 </reflect>
+	<angles> 0 90 </angles>
+</cone>
+<cone>
+	<finite> 1 </finite>
+	<covered> 1 </covered>
+	<center> -8 -68 200 </center>
+	<color> 80 80 80 </color>
+	<pi_divider> 8 </pi_divider>
+	<height> 12 </height>
+	<diffuse> 100 </diffuse>
+	<reflect> 20 </reflect>
+	<angles> 0 90 </angles>
+</cone>
+<cone>
+	<finite> 1 </finite>
+	<covered> 1 </covered>
+	<center> 0 -68 208 </center>
+	<color> 80 80 80 </color>
+	<pi_divider> 8 </pi_divider>
+	<height> 12 </height>
+	<diffuse> 100 </diffuse>
+	<reflect> 20 </reflect>
+	<angles> 0 90 </angles>
+</cone>
+<cone>
+	<finite> 1 </finite>
+	<covered> 1 </covered>
+	<center> 0 -68 192 </center>
+	<color> 80 80 80 </color>
+	<pi_divider> 8 </pi_divider>
+	<height> 12 </height>
+	<diffuse> 100 </diffuse>
+	<reflect> 20 </reflect>
+	<angles> 0 90 </angles>
+</cone>
+<cone>
+	<finite> 1 </finite>
+	<center> 0 -73 192 </center>
+	<color> 40 40 40 </color>
+	<pi_divider> 10 </pi_divider>
+	<height> 12 </height>
+	<diffuse> 100 </diffuse>
+	<reflect> 0 </reflect>
+	<angles> 0 90 </angles>
+</cone>
+<cone>
+	<finite> 1 </finite>
+	<center> 0 -73 208 </center>
+	<color> 40 40 40 </color>
+	<pi_divider> 10 </pi_divider>
+	<height> 12 </height>
+	<diffuse> 100 </diffuse>
+	<reflect> 0 </reflect>
+	<angles> 0 90 </angles>
+</cone>
+<cone>
+	<finite> 1 </finite>
+	<center> 8 -73 200 </center>
+	<color> 40 40 40 </color>
+	<pi_divider> 10 </pi_divider>
+	<height> 12 </height>
+	<diffuse> 100 </diffuse>
+	<reflect> 0 </reflect>
+	<angles> 0 90 </angles>
+</cone>
+<cone>
+	<finite> 1 </finite>
+	<center> -8 -73 200 </center>
+	<color> 40 40 40 </color>
+	<pi_divider> 10 </pi_divider>
+	<height> 12 </height>
+	<diffuse> 100 </diffuse>
+	<reflect> 0 </reflect>
+	<angles> 0 90 </angles>
+</cone>
+<cone>
+	<finite> 1 </finite>
+	<center> 0 -73 200 </center>
+	<color> 40 40 40 </color>
+	<pi_divider> 10 </pi_divider>
+	<height> 12 </height>
+	<diffuse> 100 </diffuse>
+	<reflect> 0 </reflect>
+	<angles> 0 90 </angles>
+</cone>
+<plane>
+	<point> 0 -100 0 </point>
+	<normal> 0 1 0 </normal>
+	<color> 10 160 10 </color>
+	<diffuse> 70 </diffuse>
+	<reflect> 0 </reflect>
+</plane>
+<cylinder>
+	<finite> 1 </finite>
+	<covered> 1 </covered>
+	<point> 0 -100 200 </point>
+	<radius> 100 </radius>
+	<angles> 0 -90 </angles>
+	<height> 10 </height>
+	<color> 20 20 20 </color>
+	<diffuse> 80 </diffuse>
+	<reflect> 0 </reflect>
+</cylinder>

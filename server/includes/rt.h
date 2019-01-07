@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.h                                           :+:      :+:    :+:   */
+/*   rtv1.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/10 15:29:01 by aabelque          #+#    #+#             */
-/*   Updated: 2019/01/03 17:31:32 by aabelque         ###   ########.fr       */
+/*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
+/*   Updated: 2019/01/07 10:32:42 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CLIENT_H
-# define CLIENT_H
+#ifndef RT_H
+# define RT_H
 
 /*
 ** ====== includes
@@ -45,6 +45,7 @@
 # define FOV 0.50
 
 # define KEY_ESC 53
+# define KEY_SPACE 49
 
 # define TRUE 1
 # define FALSE 0
@@ -59,9 +60,9 @@
 
 typedef struct sockaddr_in	t_sockaddr_in;
 typedef struct sockaddr		t_sockaddr;
-typedef struct hostent		t_hostent;
+typedef	struct hostent		t_hostent;
 
-typedef enum	e_object_type
+typedef	enum				e_object_type
 {
 	SPHERE = 0,
 	PLANE,
@@ -128,6 +129,10 @@ typedef enum				e_server_state
 ** ======= structures
 */
 
+typedef struct sockaddr_in 	t_sockaddr_in;
+typedef struct sockaddr 	t_sockaddr;
+typedef struct hostent		t_hostent;
+
 typedef struct				s_pixel
 {
 	int					x;
@@ -184,8 +189,8 @@ typedef struct				s_object
 	t_vector			second_vect;
 	t_color				color;
 	t_object_type		typpe;
-	t_texture			texture_type;
-	t_texture_algo		texture_algo;
+	t_texture			txt_type;
+	t_texture_algo		txt_algo;
 	t_bump_mapping		bump_mapping;
 }							t_object;
 
@@ -227,8 +232,6 @@ typedef struct				s_scene
 	t_light				*lights;
 	int					objects_count;
 	int					lights_count;
-	int					top_bound;
-	int					bottom_bound;
 	t_color				theme;
 	float				power;
 }							t_scene;
@@ -270,20 +273,22 @@ typedef struct				s_srv
 	int					err;
 	int					port;
 	int					sockets[10];
+	int					crrnt_sckt_id;
 	char				*addr;
 	socklen_t			size_cl;
 	socklen_t			sin_sz;
 	t_sockaddr_in		sin;
 	t_sockaddr_in		sin_cl;
+	t_server_state		state;
 	t_client_state		cl_state;
 	t_hostent			*hostinfo;
 }							t_srv;
 
-typedef struct				s_render_bounds
+typedef struct				s_renderbds
 {
 	int					top;
 	int					bottom;
-}							t_render_bounds;
+}							t_renderbds;
 
 typedef struct				s_env
 {
@@ -293,9 +298,10 @@ typedef struct				s_env
 	char				*img_str;
 	char				data_o[SIZE_OBJ];
 	char				data_l[SIZE_LIGHT];
+	int					chx;
+	int					size;
 	int					i;
-	int					obj_ct;
-	int					light_ct;
+	int					offset;
 	int					win_height;
 	int					win_width;
 	int					img_height;
@@ -309,7 +315,7 @@ typedef struct				s_env
 	int					child;
 	int					err;
 	struct timespec		tim;
-	t_render_bounds		bounds;
+	t_renderbds			bounds;
 	t_scene				scene;
 	t_object			object;
 	t_camera			camera;
@@ -322,26 +328,34 @@ typedef struct				s_env
 ** ======= prototypes
 */
 
-void						await_data(t_env *env);
-void						perform_rendering(t_env *env);
-void						send_rendering(t_env *env);
 void						ft_error(char *str);
+void						*request_rendering(t_env *e);
+void						*await_new_client(void *arg);
 void						server_connect(t_env *e);
-int							send_data(t_env *e);
-int							recv_obj_light(t_env *e);
+int							send_obj_light(t_env *e);
+int							recv_client(t_env *e);
 void						create_client(t_env *e);
 void						init_env_client(t_env *e, char *str);
 void						create_srv(t_env *e);
 void						init_env_server(t_env *e);
 void						*loop_data(void *arg);
-void						loop_recv(t_env *e);
 void						*waitcl(void *arg);
 void						exit_usage2(void);
 t_env						*init_env2(void);
-void						deserialize_obj(char *data, t_object *obj);
-void						deserialize_pt(char *data, t_point *obj);
-void						deserialize_float(float *data, t_object *obj);
-void						deserialize_light(char *data, t_light *light);
+void						serialize_obj(t_object *obj, char *data);
+void						serialize_light(t_light *light, char *data);
+t_object					add_new_cone(int fd, int chx);
+t_object					add_new_sphere(int fd, int chx);
+t_object					add_new_plane(int fd, int chx);
+t_object					add_new_disc(int fd, int chx);
+t_object					add_new_cylinder(int fd, int chx);
+void						parse_obj_help(t_object *obj);
+void						parse_obj_help_xml(t_object *obj);
+t_object					add_new_cone_xml(int fd, int chx);
+t_object					add_new_sphere_xml(int fd, int chx);
+t_object					add_new_plane_xml(int fd, int chx);
+t_object					add_new_disc_xml(int fd, int chx);
+t_object					add_new_cylinder_xml(int fd, int chx);
 int							error_gpu(t_opencl *opcl);
 void						opencl_init2(t_opencl *opcl, t_env *e);
 void						opencl_draw(t_opencl *opcl, t_env *e);
@@ -359,6 +373,7 @@ t_env						*init_env(t_env *env, char *file_name);
 void						calculate_scene(t_env *env);
 t_camera					init_camera(t_env *env);
 t_camera					set_camera(int fd, t_env *env);
+t_camera					set_camera_xml(int fd, t_env *env);
 int							handle_key_event(int key, void *param);
 int							expose_event(void *param);
 int							exit_properly(void *param);
@@ -368,7 +383,6 @@ void						fill_pixel_value(t_env *env, int x,
 t_vector					vector(float x, float y, float z);
 t_vector					vector_points(t_point p1, t_point p2);
 t_point						point(float x, float y, float z);
-t_pixel						pixel(int x, int y);
 t_color						color(int r, int g, int b, int a);
 float						vector_norm(t_vector vector);
 t_vector					normalize_vector(t_vector vector);
@@ -376,17 +390,21 @@ float						dot_product(t_vector vect_1, t_vector vect_2);
 float						points_norm(t_point p1, t_point p2);
 t_object					intersect_object(t_object ray, t_object object);
 t_vector					shape_normal(t_object ray, t_object object);
-void						pixel_raytracing(int x, int y, t_env *env);
 t_scene						get_sample_scene(void);
 t_color						get_color_on_intersection(t_object ray,
 		t_object *clt_obj, t_env *e);
 void						deinit_env(t_env *env);
 int							line_len(char **line);
 void						clear_line(char **line);
-char						**split_new_line(int fd);
+char						**split_new_line(int fd, int chx);
 t_light						*add_light(int fd, t_light *existing_lights,
-		int count);
-t_object					add_new_object(int fd, char *type);
+		int count, int chx);
+t_light						*add_light_xml(int fd, t_light *existing_lights,
+		int count, int chx);
+t_object					add_new_object_xml(int fd, char *type, int chx);
+t_object					add_new_object(int fd, char *type, int chx);
+t_scene						create_scene_xml(t_env *env, char *file_name,
+		int fd);
 t_scene						create_scene(t_env *env, char *file_name, int fd);
 t_object					cylinder_intersection(t_object ray,
 		t_object cylinder);
@@ -414,19 +432,24 @@ void						ft_ocl_kernel_error(const int ret,
 size_t						file_len(int fd);
 int							hit_test(t_object *clt_obj, t_object *obj,
 		t_object l_ray, float norm);
-t_object					parse_object(int fd, t_object *object);
+t_object					parse_object_xml(int fd, t_object *object, int chx);
+t_object					parse_object(int fd, t_object *object, int chx);
 t_object					*expand_objects(t_object *objects,
 		int previous_count);
 t_vector					point_from_vector(t_point origin,
 		t_vector direction, float norm);
 t_scene						create_dependant_objects(t_object object, int fd,
 		t_scene scene, int id);
+t_scene						create_dependant_objects_xml(t_object object, int fd,
+		t_scene scene, int id);
 t_vector					rotate_cylinder_angles(t_object cylinder,
 		t_vector vect, int reverse);
-t_vector					rotate_cone_angles(t_object cone,
-		t_vector vect, int reverse);
+t_vector					rotate_cone_angles(t_object cone, t_vector vect,
+			int reverse);
 t_vector					rotate_vector_angles(t_object reference,
 		t_vector vect, int reverse);
 t_vector					cross_product(t_vector vect_1, t_vector vect_2);
+t_object					get_template_object(void);
+int							is_empty(char *line);
 
 #endif

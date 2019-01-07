@@ -184,7 +184,7 @@ reflect 0
 # bump_mapping VERTICAL_SIN
 }
 
-PLANE IN FRONT OF THE CAMERA
+# PLANE IN FRONT OF THE CAMERA
 plane {
 point 0 -5 60
 normal 0 0 1

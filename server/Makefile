@@ -9,43 +9,49 @@ MINILIBX = $(MLX)/mlx.a
 
 INCLUDE_FLAG = -I ./includes/
 
-SRCS_REP = ./
+SRCS_REP = srcs/
 HELPER_REP = helpers/
-PARSER_REP = parser/
+PARSER_XML_REP = parser_xml/
+PARSER_RT_REP = parser_rt/
 SHAPES_REP = shapes/
 SRCS = main.c \
-		shapes_intersection.c \
-		shapes_normal.c \
 		env_init.c \
 		serialize.c \
 		serialize_light.c \
-		serialize_float.c \
-		graphic_manager.c \
 		exit.c \
 		camera_init.c \
 		events.c \
-		pixel_drawing.c \
-		raytracing.c \
-		lighting.c \
 		deinit.c \
 		connexion.c \
 		init_serv.c \
+		send_data.c \
 		create_server.c \
 		$(HELPER_REP)constructors.c \
 		$(HELPER_REP)math_tools.c \
 		$(HELPER_REP)math_tools2.c \
+		$(HELPER_REP)math_tools3.c \
 		$(HELPER_REP)parser_helper.c \
 		$(HELPER_REP)lighting_helper.c \
-		$(PARSER_REP)light_creation.c \
-		$(PARSER_REP)object_creation.c \
-		$(PARSER_REP)scene_creation.c \
-		$(PARSER_REP)camera_parser.c \
-		$(PARSER_REP)object_parser.c \
-		$(PARSER_REP)finite_objects_expander.c \
+		$(PARSER_XML_REP)light_creation_xml.c \
+		$(PARSER_XML_REP)object_creation_xml.c \
+		$(PARSER_XML_REP)object_creation2_xml.c \
+		$(PARSER_XML_REP)scene_creation_xml.c \
+		$(PARSER_XML_REP)camera_parser_xml.c \
+		$(PARSER_XML_REP)object_parser_xml.c \
+		$(PARSER_XML_REP)object_parser2_xml.c \
+		$(PARSER_XML_REP)finite_objects_expander_xml.c \
 		$(SHAPES_REP)cylinder.c \
 		$(SHAPES_REP)cone.c \
 		$(SHAPES_REP)plane.c \
 		$(SHAPES_REP)sphere.c \
+		$(PARSER_RT_REP)light_creation.c \
+		$(PARSER_RT_REP)object_creation.c \
+		$(PARSER_RT_REP)object_creation2.c \
+		$(PARSER_RT_REP)scene_creation.c \
+		$(PARSER_RT_REP)camera_parser.c \
+		$(PARSER_RT_REP)object_parser.c \
+		$(PARSER_RT_REP)object_parser2.c \
+		$(PARSER_RT_REP)finite_objects_expander.c \
 
 SRC = $(addprefix $(SRCS_REP), $(SRCS))
 
@@ -68,7 +74,7 @@ $(NAME): $(O_SRCS)
 	mv $(NAME) ../
 	@echo "\033[3;32m[ ✔ ] RT ready.\033[0m"
 
-%.o: %.c ./includes/rtv1.h Makefile
+%.o: %.c ./includes/rt.h Makefile
 	@gcc $(INCLUDE_FLAG) -c $< -o $@
 
 all: $(NAME)
@@ -79,7 +85,7 @@ normelibft:
 norme:
 	@norminette $(SRC)
 	@norminette includes/
-	@echo "\033[3;32m[ ✔ ] Norme is done.\033[0m"
+	@echo "\033[3;32m[ ✔ ] Server norme done.\033[0m"
 
 clean:
 	make clean -C $(LIBFT_REP)

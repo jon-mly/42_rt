@@ -9,15 +9,17 @@ MINILIBX = $(MLX)/mlx.a
 
 INCLUDE_FLAG = -I ./includes/
 
-SRCS_REP = ./
+SRCS_REP = srcs/
 SRCS = main_client.c \
 		  init_client.c \
 		  init_env.c \
+		  rendering.c \
 		  deserialize.c \
 		  deserialize_light.c \
-		  deserialize_float.c \
 		  parser_helper.c \
+		  recv_img.c \
 		  math_tools2.c \
+		  math_tools3.c \
 		  math_tools.c \
 		  constructors.c \
 		  opencl_init.c \
@@ -64,7 +66,7 @@ normelibft:
 norme:
 	@norminette $(SRC)
 	@norminette includes/
-	@echo "\033[3;32m[ ✔ ] Norme is done.\033[0m"
+	@echo "\033[3;32m[ ✔ ] Client norme done.\033[0m"
 
 clean:
 	make clean -C $(LIBFT_REP)
@@ -73,7 +75,6 @@ clean:
 
 fclean: clean
 	make fclean -C $(LIBFT_REP)
-#	make fclean -C $(MLX)
 	rm -rf ../$(NAME) $(ASSOCIATED_REP)
 
 re: fclean all

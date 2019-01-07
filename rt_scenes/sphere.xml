@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<theme>
+	<color> 255 255 255 </color>
+	<power> 10 </power>
+</theme>
+<camera>
+	<position> 0 0 0 </position>
+	<angles> -10 0 </angles>
+</camera>
+<sphere>
+	<center> -20 -30 200 </center>
+	<radius> 60 </radius>
+	<color> 30 70 230 </color>
+	<diffuse> 90 </diffuse>
+	<reflect> 10 </reflect>
+	<brillance> 100 </brillance>
+	<refraction_index> 100 </refraction_index>
+	<transparency> 0 </transparency>
+	<texture> MARBLE </texture>
+</sphere>
+<light>
+	<type> PROJECTOR </type>
+	<angle> 20 </angle>
+	<direction> 10 -80 70 </direction>
+	<color> 80 180 255 </color>
+	<position> -30 50 130 </position>
+	<power> 800 </power>
+</light>
+<light>
+	<type> PROJECTOR </type>
+	<angle> 40 </angle>
+	<direction> -40 -80 70 </direction>
+	<color> 255 80 180 </color>
+	<position> 20 50 130 </position>
+	<power> 800 </power>
+</light>
+<light>
+	<type> OMNI </type>
+	<color> 255 255 255 </color>
+	<position> -30 -60 100 </position>
+	<power> 500 </power>
+</light>

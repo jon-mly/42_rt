@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<theme>
+	<color> 255 255 255 </color>
+	<power> 10 </power>
+</theme>
+<camera>
+	<position> 0 20 -100 </position>
+	<angles> -10 0 </angles>
+</camera>
+<plane>
+	<normal> 0 1 0 </normal>
+	<point> 0 -100 0 </point>
+	<color> 50 50 50 </color>
+	<diffuse> 80 </diffuse>
+	<reflect> 0 </reflect>
+	<brillance> 10 </brillance>
+	<transparency> 0 </transparency>
+</plane>
+<plane>
+	<normal> 0 1 0 </normal>
+	<point> 0 100 0 </point>
+	<color> 150 150 150 </color>
+	<diffuse> 100 </diffuse>
+	<reflect> 0 </reflect>
+	<brillance> 10 </brillance>
+	<transparency> 0 </transparency>
+	<refraction_index> 100 </refraction_index>
+</plane>
+<plane>
+	<normal> 1 0 0 </normal>
+	<point> -150 0 0 </point>
+	<color> 10 0 230 </color>
+	<diffuse> 100 </diffuse>
+	<reflect> 0 </reflect>
+	<brillance> 10 </brillance>
+	<transparency> 0 </transparency>
+</plane>
+<plane>
+	<normal> 1 0 0 </normal>
+	<point> 150 0 0 </point>
+	<color> 200 0 40 </color>
+	<diffuse> 90 </diffuse>
+	<reflect> 0 </reflect>
+	<brillance> 10 </brillance>
+	<transparency> 0 </transparency>
+</plane>
+<plane>
+	<normal> 0 0 1 </normal>
+	<point> 0 0 300 </point>
+	<color> 200 200 10 </color>
+	<diffuse> 100 </diffuse>
+	<reflect> 0 </reflect>
+	<brillance> 90 </brillance>
+	<transparency> 0 </transparency>
+	<texture> MARBLE </texture>
+</plane>
+<light>
+	<type> OMNI </type>
+	<position> 0 80 250 </position>
+	<color> 255 255 255 </color>
+	<power> 1200 </power>
+</light>

@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<theme>
+	<color> 0 0 0 </color>
+	<power> 100 </power>
+</theme>
+<camera>
+	<position> 100 200 -600 </position>
+	<angles> -40 0 </angles>
+</camera>
+<light>
+	<type> AMBIANT </type>
+	<color> 255 255 220 </color>
+	<direction> 0 -1 1 </direction>
+	<power> 600 </power>
+</light>
+<light>
+	<type> OMNI </type>
+	<color> 255 255 255 </color>
+	<position> 60 120 -500 </position>
+	<direction> 1.5 0 -1 </direction>
+	<angle> 40 </angle>
+	<power> 800 </power>
+</light>
+<light>
+	<type> OMNI </type>
+	<color> 255 255 255 </color>
+	<position> 150 120 -500 </position>
+	<direction> 1.5 0 -1 </direction>
+	<angle> 40 </angle>
+	<power> 800 </power>
+</light>
+<sphere>
+	<center> 60 0 -400 </center>
+	<radius> 80 </radius>
+	<color> 255 165 0 </color>
+	<diffuse> 100 </diffuse>
+	<reflect> 5 </reflect>
+	<brillance> 100 </brillance>
+	<refraction_index> 100 </refraction_index>
+	<transparency> 0 </transparency>
+</sphere>
+<rectangle>
+	<point> -20 0 -300 </point>
+	<angles> 0 0 </angles>
+	<color> 0 180 120 </color>
+	<width> 400 </width>
+	<height> 300 </height>
+	<diffuse> 80 </diffuse>
+	<brillance> 20 </brillance>
+	<reflect> 0 </reflect>
+	<texture> PERLIN </texture>
+	<transparency> 40 </transparency>
+	<refraction_index> 100 </refraction_index>
+</rectangle>
+<plane>
+	<point> 0 -70 0 </point>
+	<normal> 0 1 0 </normal>
+	<color> 255 255 255 </color>
+	<diffuse> 100 </diffuse>
+	<brillance> 0 </brillance>
+	<transparency> 0 </transparency>
+	<refraction_index> 100 </refraction_index>
+	<reflect> 0 </reflect>
+</plane>
+<plane>
+	<point> 0 -5 60 </point>
+	<normal> 0 0 1 </normal>
+	<color> 255 255 255 </color>
+	<diffuse> 100 </diffuse>
+	<brillance> 30 </brillance>
+	<transparency> 0 </transparency>
+	<refraction_index> 100 </refraction_index>
+	<reflect> 60 </reflect>
+</plane>
