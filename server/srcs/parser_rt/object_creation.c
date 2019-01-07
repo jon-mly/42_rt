@@ -16,16 +16,9 @@ static t_object		add_new_rectangle(int fd, int chx)
 {
 	t_object	rectangle;
 
+	rectangle = get_template_object();
 	rectangle.typpe = RECTANGLE;
-	rectangle.txt_type = NONE;
-	rectangle.bump_mapping = FLAT;
-	rectangle.color = color(255, 255, 255, 0);
-	rectangle.x_angle = 0;
-	rectangle.y_angle = 0;
-	rectangle.normal = vector(0, 1, 0);
-	rectangle.width = 0;
-	rectangle.height = 0;
-	rectangle = parse_object(fd, &rectangle, chx);
+	rectangle = parse_object_xml(fd, &rectangle, chx);
 	rectangle.normal = rotate_vector_angles(rectangle, rectangle.normal, 1);
 	return (rectangle);
 }
@@ -34,14 +27,9 @@ static t_object		add_new_triangle(int fd, int chx)
 {
 	t_object	triangle;
 
+	triangle = get_template_object();
 	triangle.typpe = TRIANGLE;
-	triangle.txt_type = NONE;
-	triangle.bump_mapping = FLAT;
-	triangle.color = color(255, 255, 255, 0);
-	triangle.first_vect = vector(1, 0, 0);
-	triangle.second_vect = vector(0, 0, 1);
-	triangle.point = point(0, 0, 0);
-	triangle = parse_object(fd, &triangle, chx);
+	triangle = parse_object_xml(fd, &triangle, chx);
 	triangle.normal = normalize_vector(cross_product(triangle.first_vect,
 				triangle.second_vect));
 	return (triangle);
@@ -51,14 +39,9 @@ static t_object		add_new_parallelogram(int fd, int chx)
 {
 	t_object	parall;
 
+	parall = get_template_object();
 	parall.typpe = PARALLELOGRAM;
-	parall.txt_type = NONE;
-	parall.bump_mapping = FLAT;
-	parall.color = color(255, 255, 255, 0);
-	parall.first_vect = vector(1, 0, 0);
-	parall.second_vect = vector(0, 0, 1);
-	parall.point = point(0, 0, 0);
-	parall = parse_object(fd, &parall, chx);
+	parall = parse_object_xml(fd, &parall, chx);
 	parall.normal = normalize_vector(cross_product(parall.first_vect,
 				parall.second_vect));
 	return (parall);
@@ -68,14 +51,9 @@ static t_object		add_new_hyperboloid(int fd, int chx)
 {
 	t_object	hyperboloid;
 
+	hyperboloid = get_template_object();
 	hyperboloid.typpe = HYPERBOLOID;
-	hyperboloid.txt_type = NONE;
-	hyperboloid.bump_mapping = FLAT;
-	hyperboloid.color = color(255, 255, 255, 0);
-	hyperboloid.center = point(0, 0, 0);
-	hyperboloid.y_angle = 0;
-	hyperboloid.x_angle = 0;
-	hyperboloid = parse_object(fd, &hyperboloid, chx);
+	hyperboloid = parse_object_xml(fd, &hyperboloid, chx);
 	return (hyperboloid);
 }
 

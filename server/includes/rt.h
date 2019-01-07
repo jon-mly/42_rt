@@ -379,7 +379,6 @@ void						fill_pixel_value(t_env *env, int x,
 t_vector					vector(float x, float y, float z);
 t_vector					vector_points(t_point p1, t_point p2);
 t_point						point(float x, float y, float z);
-t_pixel						pixel(int x, int y);
 t_color						color(int r, int g, int b, int a);
 float						vector_norm(t_vector vector);
 t_vector					normalize_vector(t_vector vector);
@@ -446,6 +445,7 @@ t_vector					rotate_cone_angles(t_object cone, t_vector vect,
 t_vector					rotate_vector_angles(t_object reference,
 		t_vector vect, int reverse);
 t_vector					cross_product(t_vector vect_1, t_vector vect_2);
+t_object					get_template_object(void);
 int							is_empty(char *line);
 
 #endif
