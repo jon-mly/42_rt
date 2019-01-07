@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 18:30:34 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/21 18:47:23 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/07 11:33:54 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ static	int		recv_nb_light_obj(t_env *e)
 	if (e->err == SOCKET_ERROR)
 		return (e->err);
 	e->err = recv(e->srv.socket, &e->light_ct, sizeof(int), 0);
+	if (e->err == SOCKET_ERROR)
+		return (e->err);
+	e->err = recv(e->srv.socket, &e->scene.theme, sizeof(t_color), 0);
+	if (e->err == SOCKET_ERROR)
+		return (e->err);
+	e->err = recv(e->srv.socket, &e->scene.power, sizeof(float), 0);
 	if (e->err == SOCKET_ERROR)
 		return (e->err);
 	e->scene.objects_count = e->obj_ct;

@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 18:30:29 by aabelque          #+#    #+#             */
-/*   Updated: 2019/01/03 17:31:25 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/07 11:33:54 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ static	int					send_nb_light_obj(t_env *e)
 	if (e->err == SOCKET_ERROR)
 		return (e->err);
 	e->err = send(e->srv.socket_cl, &e->scene.lights_count, sizeof(int), 0);
+	if (e->err == SOCKET_ERROR)
+		return (e->err);
+	e->err = send(e->srv.socket_cl, &e->scene.theme, sizeof(t_color), 0);
+	if (e->err == SOCKET_ERROR)
+		return (e->err);
+	e->err = send(e->srv.socket_cl, &e->scene.power, sizeof(float), 0);
 	if (e->err == SOCKET_ERROR)
 		return (e->err);
 	return (e->err);
