@@ -1,3 +1,11 @@
+# theme 255 255 255
+# power 200
+
+theme {
+color 255 255 255
+power 100
+} 
+
 # CAMERA
 
 camera {

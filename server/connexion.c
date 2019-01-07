@@ -24,7 +24,6 @@ void			*request_rendering(t_env *e)
 	i = -1;
 	while (++i < e->srv.nbclient)
 	{
-		printf("i: %d\n", i);
 		tmp[i] = *e;
 		tmp[i].srv.socket_cl = tmp[i].srv.sockets[i];
 		tmp[i].srv.crrnt_sckt_id = i;
@@ -43,11 +42,9 @@ void			*request_rendering(t_env *e)
 			exit(EXIT_FAILURE);
 		}
 	}
-	printf("request addr img %p\n", e->img_str);
 	if ((mlx_put_image_to_window(e->mlx_ptr, e->win_ptr,
 					e->img_ptr, 0, 0)) == -1)
 		ft_putendl("Failed to put image to window");
-	ft_putendl("YOUHOU");
 	return (NULL);
 }
 
@@ -65,7 +62,6 @@ void			*waitcl(void *arg)
 	while (e->srv.state == WAIT_CLIENTS)
 		;
 	pthread_cancel(thr);
-	printf("Server state is no more WAIT_CLIENTS\n");
 	pthread_exit(NULL);
 }
 

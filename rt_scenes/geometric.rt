@@ -5,10 +5,8 @@
 
 ################ THEME
 
-theme {
-color 255 255 255
-power 0
-} 
+theme 255 255 255
+power 100
 
 ################ CAMERA
 
@@ -73,8 +71,8 @@ radius 3
 angles 90 110
 color 255 255 255
 diffuse 20
-reflect 0
-brillance 0
+reflect 80
+brillance 10
 transparency 70
 refraction_index 133
 }
