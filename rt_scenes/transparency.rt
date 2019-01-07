@@ -7,7 +7,7 @@
 
 theme {
 color 255 255 255
-power 10
+power 0
 } 
 
 ################ CAMERA
@@ -130,6 +130,13 @@ refraction_index 120
 light {
 type OMNI
 position 0 40 270
+color 255 255 255
+power 800
+}
+
+light {
+type OMNI
+position 0 40 -105
 color 255 255 255
 power 800
 }

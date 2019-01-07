@@ -42,7 +42,7 @@ static	void		parse_object5(int fd, t_object *object, char **line)
 static	void		parse_object4(int fd, t_object *object, char **line)
 {
 	if (line_len(line) == 2 && ft_strequ(line[0], "refraction_index"))
-		object->refraction = fmax(ft_atof(line[1]), 1) / 100.0;
+		object->refraction = fmax(ft_atoi(line[1]), 100.0) / 100.0;
 	else if (line_len(line) == 1 && ft_strequ(line[0], "finite"))
 		object->finite = 1;
 	else if (line_len(line) == 1 && ft_strequ(line[0], "covered"))

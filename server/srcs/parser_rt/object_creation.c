@@ -18,7 +18,7 @@ static t_object		add_new_rectangle(int fd, int chx)
 
 	rectangle = get_template_object();
 	rectangle.typpe = RECTANGLE;
-	rectangle = parse_object_xml(fd, &rectangle, chx);
+	rectangle = parse_object(fd, &rectangle, chx);
 	rectangle.normal = rotate_vector_angles(rectangle, rectangle.normal, 1);
 	return (rectangle);
 }
@@ -29,7 +29,7 @@ static t_object		add_new_triangle(int fd, int chx)
 
 	triangle = get_template_object();
 	triangle.typpe = TRIANGLE;
-	triangle = parse_object_xml(fd, &triangle, chx);
+	triangle = parse_object(fd, &triangle, chx);
 	triangle.normal = normalize_vector(cross_product(triangle.first_vect,
 				triangle.second_vect));
 	return (triangle);
@@ -41,7 +41,7 @@ static t_object		add_new_parallelogram(int fd, int chx)
 
 	parall = get_template_object();
 	parall.typpe = PARALLELOGRAM;
-	parall = parse_object_xml(fd, &parall, chx);
+	parall = parse_object(fd, &parall, chx);
 	parall.normal = normalize_vector(cross_product(parall.first_vect,
 				parall.second_vect));
 	return (parall);
@@ -53,7 +53,7 @@ static t_object		add_new_hyperboloid(int fd, int chx)
 
 	hyperboloid = get_template_object();
 	hyperboloid.typpe = HYPERBOLOID;
-	hyperboloid = parse_object_xml(fd, &hyperboloid, chx);
+	hyperboloid = parse_object(fd, &hyperboloid, chx);
 	return (hyperboloid);
 }
 

@@ -1550,20 +1550,32 @@ t_vector		reflected_vector(t_vector incident, t_vector normal)
 t_vector		refracted_vector(t_object ray, t_object object, float next_refraction_index)
 {
 	t_vector	normal;
-	t_vector	opposed_direction;
+	// t_vector	opposed_direction;
 	t_vector	refracted;
 	float		incident_cos;
 	float		refraction_indexes_ratio;
 
 	normal = shape_normal(ray, object);
-	opposed_direction = scale_vector(ray.direction, -1);
+	// opposed_direction = scale_vector(ray.direction, -1);
 	refraction_indexes_ratio = ray.refraction / next_refraction_index;
+	if (get_global_id(0) == 450 && get_global_id(1) == 15) {
+			printf("ratio : %.2f\n", refraction_indexes_ratio);
+		}
 	if (fabs(refraction_indexes_ratio - 1) < EPSILON)
 		return (ray.direction);
 	incident_cos = 1.0 - pow(refraction_indexes_ratio, 2) * (1.0 - pow(dot_product(normal, ray.direction), 2));
+	if (incident_cos < 0) {
+		return reflected_vector(ray.direction, normal);
+	}
+	if (get_global_id(0) == 450 && get_global_id(1) == 15) {
+			printf("cos : %.2f\n", incident_cos);
+		}
 	refracted = scale_vector(ray.direction, refraction_indexes_ratio);
 	refracted = sum_vectors(refracted, scale_vector(normal, -1 * refraction_indexes_ratio * dot_product(ray.direction, normal)));
 	refracted = sum_vectors(refracted, scale_vector(normal, -1 * sqrt(incident_cos)));
+	if (get_global_id(0) == 450 && get_global_id(1) == 15) {
+			printf("refracted : %.2f %.2f %.2f\n", refracted.x, refracted.y, refracted.z);
+		}
 	return (normalize_vector(refracted));
 }
 
@@ -2204,6 +2216,8 @@ float			get_next_refraction_index(int *tab, __global t_object *objects)
 	// return (index / (float)obj_count);
 
 // MAX INDEX method
+	if (!ray_in_object(tab))
+		return (1.0);
 	i = -1;
 	index = 0.0;
 	while (++i < MAX_DEPTH * 2)
@@ -2211,8 +2225,8 @@ float			get_next_refraction_index(int *tab, __global t_object *objects)
 		if (tab[i] >= 0 && objects[tab[i]].refraction > index)
 			index = objects[tab[i]].refraction;
 	}
-	if (index < EPSILON)
-		return (1.0);
+	// if (index < EPSILON)
+	// 	return (1.0);
 	return (index);
 }
 
@@ -2229,11 +2243,13 @@ int				ray_in_object(int *tab)
 	return (FALSE);
 }
 
-void			set_empty_array(int *tab)
+void			set_array_first_iter(int *tab, int first_object)
 {
 	int			i;
 
-	i = -1;
+	// i = -1;
+	i = 0;
+	tab[i] = first_object;
 	while (++i < MAX_DEPTH * 2)
 		tab[i] = -1;
 }
@@ -2244,26 +2260,16 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 	int					object_index;
 	int 				closest_object_index;
 	int					inside_object;
-	int					inside_obj_index;
 	float				closest_distance;
 	t_color				added_color;
 	t_color				colorout;
 	t_object			intersected_object;
 	int					tab[MAX_DEPTH * 2];
 
-	set_empty_array(tab);
-	// for (int i = 0; i < MAX_DEPTH * 2; i++)
-	// 	printf("%d | ", w[i]);
-	// printf("\n");
+	set_array_first_iter(tab, current_object_id);
 	colorout = BLACK;
-	inside_obj_index = -1;
-	object_index = -1;
-	while (++object_index < scene->objects_count && inside_obj_index < 0)
-	{
-		if (obj[object_index].id == current_object_id)
-			inside_obj_index = object_index;
-	}
-	inside_object = 0;
+	inside_object = 1;
+		closest_object_index = -1;
     depth--;
 	while (++depth < MAX_DEPTH * 2) {
 		added_color = BLACK;
@@ -2279,6 +2285,10 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 				closest_distance = ray.norm;
 			}
 		}
+		if (get_global_id(0) == 450 && get_global_id(1) == 15) {
+			printf("depth : %d\nclosests id : %d\n", depth, closest_object_index);
+			printf("Direction %.2f %.2f %.2f\n", ray.direction.x, ray.direction.y, ray.direction.z);
+		}
 		if (closest_object_index != -1)
 		{
 			// #initial
@@ -2289,9 +2299,11 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 			// 	current_object_id = obj[closest_object_index].id;
 			// 	inside_object = TRUE;
 			// }
-			inside_object = ray_in_object(tab);
 
-			update_tab(closest_object_index, tab);
+			// if (depth == 1) 
+			// 	printf("Depth : %d, is in %d\n", depth, inside_object);
+			// else if (depth == 2)
+			// 	printf("Depth : %d, is in %d\n", depth, inside_object);
 
 			ray.norm = closest_distance;
 			ray.intersectiion = point_from_vector(ray.origin, ray.direction, closest_distance);
@@ -2304,17 +2316,30 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 			added_color = add_color(added_color, direct_light_raytracing(scene, obj, light, ray,
 				(closest_object_index != -1) ? ray.norm : -1));
 			colorout = add_color(colorout, fade_color(added_color, ray.transparency));
+
+			update_tab(closest_object_index, tab);
+			inside_object = ray_in_object(tab);
 		}
-		if (closest_object_index == -1 || intersected_object.transparency == 0)
-			return (colorout);			
-		// if (inside_object == 0)
-		// 	ray = init_refracted_ray(ray, intersected_object,
-		// 		1, ray.transparency);
-		// else
-		// 	ray = init_refracted_ray(ray, intersected_object,
-		// 		ray.refraction, intersected_object.transparency);
-		ray = init_refracted_ray(ray, intersected_object,
-				get_next_refraction_index(tab, obj), ray.transparency);
+		if (get_global_id(0) == 450 && get_global_id(1) == 15) { 
+			printf("End of round %d\n", depth);
+			printf("transp : %.2f\n", intersected_object.transparency);
+			printf("Next index will be %.3f\n", get_next_refraction_index(tab, obj));
+			printf("Inside obj : %d\n", inside_object);
+		}
+		if (closest_object_index == -1 || intersected_object.transparency == 0) {
+			if (get_global_id(0) == 450 && get_global_id(1) == 15) { 
+				printf("EXIT at %d\n", depth);
+			}	
+			return (colorout);
+		}
+		if (inside_object == 0)
+			ray = init_refracted_ray(ray, intersected_object,
+				1, ray.transparency);
+		else
+			ray = init_refracted_ray(ray, intersected_object,
+				get_next_refraction_index(tab, obj), intersected_object.transparency);
+		// ray = init_refracted_ray(ray, intersected_object,
+		// 		get_next_refraction_index(tab, obj), ray.transparency);
 	}
 	return (colorout);
 }
@@ -2455,13 +2480,15 @@ t_color			primary_ray(global t_scene *scene, global t_object *obj,
 			reflected_color = reflected_raytracing(scene, obj, light,
 				init_reflected_ray(ray, intersected_object), 1);
 		if (intersected_object.transparency > 0)
-			// colorout = refracted_raytracing(scene, obj, light,
-			// 	init_refracted_ray(ray, intersected_object,
-			// 		intersected_object.refraction, intersected_object.transparency), 1, intersected_object.id);
 			refracted_color = refracted_raytracing(scene, obj, light,
 				init_refracted_ray(ray, intersected_object,
 					intersected_object.refraction, intersected_object.transparency), 1, intersected_object.id);
 		colorout = add_color(colorout, add_color(refracted_color, reflected_color));
+
+		// if (intersected_object.transparency > 0)
+		// 	colorout = refracted_raytracing(scene, obj, light,
+		// 		init_refracted_ray(ray, intersected_object,
+		// 			intersected_object.refraction, intersected_object.transparency), 1, intersected_object.id);
 	}
 	colorout = add_color(colorout, direct_light_raytracing(scene, obj, light, ray,
 		(closest_object_index != -1) ? ray.norm : -1));
@@ -2507,12 +2534,6 @@ __kernel void				pixel_raytracing_gpu(__write_only image2d_t out, global t_scene
 	if (y < scene->top_bound || y > scene->bottom_bound)
 		return;
 	x = get_global_id(0);
-	if (x == 0 && y == scene->top_bound)
-	{
-		for (int i = 0; i < scene->objects_count; i++)
-			printf("id : %d, diffuse : %.3f, reflect : %.3f, color : %u, transparency : %.3f\n", 
-				scene->objects[i].id, scene->objects[i].diffuse, scene->objects[i].reflection, scene->objects[i].color.r, scene->objects[i].transparency);
-	} 
 	aliasing_iter = -1;
 	while (++aliasing_iter < ALIASING)
 	{
