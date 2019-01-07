@@ -63,63 +63,6 @@ power 1600
 # SCENE
 # ================
 
-# BOOSTERS
-
-cone {
-finite
-center 0 -73 192
-color 40 40 40
-pi_divider 10
-height 12
-diffuse 100
-reflect 0
-angles 0 90
-}
-
-cone {
-finite
-center 0 -73 208
-color 40 40 40
-pi_divider 10
-height 12
-diffuse 100
-reflect 0
-angles 0 90
-}
-
-cone {
-finite
-center 8 -73 200
-color 40 40 40
-pi_divider 10
-height 12
-diffuse 100
-reflect 0
-angles 0 90
-}
-
-cone {
-finite
-center -8 -73 200
-color 40 40 40
-pi_divider 10
-height 12
-diffuse 100
-reflect 0
-angles 0 90
-}
-
-cone {
-finite
-center 0 -73 200
-color 40 40 40
-pi_divider 10
-height 12
-diffuse 100
-reflect 0
-angles 0 90
-}
-
 # ROCKET BODY
 
 cylinder {
@@ -280,6 +223,63 @@ pi_divider 8
 height 12
 diffuse 100
 reflect 20
+angles 0 90
+}
+
+# BOOSTERS
+
+cone {
+finite
+center 0 -73 192
+color 40 40 40
+pi_divider 10
+height 12
+diffuse 100
+reflect 0
+angles 0 90
+}
+
+cone {
+finite
+center 0 -73 208
+color 40 40 40
+pi_divider 10
+height 12
+diffuse 100
+reflect 0
+angles 0 90
+}
+
+cone {
+finite
+center 8 -73 200
+color 40 40 40
+pi_divider 10
+height 12
+diffuse 100
+reflect 0
+angles 0 90
+}
+
+cone {
+finite
+center -8 -73 200
+color 40 40 40
+pi_divider 10
+height 12
+diffuse 100
+reflect 0
+angles 0 90
+}
+
+cone {
+finite
+center 0 -73 200
+color 40 40 40
+pi_divider 10
+height 12
+diffuse 100
+reflect 0
 angles 0 90
 }
 

@@ -34,6 +34,8 @@ void		send_rendering(t_env *env)
 	tmp = env->img_str;
 	size = WIN_WIDTH * WIN_HEIGHT * 4 * sizeof(char);
 	env->srv.cl_state = SENDING;
+	for (int i = 0; i < env->scene.objects_count; i++)
+		printf("id : %d, diffuse : %.3f, reflect : %.3f, color : %u\n", env->scene.objects[i].id, env->scene.objects[i].diffuse, env->scene.objects[i].reflection, env->scene.objects[i].color.r);
 	if ((mlx_put_image_to_window(env->mlx_ptr, env->win_ptr,
 					env->img_ptr, 0, 0)) == -1)
 		ft_putendl("Failed to put image to window");
