@@ -1,5 +1,5 @@
-theme 0 0 0
-power 100
+theme 255 255 255
+power 10
 
 camera {
 position 100 200 -600

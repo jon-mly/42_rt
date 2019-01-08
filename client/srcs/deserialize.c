@@ -18,5 +18,4 @@ void			deserialize_obj(char *data, t_object *obj)
 
 	otmp = (t_object *)data;
 	*obj = *otmp;
-	printf("id : %d, diffuse : %.3f, ref_index : %.3f, color : %u\n", otmp->id, otmp->diffuse, otmp->refraction, otmp->color.r);
 }

@@ -171,8 +171,8 @@ typedef struct				s_scene
 	int					lights_count;
 	int					top_bound;
 	int					bottom_bound;
-	t_color		theme;
-	float		power;
+	t_color				theme;
+	float				power;
 }							t_scene;
 
 int				omni_color_coord(float cosinus, float distance, int obj_color, int light_color);
@@ -1781,9 +1781,10 @@ t_color			ambiant_color(t_scene scene, t_object object)
 	float		factor;
 
 	factor = scene.power * object.diffuse * (1 - object.transparency);
-	ambiant_color.r = (unsigned char)((factor * (object.color.r * scene.theme.r / 255.0)) * 255.0);
-	ambiant_color.g = (unsigned char)((factor * (object.color.g * scene.theme.g / 255.0)) * 255.0);
-	ambiant_color.b = (unsigned char)((factor * (object.color.b * scene.theme.b / 255.0)) * 255.0);
+	// printf("%.4f\n", factor * (object.color.r * scene.theme.r / 255.0));
+	ambiant_color.r = (unsigned char)(factor * (object.color.r * scene.theme.r / 255.0));
+	ambiant_color.g = (unsigned char)(factor * (object.color.g * scene.theme.g / 255.0));
+	ambiant_color.b = (unsigned char)(factor * (object.color.b * scene.theme.b / 255.0));
 	ambiant_color.a = 0;
 	return (ambiant_color);
 }

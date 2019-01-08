@@ -5,10 +5,8 @@
 
 ################ THEME
 
-theme {
-color 255 255 255
-power 10
-} 
+theme 255 255 255
+color 0
 
 ################ CAMERA
 
