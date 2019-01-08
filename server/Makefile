@@ -69,8 +69,6 @@ MLX_FLAGS_LOCAL = -I $(MLX) -g -L $(MLX) -lmlx -framework OpenGL -framework \
 MATH_FLAG = -lm
 
 $(REP): $(O_SRCS)
-	# make -C $(LIBFT_REP)
-	make -C $(MLX)
 	gcc -g $(INCLUDE_FLAG) $(MLX_FLAGS_LOCAL) $(MATH_FLAG) $(SRC) $(LIBFT) -o $(NAME)
 	mv $(NAME) ../
 	@echo "\033[3;32m[ ✔ ] RT ready.\033[0m"
@@ -80,22 +78,15 @@ $(REP): $(O_SRCS)
 
 all: $(REP)
 
-# normelibft:
-# 	$(MAKE) -C $(LIBFT_REP) norme
-
 norme:
 	@norminette $(SRC)
 	@norminette includes/
 	@echo "\033[3;32m[ ✔ ] Server norme done.\033[0m"
 
 clean:
-	# make clean -C $(LIBFT_REP)
-	make clean -C $(MLX)
 	rm -rf $(O_SRCS)
 
 fclean: clean
-	# make fclean -C $(LIBFT_REP)
-#	make fclean -C $(MLX)
 	rm -rf ../$(NAME) $(ASSOCIATED_REP)
 
 re: fclean all
