@@ -18,6 +18,7 @@ static t_object		add_new_rectangle(int fd, int chx)
 
 	rectangle = get_template_object();
 	rectangle.typpe = RECTANGLE;
+	rectangle.normal = vector(0, 1, 0);
 	rectangle = parse_object_xml(fd, &rectangle, chx);
 	rectangle.normal = rotate_vector_angles(rectangle, rectangle.normal, 1);
 	return (rectangle);

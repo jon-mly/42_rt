@@ -57,8 +57,8 @@ static t_scene		extend_scene(int fd, t_scene scene, char **line, t_env *env)
 	if (ft_strequ(line[0], "<theme>") && line_len(line) == 5)
 		scene.theme = color(ft_atoi(line[1]), ft_atoi(line[2]),
 				ft_atoi(line[3]), 0);
-	else if (ft_strequ(line[0], "\t<power>") && line_len(line) == 3)
-		scene.power = fmin(fmax(ft_atoi(line[1]) / 100.0, 0), 1);
+	else if (ft_strequ(line[0], "<power>") && line_len(line) == 3)
+		scene.power = fmin(fmax((float)ft_atoi(line[1]) / 100.0, 0), 1);
 	if (line_len(line) != 1)
 		return (scene);
 	if (ft_strequ(line[0], "<light>"))

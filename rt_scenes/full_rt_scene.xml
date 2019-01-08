@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
-<theme>
-	<color> 0 0 0 </color>
-	<power> 100 </power>
-</theme>
+<theme> 255 255 255 </theme>
+<power> 10 </power>
 <camera>
 	<position> 100 200 -600 </position>
 	<angles> -40 0 </angles>

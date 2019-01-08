@@ -1,4 +1,5 @@
 all:
+	make -C libft/
 	@make -C server/
 	@make -C client/
 
