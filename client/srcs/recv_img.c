@@ -31,8 +31,6 @@ static	int		recv_nb_light_obj(t_env *e)
 		return (e->err);
 	e->scene.objects_count = e->obj_ct;
 	e->scene.lights_count = e->light_ct;
-	printf("Theme %u, %u, %u, %u\n", e->scene.theme.r, e->scene.theme.g, e->scene.theme.b, e->scene.theme.a);
-	printf("Power : %.2f\n", e->scene.power);
 	if (!(e->scene.objects = (t_object *)malloc(sizeof(t_object) * e->obj_ct)))
 		exit(EXIT_FAILURE);
 	if (!(e->scene.lights = (t_light *)malloc(sizeof(t_light) * e->light_ct)))

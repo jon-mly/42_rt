@@ -15,7 +15,7 @@ all:
 	@make -C $(CLIENT)
 
 norme:
-	@make norne -C $(LIBFT_REP)
+	@make norme -C $(LIBFT_REP)
 	@make norme -C $(CLIENT)
 	@make norme -C $(SERVER)
 

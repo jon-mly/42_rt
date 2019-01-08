@@ -32,8 +32,6 @@
 
 # ifdef __APPLE__
 #  include <OpenCL/cl.h>
-# else
-#  include <CL/cl.h>
 # endif
 
 /*
@@ -73,16 +71,16 @@ typedef	enum				e_object_type
 	TRIANGLE,
 	PARALLELOGRAM,
 	HYPERBOLOID
-}				t_object_type;
+}							t_object_type;
 
-typedef enum	e_light_type
+typedef enum				e_light_type
 {
 	OMNI = 0,
 	AMBIANT,
 	PROJECTOR
-}				t_light_type;
+}							t_light_type;
 
-typedef enum			e_texture
+typedef enum				e_texture
 {
 	NONE = 0,
 	CHECKER,
@@ -95,21 +93,21 @@ typedef enum			e_texture
 	PERLIN,
 	WOOD,
 	MARBLE
-}						t_texture;
+}							t_texture;
 
-typedef enum			e_texture_algo
+typedef enum				e_texture_algo
 {
 	NO_ALGO = 0,
 	PROCEDURAL,
 	PERLIN_ALGO
-}						t_texture_algo;
+}							t_texture_algo;
 
-typedef enum			e_bump_mapping
+typedef enum				e_bump_mapping
 {
 	FLAT = 0,
 	VERTICAL_SIN,
 	HORIZONTAL_SIN
-}						t_bump_mapping;
+}							t_bump_mapping;
 
 typedef enum				e_client_state
 {
