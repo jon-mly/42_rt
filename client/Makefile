@@ -1,4 +1,5 @@
 NAME = rt_client
+REP = ../rt_client
 ASSOCIATED_REP = $(NAME).dSYM
 
 LIBFT_REP = ../libft/
@@ -48,7 +49,7 @@ MLX_FLAGS_LOCAL = -I $(MLX) -g -L $(MLX) -lmlx -framework OpenGL -framework \
 
 MATH_FLAG = -lm
 
-$(NAME): $(O_SRCS)
+$(REP): $(O_SRCS)
 	make -C $(LIBFT_REP)
 	make -C $(MLX)
 	gcc -g $(INCLUDE_FLAG) $(MLX_FLAGS_LOCAL) $(MATH_FLAG) $(SRC) $(LIBFT) -o $(NAME)
@@ -58,7 +59,7 @@ $(NAME): $(O_SRCS)
 %.o: %.c ./includes/client.h Makefile
 	@gcc $(INCLUDE_FLAG) -c $< -o $@
 
-all: $(NAME)
+all: $(REP)
 
 normelibft:
 	$(MAKE) -C $(LIBFT_REP) norme

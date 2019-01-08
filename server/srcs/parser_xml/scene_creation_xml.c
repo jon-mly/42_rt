@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/06 16:10:34 by aabelque          #+#    #+#             */
-/*   Updated: 2019/01/07 10:31:35 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/07 13:52:17 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void			extend_scene2(int fd, t_scene *scene, char **line, int chx)
 	if (scene->objects[scene->objects_count - 1].finite
 			&& scene->objects[scene->objects_count - 1].covered)
 		*scene =
-			create_dependant_objects_xml(scene->objects[scene->objects_count - 1],
+			create_dependant_objects(scene->objects[scene->objects_count - 1],
 					fd, *scene, scene->objects_count - 1);
 }
 

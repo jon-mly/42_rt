@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
-/*   Updated: 2019/01/07 10:32:42 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/07 13:54:35 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -440,8 +440,8 @@ t_vector					point_from_vector(t_point origin,
 		t_vector direction, float norm);
 t_scene						create_dependant_objects(t_object object, int fd,
 		t_scene scene, int id);
-t_scene						create_dependant_objects_xml(t_object object, int fd,
-		t_scene scene, int id);
+t_scene						create_dependant_objects_xml(t_object object,
+		int fd, t_scene scene, int id);
 t_vector					rotate_cylinder_angles(t_object cylinder,
 		t_vector vect, int reverse);
 t_vector					rotate_cone_angles(t_object cone, t_vector vect,

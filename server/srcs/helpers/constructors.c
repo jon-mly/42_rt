@@ -6,7 +6,7 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:03 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/12/21 10:15:13 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/07 14:51:48 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** to read.
 */
 
-t_vector	vector(float x, float y, float z)
+t_vector			vector(float x, float y, float z)
 {
 	t_vector	vector;
 
@@ -27,7 +27,7 @@ t_vector	vector(float x, float y, float z)
 	return (vector);
 }
 
-t_vector	vector_points(t_point p1, t_point p2)
+t_vector			vector_points(t_point p1, t_point p2)
 {
 	t_vector	vector;
 
@@ -37,7 +37,7 @@ t_vector	vector_points(t_point p1, t_point p2)
 	return (vector);
 }
 
-t_point		point(float x, float y, float z)
+t_point				point(float x, float y, float z)
 {
 	t_point		point;
 
@@ -47,7 +47,7 @@ t_point		point(float x, float y, float z)
 	return (point);
 }
 
-t_color		color(int r, int g, int b, int a)
+t_color				color(int r, int g, int b, int a)
 {
 	t_color		color;
 
@@ -81,5 +81,5 @@ t_object			get_template_object(void)
 		.color = (t_color){200, 200, 200},
 		.typpe = SPHERE, .txt_type = NONE,
 		.bump_mapping = FLAT
-	});	
+	});
 }
