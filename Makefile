@@ -25,7 +25,7 @@ clean:
 	@make clean -C $(CLIENT)
 	@make clean -C $(SERVER)
 
-fclean:
+fclean: clean
 	@make fclean -C $(LIBFT_REP)
 	@make fclean -C $(CLIENT)
 	@make fclean -C $(SERVER)
