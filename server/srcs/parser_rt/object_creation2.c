@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 12:00:40 by aabelque          #+#    #+#             */
-/*   Updated: 2019/01/06 17:30:30 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/07 14:28:54 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ t_object		add_new_cone(int fd, int chx)
 	t_object	cone;
 
 	cone = get_template_object();
+	cone.direction = vector(0, 0, 1);
 	cone.typpe = CONE;
 	cone = parse_object(fd, &cone, chx);
 	cone.direction = rotate_cone_angles(cone, cone.direction, 1);
@@ -96,6 +97,7 @@ t_object		add_new_cylinder(int fd, int chx)
 	t_object	cylinder;
 
 	cylinder = get_template_object();
+	cylinder.direction = vector(0, 0, 1);
 	cylinder.typpe = CYLINDER;
 	cylinder = parse_object(fd, &cylinder, chx);
 	cylinder.direction = rotate_cylinder_angles(cylinder,

@@ -2507,12 +2507,6 @@ __kernel void				pixel_raytracing_gpu(__write_only image2d_t out, global t_scene
 	if (y < scene->top_bound || y > scene->bottom_bound)
 		return;
 	x = get_global_id(0);
-	if (x == 0 && y == scene->top_bound)
-	{
-		for (int i = 0; i < scene->objects_count; i++)
-			printf("id : %d, diffuse : %.3f, reflect : %.3f, color : %u, transparency : %.3f\n", 
-				scene->objects[i].id, scene->objects[i].diffuse, scene->objects[i].reflection, scene->objects[i].color.r, scene->objects[i].transparency);
-	} 
 	aliasing_iter = -1;
 	while (++aliasing_iter < ALIASING)
 	{
