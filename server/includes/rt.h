@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
-/*   Updated: 2019/01/07 13:54:35 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/09 17:48:27 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,6 @@
 /*
 ** ======= enumerations
 */
-
-typedef struct sockaddr_in	t_sockaddr_in;
-typedef struct sockaddr		t_sockaddr;
-typedef	struct hostent		t_hostent;
 
 typedef	enum				e_object_type
 {
@@ -127,8 +123,8 @@ typedef enum				e_server_state
 ** ======= structures
 */
 
-typedef struct sockaddr_in 	t_sockaddr_in;
-typedef struct sockaddr 	t_sockaddr;
+typedef struct sockaddr_in	t_sockaddr_in;
+typedef struct sockaddr		t_sockaddr;
 typedef struct hostent		t_hostent;
 
 typedef struct				s_pixel
@@ -449,5 +445,4 @@ t_vector					rotate_vector_angles(t_object reference,
 t_vector					cross_product(t_vector vect_1, t_vector vect_2);
 t_object					get_template_object(void);
 int							is_empty(char *line);
-
 #endif
