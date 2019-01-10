@@ -6,7 +6,7 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:44 by jmlynarc          #+#    #+#             */
-/*   Updated: 2019/01/06 17:40:35 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/01/10 18:24:49 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,10 @@ static	int		choose_rt_or_xml(char *av)
 {
 	char		**tab;
 	int			chx;
+	int			i;
 
 	chx = 0;
+	i = -1;
 	tab = ft_strsplit(av, '.');
 	if (!(ft_strequ(tab[1], "xml") || ft_strequ(tab[1], "rt")))
 		ft_error("Bad extension -> .rt or .xml only");
@@ -67,6 +69,9 @@ static	int		choose_rt_or_xml(char *av)
 		chx = 1;
 	else
 		chx = 0;
+	while (i++ < 2)
+		ft_memdel((void**)&tab[i]);
+	ft_memdel((void**)(&tab));
 	return (chx);
 }
 
