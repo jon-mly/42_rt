@@ -15,6 +15,7 @@ HELPER_REP = helpers/
 PARSER_XML_REP = parser_xml/
 PARSER_RT_REP = parser_rt/
 SHAPES_REP = shapes/
+INTERFACE_REP = interface/
 SRCS = main.c \
 		env_init.c \
 		serialize.c \
@@ -53,12 +54,13 @@ SRCS = main.c \
 		$(PARSER_RT_REP)object_parser.c \
 		$(PARSER_RT_REP)object_parser2.c \
 		$(PARSER_RT_REP)finite_objects_expander.c \
+		$(INTERFACE_REP)interface.c \
 
 SRC = $(addprefix $(SRCS_REP), $(SRCS))
 
 O_SRCS = $(SRC:.c=.o)
 
-W_FLAGS = -Wall -Wextra -Werror
+	W_FLAGS = -Wall -Wextra -Werror
 
 MLX_FLAGS = -I ~/Library -g -L ~/Library -lmlx -framework OpenGL -framework \
 			AppKit -framework OpenCL
@@ -68,13 +70,16 @@ MLX_FLAGS_LOCAL = -I $(MLX) -g -L $(MLX) -lmlx -framework OpenGL -framework \
 
 MATH_FLAG = -lm
 
+GTK_INCLUDE = `pkg-config --cflags gtk+-3.0`
+GTK_LIB = `pkg-config --libs gtk+-3.0`
+
 $(REP): $(O_SRCS)
-	gcc -g $(INCLUDE_FLAG) $(MLX_FLAGS_LOCAL) $(MATH_FLAG) $(SRC) $(LIBFT) -o $(NAME)
+	gcc -g $(INCLUDE_FLAG) $(GTK_INCLUDE) $(MLX_FLAGS_LOCAL) $(MATH_FLAG) $(SRC) $(LIBFT) -o $(NAME) $(GTK_LIB)
 	mv $(NAME) ../
 	@echo "\033[3;32m[ ✔ ] RT ready.\033[0m"
 
 %.o: %.c ./includes/rt.h Makefile
-	@gcc $(INCLUDE_FLAG) -c $< -o $@
+	@gcc $(INCLUDE_FLAG) $(GTK_INCLUDE) -c $< -o $@
 
 all: $(REP)
 
