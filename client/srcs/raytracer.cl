@@ -2251,10 +2251,6 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 				closest_distance = ray.norm;
 			}
 		}
-		if (get_global_id(0) == 450 && get_global_id(1) == 15) {
-			printf("depth : %d\nclosests id : %d\n", depth, closest_object_index);
-			printf("Direction %.2f %.2f %.2f\n", ray.direction.x, ray.direction.y, ray.direction.z);
-		}
 		if (closest_object_index != -1)
 		{
 			ray.norm = closest_distance;
