@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
+/*   By: gmajstru <gmajstru@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:31 by jmlynarc          #+#    #+#             */
-/*   Updated: 2019/01/10 09:54:38 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/01/25 16:17:31 by gmajstru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int			exit_properly(void *param)
 
 	env = (t_env*)param;
 	exit_normally(env);
-	gtk_main_quit();
 	return (0);
 }
 

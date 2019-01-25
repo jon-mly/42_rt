@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
+/*   By: gmajstru <gmajstru@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
-/*   Updated: 2019/01/13 14:25:42 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/01/25 20:27:14 by gmajstru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
 # include <netdb.h>
 # include <pthread.h>
 # include <signal.h>
-# include <gtk/gtk.h>
 
 # ifdef __APPLE__
 #  include <OpenCL/cl.h>
@@ -46,8 +45,8 @@
 # define KEY_ESC 53
 # define KEY_SPACE 49
 
-/* # define TRUE 1
-# define FALSE 0 */
+# define TRUE 1
+# define FALSE 0
 # define SOCKET_ERROR -1
 
 # define SIZE_OBJ sizeof(t_object)
@@ -221,6 +220,17 @@ typedef struct				s_camera
 	int					bottom_line;
 }							t_camera;
 
+typedef struct				s_settings
+{
+	unsigned int	depth;
+	unsigned int	antialiasing;
+	unsigned int	is_blur_shadows;
+	unsigned int	light_spread;
+	unsigned int	light_sep;
+	unsigned int	is_gl_enabled;
+	unsigned int	gl_sampling;
+}							t_settings;
+
 typedef struct				s_scene
 {
 	t_object			*objects;
@@ -319,25 +329,6 @@ typedef struct				s_env
 	pthread_t			thr;
 }							t_env;
 
-typedef struct			s_user_data
-{
-	int		ac;
-	char	**av;
-}						t_data;
-
-typedef struct			s_g_interface
-{
-	GtkWidget	*i_container;
-	GtkWidget	*i_launch_b;
-	GtkWidget	*i_exit_b;
-}						t_iface;
-
-typedef struct			s_gtk_env
-{
-	t_data			datas;
-	GtkWidget		*window;
-	t_iface			*iface;
-}						t_g_env;
 /*
 ** ======= prototypes
 */
@@ -468,12 +459,5 @@ int							is_empty(char *line);
 void						local_client(t_env *e);
 int							parse_arg(t_env *e, char *av, char *av2);
 int							choose_rt_or_xml(char *av);
-/*
-* Interface functions
-*/
-t_iface						*init_interface();
-t_g_env						*init_gtk_env(int ac, char **av);
-void						gtk_deinit_exit(GtkButton *exit_b, gpointer g_datas);
-void						launch_rt(GtkButton *button, gpointer user_data);
 
 #endif
