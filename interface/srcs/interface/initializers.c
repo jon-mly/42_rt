@@ -6,7 +6,7 @@
 /*   By: gmajstru <gmajstru@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 19:25:37 by gmajstru          #+#    #+#             */
-/*   Updated: 2019/01/25 20:10:53 by gmajstru         ###   ########.fr       */
+/*   Updated: 2019/01/25 21:06:07 by gmajstru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,28 @@ t_settings	*init_settings(void)
 	return (settings);
 }
 
+static void	b_shadows_enable(GObject *switcher, gpointer *data)
+{
+	t_iface	*iface;
+
+	iface = (t_iface*)data;
+	printf("addr 2: %p\n", iface->i_light_sep);
+	if (gtk_switch_get_active(GTK_SWITCH(switcher)))
+	{
+		if (gtk_widget_get_sensitive(iface->i_light_spread) &&
+			gtk_widget_get_sensitive(iface->i_light_sep))
+			{
+				gtk_widget_set_sensitive(iface->i_light_spread, 1);
+				gtk_widget_set_sensitive(iface->i_light_sep, 1);
+			}
+	}
+	else
+	{
+		//gtk_widget_set_sensitive(iface->i_light_spread, 0);
+		//gtk_widget_set_sensitive(iface->i_light_sep, 0);
+	}
+}
+
 t_iface		*init_interface(t_g_env *gtk_env)
 {
 	t_iface		*iface;
@@ -54,6 +76,9 @@ t_iface		*init_interface(t_g_env *gtk_env)
 		G_CALLBACK(launch_rt), NULL);
 	g_signal_connect(GTK_WIDGET(iface->i_exit_b), "clicked",
 		G_CALLBACK(gtk_deinit_exit), NULL);
+	printf("addr 1: %p\n", iface->i_light_sep);
+	g_signal_connect(GTK_WIDGET(iface->i_enable_blur_sh),
+		"notify::active", G_CALLBACK(b_shadows_enable), iface);
 	return (iface);
 }
 

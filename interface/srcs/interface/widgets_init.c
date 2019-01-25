@@ -6,7 +6,7 @@
 /*   By: gmajstru <gmajstru@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 19:34:38 by gmajstru          #+#    #+#             */
-/*   Updated: 2019/01/25 20:23:59 by gmajstru         ###   ########.fr       */
+/*   Updated: 2019/01/25 21:05:15 by gmajstru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void		iface_widgets_init(t_iface *iface)
 	iface->i_exit_b = gtk_button_new_with_label("Exit");
 	iface->i_enable_blur_sh = gtk_switch_new();
 	iface->i_enable_glsampling = gtk_switch_new();
+	gtk_switch_set_active(GTK_SWITCH(iface->i_enable_blur_sh), 1);
 }
 
 static void	set_widgets_in_grid2(t_iface *iface)
