@@ -11,10 +11,9 @@ SRCS_REP = srcs/
 
 INTERFACE_REP = interface/
 SRCS = main.c \
-		$(INTERFACE_REP)interface.c \
 		$(INTERFACE_REP)initializers.c \
-		$(INTERFACE_REP)constructors.c \
-		$(INTERFACE_REP)widgets_init.c \
+		$(INTERFACE_REP)signals.c \
+		$(INTERFACE_REP)update_signals.c \
 
 SRC = $(addprefix $(SRCS_REP), $(SRCS))
 

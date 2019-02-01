@@ -6,7 +6,7 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 15:29:01 by aabelque          #+#    #+#             */
-/*   Updated: 2019/01/13 14:25:34 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/01 22:11:37 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
 ** ======= macros
 */
 
-# define WIN_HEIGHT 900
+# define WIN_HEIGHT 600
 # define WIN_WIDTH 900
 # define FOV 0.50
 

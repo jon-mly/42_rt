@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmajstru <gmajstru@student.42.fr>          +#+  +:+       +#+        */
+/*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
-/*   Updated: 2019/01/25 20:27:14 by gmajstru         ###   ########.fr       */
+/*   Updated: 2019/02/01 22:11:54 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 ** ======= macros
 */
 
-# define WIN_HEIGHT 900
+# define WIN_HEIGHT 600
 # define WIN_WIDTH 900
 # define FOV 0.50
 
