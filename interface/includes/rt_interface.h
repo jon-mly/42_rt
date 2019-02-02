@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt_interface.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
+/*   By: gmajstru <gmajstru@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 16:25:13 by gmajstru          #+#    #+#             */
-/*   Updated: 2019/02/01 21:41:54 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/02 17:48:59 by gmajstru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct			s_settings
 	unsigned int	light_sep;
 	gboolean		is_gl_enabled;
 	unsigned int	gl_sampling;
+	unsigned int	port;
 	char			*scene_file;
 }						t_settings;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
+/*   By: gmajstru <gmajstru@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 16:26:13 by gmajstru          #+#    #+#             */
-/*   Updated: 2019/02/02 12:02:55 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/02 18:47:41 by gmajstru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,15 @@ int	main(int ac, char **av)
 	GtkWidget	*grid_widget = gtk_grid_new();
 	gtk_grid_set_column_homogeneous(GTK_GRID(grid_widget), TRUE);
 	gtk_grid_set_row_homogeneous(GTK_GRID(grid_widget), TRUE);
+	gtk_container_set_border_width(GTK_CONTAINER(grid_widget), 10);
 
-	// adding the grid container to the window container so that
-	// the window is the parent of the grid (owns the grid)
-	gtk_container_add(GTK_CONTAINER(window), GTK_WIDGET(grid_widget));
+	GtkWidget	*master_grid = gtk_grid_new();
+	gtk_grid_set_column_homogeneous(GTK_GRID(master_grid), TRUE);
+	gtk_grid_set_row_homogeneous(GTK_GRID(master_grid), FALSE);
 
-	//creating all the labels to display the text information
+
+	GtkWidget	*graph_frame = gtk_frame_new("Graphics settings");
+	gtk_container_set_border_width(GTK_CONTAINER(graph_frame), 10);
 	GtkWidget	*iface_w[17];
 	iface_w[0] = gtk_label_new("Max_depth");
 	gtk_grid_attach(GTK_GRID(grid_widget), GTK_WIDGET(iface_w[0]), 0, 0, 1, 1);
@@ -109,9 +112,33 @@ int	main(int ac, char **av)
 	iface_w[16] = gtk_button_new_with_label("Launch RT");
 	g_signal_connect(G_OBJECT(iface_w[16]), "clicked", G_CALLBACK(show_settings), (t_settings*)rt_set);
 	g_signal_connect(G_OBJECT(iface_w[16]), "clicked", G_CALLBACK(launch_rt), (t_settings*)rt_set);
-	gtk_grid_attach(GTK_GRID(grid_widget), GTK_WIDGET(iface_w[16]), 0, 8, 2, 1);
 
+	gtk_container_add(GTK_CONTAINER(graph_frame), GTK_WIDGET(grid_widget));
+
+	//creation de la window frame
+	GtkWidget	*w_size_frame = gtk_frame_new("Image rendering size");
+	gtk_container_set_border_width(GTK_CONTAINER(w_size_frame), 10);
+	GtkWidget	*w_size_grid = gtk_grid_new();
+	gtk_grid_set_column_homogeneous(GTK_GRID(w_size_grid), TRUE);
+	gtk_grid_set_row_homogeneous(GTK_GRID(w_size_grid), TRUE);
+	gtk_container_set_border_width(GTK_CONTAINER(w_size_grid), 10);
+	GtkWidget	*size_buttons[3];
+
+	size_buttons[0] = gtk_check_button_new_with_label("900 x 600");
+	size_buttons[1] = gtk_check_button_new_with_label("1200 x 900");
+	size_buttons[2] = gtk_check_button_new_with_label("1500 x 1200");
+	gtk_grid_attach(GTK_GRID(w_size_grid), GTK_WIDGET(size_buttons[0]), 0, 0, 1, 1);
+	gtk_grid_attach(GTK_GRID(w_size_grid), GTK_WIDGET(size_buttons[1]), 0, 1, 1, 1);
+	gtk_grid_attach(GTK_GRID(w_size_grid), GTK_WIDGET(size_buttons[2]), 0, 2, 1, 1);
+	gtk_container_add(GTK_CONTAINER(w_size_frame), GTK_WIDGET(w_size_grid));
+
+	gtk_grid_attach(GTK_GRID(master_grid), GTK_WIDGET(w_size_frame), 0, 0, 1, 1);
+	gtk_grid_attach(GTK_GRID(master_grid), GTK_WIDGET(graph_frame), 0, 1, 1, 1);
+	gtk_grid_attach(GTK_GRID(master_grid), GTK_WIDGET(iface_w[16]), 0, 2, 1, 1);
+
+	gtk_container_add(GTK_CONTAINER(window), GTK_WIDGET(master_grid));
 	gtk_widget_show_all(GTK_WIDGET(window));
 	gtk_main();
+
 	return (0);
 }

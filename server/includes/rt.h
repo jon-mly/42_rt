@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
+/*   By: gmajstru <gmajstru@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
-/*   Updated: 2019/02/01 22:11:54 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/02 15:23:08 by gmajstru         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,11 +224,13 @@ typedef struct				s_settings
 {
 	unsigned int	depth;
 	unsigned int	antialiasing;
-	unsigned int	is_blur_shadows;
+	int				is_blur_shadows;
 	unsigned int	light_spread;
 	unsigned int	light_sep;
-	unsigned int	is_gl_enabled;
+	int				is_gl_enabled;
 	unsigned int	gl_sampling;
+	unsigned int	port;
+	char			*scene_file;
 }							t_settings;
 
 typedef struct				s_scene

@@ -2,12 +2,12 @@
 # define FALSE 0
 
 # define MAX_DEPTH 10
-# define ALIASING 2
-# define BLUR_SHADOWS 1
+# define ALIASING 1
+# define BLUR_SHADOWS 0
 # define LIGHT_SPREAD 1
 # define LIGHT_SEP 1.5
 # define GI_ENABLED 0
-# define GI_SAMPLING 150
+# define GI_SAMPLING 75
 # define EPSILON 0.05
 
 # define CIRCLES_WIDTH 2.3
