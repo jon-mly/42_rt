@@ -6,7 +6,7 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 21:20:29 by guillaume         #+#    #+#             */
-/*   Updated: 2019/02/01 22:07:53 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/02 12:03:41 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	blur_shadows_e_d(GtkWidget *blur_button, gpointer data)
 	GtkWidget	**iface = (GtkWidget**)data;
 
 	bEtat = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(blur_button));
-	gtk_widget_set_sensitive(GTK_WIDGET(iface[3]), bEtat);
-	gtk_widget_set_sensitive(GTK_WIDGET(iface[4]), bEtat);
+	gtk_widget_set_sensitive(GTK_WIDGET(iface[11]), bEtat);
+	gtk_widget_set_sensitive(GTK_WIDGET(iface[12]), bEtat);
 }
 
 void	gl_sampling_e_d(GtkWidget *gl_sampling_button, gpointer data)
@@ -72,7 +72,7 @@ void	gl_sampling_e_d(GtkWidget *gl_sampling_button, gpointer data)
 	GtkWidget	**iface = (GtkWidget**)data;
 
 	bEtat = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(gl_sampling_button));
-	gtk_widget_set_sensitive(GTK_WIDGET(iface[6]), bEtat);
+	gtk_widget_set_sensitive(GTK_WIDGET(iface[14]), bEtat);
 }
 
 void	update_blursh(GtkWidget *blursh, gpointer data)
@@ -95,25 +95,15 @@ void	launch_rt(GtkButton *button, gpointer user_data)
 
 	if (!settings->scene_file)
 	{
-		GtkWidget *dialog, *label, *content_area;
-		GtkDialogFlags flags;
-
-		// Create the widgets
-		flags = GTK_DIALOG_DESTROY_WITH_PARENT;
-		dialog = gtk_dialog_new_with_buttons ("Message",
-											NULL,
-											flags,
-											"OK",
-											GTK_RESPONSE_NONE,
-											NULL);
-		content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-		label = gtk_label_new ("Veuillez selectionner un fichier de scene avant de lancer le rendu !");
-		g_signal_connect_swapped (dialog,
-								"response",
-								G_CALLBACK (gtk_widget_destroy),
-								dialog);
-		gtk_container_add (GTK_CONTAINER (content_area), label);
-		gtk_widget_show_all (dialog);
+		GtkWidget *dialog;
+		GtkDialogFlags flags = GTK_DIALOG_DESTROY_WITH_PARENT;
+		dialog = gtk_message_dialog_new (NULL,
+                                 flags,
+                                 GTK_MESSAGE_ERROR,
+                                 GTK_BUTTONS_CLOSE,
+                                 "AUCUN FICHIER DE SCENE SELECTIONNE !");
+		gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
 		return ;
 	}
 	if (execlp("./rt", "rt",

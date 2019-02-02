@@ -2,8 +2,8 @@
 # define FALSE 0
 
 # define MAX_DEPTH 10
-# define ALIASING 4
-# define BLUR_SHADOWS 2
+# define ALIASING 2
+# define BLUR_SHADOWS 1
 # define LIGHT_SPREAD 1
 # define LIGHT_SEP 1.5
 # define GI_ENABLED 0
