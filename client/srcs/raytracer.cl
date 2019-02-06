@@ -163,6 +163,18 @@ typedef struct				s_object
 	t_bump_mapping		bump_mapping;
 }							t_object;
 
+typedef struct				s_settings
+{
+	unsigned int		depth;
+	unsigned int		antialiasing;
+	int					is_blur_shadows;
+	unsigned int		light_spread;
+	unsigned int		light_sep;
+	int					is_gl_enabled;
+	unsigned int		gl_sampling;
+	unsigned int		port;
+}							t_settings;
+
 typedef struct				s_scene
 {
 	t_object			*objects;
@@ -173,6 +185,7 @@ typedef struct				s_scene
 	int					bottom_bound;
 	t_color				theme;
 	float				power;
+	t_settings			sett;
 }							t_scene;
 
 int				omni_color_coord(float cosinus, float distance, int obj_color, int light_color);
@@ -2250,10 +2263,6 @@ t_color			refracted_raytracing(global t_scene *scene, global t_object *obj, glob
 				closest_object_index = object_index;
 				closest_distance = ray.norm;
 			}
-		}
-		if (get_global_id(0) == 450 && get_global_id(1) == 15) {
-			printf("depth : %d\nclosests id : %d\n", depth, closest_object_index);
-			printf("Direction %.2f %.2f %.2f\n", ray.direction.x, ray.direction.y, ray.direction.z);
 		}
 		if (closest_object_index != -1)
 		{

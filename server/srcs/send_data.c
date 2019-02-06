@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 18:30:29 by aabelque          #+#    #+#             */
-/*   Updated: 2019/01/07 11:33:54 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/06 17:49:23 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ static int					send_render_bounds(t_env *e)
 static	int					send_cam_scene(t_env *e)
 {
 	e->err = send(e->srv.socket_cl, &e->camera, sizeof(t_camera), 0);
+	if (e->err == SOCKET_ERROR)
+		return (e->err);
+	e->err = send(e->srv.socket_cl, &e->scene.sett, sizeof(t_settings), 0);
+	if (e->err == SOCKET_ERROR)
+		return (e->err);
 	return (e->err);
 }
 

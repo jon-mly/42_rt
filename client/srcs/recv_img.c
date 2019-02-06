@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 18:30:34 by aabelque          #+#    #+#             */
-/*   Updated: 2019/01/07 11:33:54 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/06 17:49:11 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ static int		recv_render_bounds(t_env *e)
 static	int		recv_cam_scene(t_env *e)
 {
 	e->err = recv(e->srv.socket, &e->camera, sizeof(t_camera), 0);
+	if (e->err == SOCKET_ERROR)
+		return (e->err);
+	e->err = recv(e->srv.socket, &e->scene.sett, sizeof(t_settings), 0);
 	if (e->err == SOCKET_ERROR)
 		return (e->err);
 	return (e->err);

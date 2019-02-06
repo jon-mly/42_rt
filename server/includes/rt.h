@@ -6,7 +6,7 @@
 /*   By: gmajstru <gmajstru@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
-/*   Updated: 2019/02/02 15:23:08 by gmajstru         ###   ########.fr       */
+/*   Updated: 2019/02/06 17:49:22 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,7 +230,6 @@ typedef struct				s_settings
 	int				is_gl_enabled;
 	unsigned int	gl_sampling;
 	unsigned int	port;
-	char			*scene_file;
 }							t_settings;
 
 typedef struct				s_scene
@@ -241,6 +240,7 @@ typedef struct				s_scene
 	int					lights_count;
 	t_color				theme;
 	float				power;
+	t_settings			sett;
 }							t_scene;
 
 typedef	struct				s_opencl
