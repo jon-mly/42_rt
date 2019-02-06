@@ -6,7 +6,7 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 19:25:37 by gmajstru          #+#    #+#             */
-/*   Updated: 2019/02/05 15:45:01 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/06 16:48:02 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_settings	*init_settings(void)
 		ft_putendl("settings malloc failure !");
 		return (settings);
 	}
+	settings->err = 1;
 	settings->depth = 1;
 	settings->antialiasing = 0;
 	settings->is_blur_shadows = FALSE;
@@ -31,5 +32,7 @@ t_settings	*init_settings(void)
 	settings->gl_sampling = 20;
 	settings->scene_file = NULL;
 	settings->port = 0;
+	settings->render_w = 900;
+	settings->render_h = 600;
 	return (settings);
 }
