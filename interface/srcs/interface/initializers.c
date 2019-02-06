@@ -6,7 +6,7 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 19:25:37 by gmajstru          #+#    #+#             */
-/*   Updated: 2019/02/02 11:46:38 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/05 15:45:01 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ t_settings	*init_settings(void)
 	settings->is_gl_enabled = FALSE;
 	settings->gl_sampling = 20;
 	settings->scene_file = NULL;
+	settings->port = 0;
 	return (settings);
 }

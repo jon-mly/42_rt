@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmajstru <gmajstru@student.42.fr>          +#+  +:+       +#+        */
+/*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 16:26:13 by gmajstru          #+#    #+#             */
-/*   Updated: 2019/02/02 18:47:41 by gmajstru         ###   ########.fr       */
+/*   Updated: 2019/02/05 16:12:35 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int	main(int ac, char **av)
 
 	gtk_container_add(GTK_CONTAINER(graph_frame), GTK_WIDGET(grid_widget));
 
-	//creation de la window frame
+// WINDOW RENDERING PART
 	GtkWidget	*w_size_frame = gtk_frame_new("Image rendering size");
 	gtk_container_set_border_width(GTK_CONTAINER(w_size_frame), 10);
 	GtkWidget	*w_size_grid = gtk_grid_new();
@@ -132,9 +132,26 @@ int	main(int ac, char **av)
 	gtk_grid_attach(GTK_GRID(w_size_grid), GTK_WIDGET(size_buttons[2]), 0, 2, 1, 1);
 	gtk_container_add(GTK_CONTAINER(w_size_frame), GTK_WIDGET(w_size_grid));
 
+
+// SERVER PART
+	GtkWidget	*server_frame = gtk_frame_new("Server settings");
+	gtk_container_set_border_width(GTK_CONTAINER(server_frame), 10);
+	GtkWidget	*server_grid = gtk_grid_new();
+	gtk_grid_set_column_homogeneous(GTK_GRID(server_grid), TRUE);
+	gtk_grid_set_row_homogeneous(GTK_GRID(server_grid), TRUE);
+	gtk_container_set_border_width(GTK_CONTAINER(server_grid), 10);
+	GtkWidget	*server_w[2];
+	server_w[0] = gtk_label_new("Enter the desired port to connect");
+	server_w[1] = gtk_entry_new();
+	gtk_grid_attach(GTK_GRID(server_grid), GTK_WIDGET(server_w[0]), 0, 0, 1, 1);
+	gtk_grid_attach(GTK_GRID(server_grid), GTK_WIDGET(server_w[1]), 1, 0, 1, 1);
+	g_signal_connect(G_OBJECT(server_w[1]), "changed", G_CALLBACK(update_port), (t_settings*)rt_set);
+	gtk_container_add(GTK_CONTAINER(server_frame), GTK_WIDGET(server_grid));
+
 	gtk_grid_attach(GTK_GRID(master_grid), GTK_WIDGET(w_size_frame), 0, 0, 1, 1);
 	gtk_grid_attach(GTK_GRID(master_grid), GTK_WIDGET(graph_frame), 0, 1, 1, 1);
-	gtk_grid_attach(GTK_GRID(master_grid), GTK_WIDGET(iface_w[16]), 0, 2, 1, 1);
+	gtk_grid_attach(GTK_GRID(master_grid), GTK_WIDGET(server_frame), 0, 2, 1, 1);
+	gtk_grid_attach(GTK_GRID(master_grid), GTK_WIDGET(iface_w[16]), 0, 3, 1, 1);
 
 	gtk_container_add(GTK_CONTAINER(window), GTK_WIDGET(master_grid));
 	gtk_widget_show_all(GTK_WIDGET(window));

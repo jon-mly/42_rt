@@ -6,7 +6,7 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 21:20:29 by guillaume         #+#    #+#             */
-/*   Updated: 2019/02/02 12:03:41 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/05 16:12:37 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,14 @@ void	show_settings(GtkWidget *w, gpointer user_data)
 {
 	t_settings *settings = (t_settings*)user_data;
 
-	printf("max depth %d\nantialiasing %d\nblur shadows enable: %d\nlight spread %d\nlight sep %d\nGl_enabled: %d\ngl_sampling %d\nscene_file: %s\n", settings->depth,
+	printf("max depth %d\nantialiasing %d\nblur shadows enable: %d\nlight spread %d\nlight sep %d\nGl_enabled: %d\ngl_sampling %d\nport: %d\nscene_file: %s\n", settings->depth,
 														settings->antialiasing,
 														settings->is_blur_shadows,
 														settings->light_spread,
 														settings->light_sep,
 														settings->is_gl_enabled,
 														settings->gl_sampling,
+														settings->port,
 														settings->scene_file);
 }
 
@@ -113,4 +114,11 @@ void	launch_rt(GtkButton *button, gpointer user_data)
 		ft_putendl("Error function execlp()");
 		exit(EXIT_FAILURE);
 	}
+}
+
+void	update_port(GtkEntry *entry, gpointer user_data)
+{
+	t_settings	*settings = (t_settings*)user_data;
+
+	settings->port = (unsigned int)ft_atoi(gtk_entry_get_text(GTK_ENTRY(entry)));
 }

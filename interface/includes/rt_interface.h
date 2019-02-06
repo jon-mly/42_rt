@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt_interface.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmajstru <gmajstru@student.42.fr>          +#+  +:+       +#+        */
+/*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 16:25:13 by gmajstru          #+#    #+#             */
-/*   Updated: 2019/02/02 17:48:59 by gmajstru         ###   ########.fr       */
+/*   Updated: 2019/02/05 16:11:51 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,5 @@ void					update_antialiasing(GtkWidget *antia_scale, gpointer data);
 void					update_lightspread(GtkWidget *ls_scale, gpointer data);
 void					update_lightsep(GtkWidget *lsep_scale, gpointer data);
 void					update_glsampling(GtkWidget *gl_scale, gpointer data);
+void					update_port(GtkEntry *entry, gpointer user_data);
 #endif
