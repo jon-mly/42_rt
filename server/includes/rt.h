@@ -6,7 +6,7 @@
 /*   By: gmajstru <gmajstru@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
-/*   Updated: 2019/02/06 17:49:22 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/06 20:13:15 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,14 +222,15 @@ typedef struct				s_camera
 
 typedef struct				s_settings
 {
-	unsigned int	depth;
-	unsigned int	antialiasing;
-	int				is_blur_shadows;
-	unsigned int	light_spread;
-	unsigned int	light_sep;
-	int				is_gl_enabled;
-	unsigned int	gl_sampling;
-	unsigned int	port;
+	int					gl_enabled;
+	int					bshadows;
+	unsigned int		depth;
+	unsigned int		aliasing;
+	unsigned int		spread;
+	unsigned int		sep;
+	unsigned int		gl_sampling;
+	unsigned int		render_w;
+	unsigned int		render_h;
 }							t_settings;
 
 typedef struct				s_scene
@@ -459,7 +460,8 @@ t_vector					cross_product(t_vector vect_1, t_vector vect_2);
 t_object					get_template_object(void);
 int							is_empty(char *line);
 void						local_client(t_env *e);
-int							parse_arg(t_env *e, char *av, char *av2);
+int							parse_arg(t_env *e, char **av);
 int							choose_rt_or_xml(char *av);
+int							has_alpha(char *s);
 
 #endif

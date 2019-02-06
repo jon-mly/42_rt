@@ -6,7 +6,7 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 15:29:01 by aabelque          #+#    #+#             */
-/*   Updated: 2019/02/06 17:49:21 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/06 20:01:34 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,14 +223,15 @@ typedef struct				s_camera
 
 typedef struct				s_settings
 {
+	int					gl_enabled;
+	int					bshadows;
 	unsigned int		depth;
-	unsigned int		antialiasing;
-	int					is_blur_shadows;
-	unsigned int		light_spread;
-	unsigned int		light_sep;
-	int					is_gl_enabled;
+	unsigned int		aliasing;
+	unsigned int		spread;
+	unsigned int		sep;
 	unsigned int		gl_sampling;
-	unsigned int		port;
+	unsigned int		render_w;
+	unsigned int		render_h;
 }							t_settings;
 
 typedef struct				s_scene

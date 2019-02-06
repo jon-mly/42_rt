@@ -165,14 +165,15 @@ typedef struct				s_object
 
 typedef struct				s_settings
 {
+	int					gl_enabled;
+	int					bshadows;
 	unsigned int		depth;
-	unsigned int		antialiasing;
-	int					is_blur_shadows;
-	unsigned int		light_spread;
-	unsigned int		light_sep;
-	int					is_gl_enabled;
+	unsigned int		aliasing;
+	unsigned int		spread;
+	unsigned int		sep;
 	unsigned int		gl_sampling;
-	unsigned int		port;
+	unsigned int		render_w;
+	unsigned int		render_h;
 }							t_settings;
 
 typedef struct				s_scene

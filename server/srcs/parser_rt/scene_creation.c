@@ -6,7 +6,7 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/02 16:48:17 by jmlynarc          #+#    #+#             */
-/*   Updated: 2019/01/07 11:10:36 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/06 20:13:16 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ t_scene				create_scene(t_env *env, char *file_name, int fd)
 	scene.lights = NULL;
 	scene.theme = color(255, 255, 255, 0);
 	scene.power = 0.25;
+	scene.sett = env->scene.sett;
 	while ((line = split_new_line(fd, env->chx)))
 	{
 		scene = extend_scene(fd, scene, line, env);
