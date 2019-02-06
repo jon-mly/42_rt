@@ -6,7 +6,7 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 16:26:13 by gmajstru          #+#    #+#             */
-/*   Updated: 2019/02/05 16:12:35 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/06 17:36:01 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ int	main(int ac, char **av)
 	gtk_grid_attach(GTK_GRID(grid_widget), GTK_WIDGET(iface_w[15]), 1, 7, 1, 1);
 
 	iface_w[16] = gtk_button_new_with_label("Launch RT");
-	g_signal_connect(G_OBJECT(iface_w[16]), "clicked", G_CALLBACK(show_settings), (t_settings*)rt_set);
 	g_signal_connect(G_OBJECT(iface_w[16]), "clicked", G_CALLBACK(launch_rt), (t_settings*)rt_set);
 
 	gtk_container_add(GTK_CONTAINER(graph_frame), GTK_WIDGET(grid_widget));
@@ -124,12 +123,19 @@ int	main(int ac, char **av)
 	gtk_container_set_border_width(GTK_CONTAINER(w_size_grid), 10);
 	GtkWidget	*size_buttons[3];
 
-	size_buttons[0] = gtk_check_button_new_with_label("900 x 600");
-	size_buttons[1] = gtk_check_button_new_with_label("1200 x 900");
-	size_buttons[2] = gtk_check_button_new_with_label("1500 x 1200");
+	size_buttons[0] = gtk_radio_button_new_with_label(NULL, "900 x 600");
+	size_buttons[1] = gtk_radio_button_new_with_label(gtk_radio_button_get_group(GTK_RADIO_BUTTON(size_buttons[0])), "1200 x 900");
+	size_buttons[2] = gtk_radio_button_new_with_label(gtk_radio_button_get_group(GTK_RADIO_BUTTON(size_buttons[0])), "1500 x 1200");
 	gtk_grid_attach(GTK_GRID(w_size_grid), GTK_WIDGET(size_buttons[0]), 0, 0, 1, 1);
 	gtk_grid_attach(GTK_GRID(w_size_grid), GTK_WIDGET(size_buttons[1]), 0, 1, 1, 1);
 	gtk_grid_attach(GTK_GRID(w_size_grid), GTK_WIDGET(size_buttons[2]), 0, 2, 1, 1);
+	GSList *rb = gtk_radio_button_get_group(GTK_RADIO_BUTTON(size_buttons[0]));
+
+	while (rb)
+	{
+		g_signal_connect(G_OBJECT(rb->data), "toggled", G_CALLBACK(update_render_size), (t_settings*)rt_set);
+		rb = rb->next;
+	}
 	gtk_container_add(GTK_CONTAINER(w_size_frame), GTK_WIDGET(w_size_grid));
 
 
