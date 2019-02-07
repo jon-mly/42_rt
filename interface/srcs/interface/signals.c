@@ -6,7 +6,7 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 21:20:29 by guillaume         #+#    #+#             */
-/*   Updated: 2019/02/06 17:34:18 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/07 09:23:49 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	show_settings(GtkWidget *w, gpointer user_data)
 {
 	t_settings *settings = (t_settings*)user_data;
 
-	printf("RT SETTINGS ARE**********************************\n");
+	printf("RT SETTINGS SEND BY INTERFACE ARE **********************************\n");
 	printf("max depth %d\nantialiasing %d\nblur shadows enable: %d\nlight spread %d\nlight sep %d\nGl_enabled: %d\ngl_sampling %d\nport: %d\nwidth %d | height %d\nscene_file: %s\n", settings->depth,
 														settings->antialiasing,
 														settings->is_blur_shadows,
@@ -88,7 +88,6 @@ void	update_blursh(GtkWidget *blursh, gpointer data)
 
 	settings->is_blur_shadows =
 		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(blursh));
-	show_settings(NULL, settings);
 }
 
 void	update_gl_enable(GtkWidget *glenable, gpointer data)
@@ -97,7 +96,6 @@ void	update_gl_enable(GtkWidget *glenable, gpointer data)
 
 	settings->is_gl_enabled =
 		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(glenable));
-	show_settings(NULL, settings);
 }
 
 static void	err_dial(t_settings *settings,int err_code, const gchar *msg)
@@ -132,7 +130,19 @@ void	launch_rt(GtkButton *button, gpointer user_data)
 		settings->err = 1;
 	if (settings->err < 0)
 		return ;
-	if(execlp("./rt", "rt", settings->scene_file, "-p", "4242", (char *)NULL) == -1)
+	show_settings(NULL, settings);
+	if(execlp("./rt", "rt", settings->scene_file, "-p",
+		ft_itoa(settings->port),
+		ft_itoa(settings->depth),
+		ft_itoa(settings->antialiasing),
+		ft_itoa(settings->is_blur_shadows),
+		ft_itoa(settings->light_spread),
+		ft_itoa(settings->light_sep),
+		ft_itoa(settings->is_gl_enabled),
+		ft_itoa(settings->gl_sampling),
+		ft_itoa(settings->render_w),
+		ft_itoa(settings->render_h),
+		(char *)NULL) == -1)
 		err_dial(settings, EXECLP_ERROR, EXECLP_ERROR_MSG);
 }
 
@@ -141,7 +151,6 @@ void	update_port(GtkEntry *entry, gpointer user_data)
 	t_settings	*settings = (t_settings*)user_data;
 
 	settings->port = (unsigned int)ft_atoi(gtk_entry_get_text(GTK_ENTRY(entry)));
-	show_settings(NULL, settings);
 }
 
 void	update_render_size(GtkButton *w, gpointer user_data)
@@ -165,8 +174,5 @@ void	update_render_size(GtkButton *w, gpointer user_data)
 		settings->render_h = 1200;
 	}
 	else
-	{
 		err_dial(settings, -4, "erreur render size update");
-	}
-	show_settings(NULL, settings);
 }

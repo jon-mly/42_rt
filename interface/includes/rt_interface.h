@@ -6,7 +6,7 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 16:25:13 by gmajstru          #+#    #+#             */
-/*   Updated: 2019/02/06 17:57:42 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/07 09:10:35 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ typedef struct			s_user_data
 typedef struct			s_settings
 {
 	int				err;
+	int				is_blur_shadows;
+	int				is_gl_enabled;
 	unsigned int	depth;
 	unsigned int	antialiasing;
-	gboolean		is_blur_shadows;
 	unsigned int	light_spread;
 	unsigned int	light_sep;
-	gboolean		is_gl_enabled;
 	unsigned int	gl_sampling;
 	unsigned int	port;
 	unsigned int	render_w;

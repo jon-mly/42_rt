@@ -6,7 +6,7 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 16:26:13 by gmajstru          #+#    #+#             */
-/*   Updated: 2019/02/06 17:36:01 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/06 20:21:36 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	main(int ac, char **av)
 	}
 
 	GtkWidget	*window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	//gtk_window_set_default_size(GTK_WINDOW(window), 800, 600);
 	gtk_window_set_title(GTK_WINDOW(window), "RT_SETTINGS");
 	g_signal_connect(GTK_WINDOW(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
@@ -162,6 +161,5 @@ int	main(int ac, char **av)
 	gtk_container_add(GTK_CONTAINER(window), GTK_WIDGET(master_grid));
 	gtk_widget_show_all(GTK_WIDGET(window));
 	gtk_main();
-
 	return (0);
 }

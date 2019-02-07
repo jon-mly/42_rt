@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 14:20:22 by aabelque          #+#    #+#             */
-/*   Updated: 2018/09/10 18:16:00 by jmlynarc         ###   ########.fr       */
+/*   Updated: 2019/02/07 10:21:23 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char		**split_new_line(int fd)
 	if (!(line = (char**)malloc(sizeof(char*))))
 		return (NULL);
 	if ((res = get_next_line(fd, line)) < 0)
-		exit_usage();
+		exit_usage2();
 	if (res == 1)
 	{
 		ft_striter(*line, &(exit_if_non_ascii));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_client.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 16:40:56 by aabelque          #+#    #+#             */
-/*   Updated: 2019/01/03 17:33:57 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/07 10:19:14 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static	int		parse_arg(t_env *e, char *av, char *av2)
 	if (ft_strequ(av, "-p"))
 	{
 		if (ft_atoi(av2) >= 0 && ft_atoi(av2) <= 1024)
-			exit_usage();
+			exit_usage2();
 		else
 			e->srv.port = ft_atoi(av2);
 	}

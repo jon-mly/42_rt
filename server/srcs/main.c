@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmajstru <gmajstru@student.42.fr>          +#+  +:+       +#+        */
+/*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:44 by jmlynarc          #+#    #+#             */
-/*   Updated: 2019/02/06 20:14:00 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/07 09:36:12 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,26 +33,26 @@ void			local_client(t_env *e)
 
 static	int		parse_arg2(t_env *e, char **av)
 {
-	if (ft_atoi(av[4]) >= 1 && ft_atoi(av[4]) <= 10)
-		e->scene.sett.depth = (unsigned int)ft_atoi(av[4]);
-	if (ft_atoi(av[5]) >= 0 && ft_atoi(av[5]) <= 4)
-		e->scene.sett.aliasing = (unsigned int)ft_atoi(av[5]);
-	if (ft_atoi(av[6]) >= 0 && ft_atoi(av[6]) <= 1)
-		e->scene.sett.bshadows = (unsigned int)ft_atoi(av[6]);
-	if (ft_atoi(av[7]) >= 0 && ft_atoi(av[7]) <= 3)
-		e->scene.sett.spread = (unsigned int)ft_atoi(av[7]);
-	if (ft_atoi(av[8]) >= 0 && ft_atoi(av[8]) <= 4)
-		e->scene.sett.sep = (unsigned int)ft_atoi(av[8]);
-	if (ft_atoi(av[9]) >= 0 && ft_atoi(av[9]) <= 1)
-		e->scene.sett.gl_enabled = (unsigned int)ft_atoi(av[9]);
-	if (ft_atoi(av[10]) >= 0 && ft_atoi(av[10]) <= 50)
-		e->scene.sett.gl_sampling = (unsigned int)ft_atoi(av[10]);
-	if ((ft_atoi(av[11]) == 900 && ft_atoi(av[12]) == 600)
+	if ((ft_atoi(av[4]) >= 1 && ft_atoi(av[4]) <= 10) &&
+			(ft_atoi(av[5]) >= 0 && ft_atoi(av[5]) <= 4) &&
+			(ft_atoi(av[6]) >= 0 && ft_atoi(av[6]) <= 1) &&
+			(ft_atoi(av[7]) >= 0 && ft_atoi(av[7]) <= 3) &&
+			(ft_atoi(av[8]) >= 0 && ft_atoi(av[8]) <= 4) &&
+			(ft_atoi(av[9]) >= 0 && ft_atoi(av[9]) <= 1) &&
+			(ft_atoi(av[10]) >= 0 && ft_atoi(av[10]) <= 50) &&
+			((ft_atoi(av[11]) == 900 && ft_atoi(av[12]) == 600)
 			|| (ft_atoi(av[11]) == 1200 && ft_atoi(av[12]) == 900)
-			|| (ft_atoi(av[11]) == 1500 && ft_atoi(av[12]) == 1200))
+			|| (ft_atoi(av[11]) == 1500 && ft_atoi(av[12]) == 1200)))
 	{
-		e->scene.sett.render_h = (unsigned int)ft_atoi(av[11]);
-		e->scene.sett.render_w = (unsigned int)ft_atoi(av[12]);
+		e->scene.sett.depth = (unsigned int)ft_atoi(av[4]);
+		e->scene.sett.aliasing = (unsigned int)ft_atoi(av[5]);
+		e->scene.sett.bshadows = (unsigned int)ft_atoi(av[6]);
+		e->scene.sett.spread = (unsigned int)ft_atoi(av[7]);
+		e->scene.sett.sep = (unsigned int)ft_atoi(av[8]);
+		e->scene.sett.gl_enabled = (unsigned int)ft_atoi(av[9]);
+		e->scene.sett.gl_sampling = (unsigned int)ft_atoi(av[10]);
+		e->scene.sett.render_w = (unsigned int)ft_atoi(av[11]);
+		e->scene.sett.render_h = (unsigned int)ft_atoi(av[12]);
 	}
 	else
 		return (1);
@@ -112,6 +112,18 @@ int				main(int ac, char **av)
 	env = init_env(env, av[1]);
 	init_env_server(env);
 	create_srv(env);
+	printf("RT SETTINGS RECEIVED BY THE SERVER ARE **********************************\n");
+	printf("max depth %d\nantialiasing %d\nblur shadows enable: %d\nlight spread %d\nlight sep %d\nGl_enabled: %d\ngl_sampling %d\nwidth %d | height %d\n",
+														env->scene.sett.depth,
+														env->scene.sett.aliasing,
+														env->scene.sett.bshadows,
+														env->scene.sett.spread,
+														env->scene.sett.sep,
+														env->scene.sett.gl_enabled,
+														env->scene.sett.gl_sampling,
+														env->scene.sett.render_w,
+														env->scene.sett.render_h);
+	printf("**********************************\n");
 	if (pthread_create(&env->thr, NULL, waitcl, env))
 	{
 		ft_putendl("Error function pthread_create()");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmajstru <gmajstru@student.42.fr>          +#+  +:+       +#+        */
+/*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
-/*   Updated: 2019/02/06 20:13:15 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/07 10:22:51 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -348,7 +348,7 @@ void						create_srv(t_env *e);
 void						init_env_server(t_env *e);
 void						*loop_data(void *arg);
 void						*waitcl(void *arg);
-void						exit_usage2(void);
+// void						exit_usage2(void);
 t_env						*init_env2(void);
 void						serialize_obj(t_object *obj, char *data);
 void						serialize_light(t_light *light, char *data);
