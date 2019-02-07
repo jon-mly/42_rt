@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene_creation_xml.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/06 16:10:34 by aabelque          #+#    #+#             */
-/*   Updated: 2019/01/07 13:52:17 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/07 10:56:57 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ t_scene				create_scene_xml(t_env *env, char *file_name, int fd)
 	scene.lights = NULL;
 	scene.theme = color(255, 255, 255, 0);
 	scene.power = 0.25;
+	scene.sett = env->scene.sett;
 	while ((line = split_new_line(fd, env->chx)))
 	{
 		scene = extend_scene(fd, scene, line, env);
