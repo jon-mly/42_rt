@@ -6,7 +6,7 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 16:26:13 by gmajstru          #+#    #+#             */
-/*   Updated: 2019/02/06 20:21:36 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/11 15:31:06 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,8 @@ int	main(int ac, char **av)
 	GtkWidget	*size_buttons[3];
 
 	size_buttons[0] = gtk_radio_button_new_with_label(NULL, "900 x 600");
-	size_buttons[1] = gtk_radio_button_new_with_label(gtk_radio_button_get_group(GTK_RADIO_BUTTON(size_buttons[0])), "1200 x 900");
-	size_buttons[2] = gtk_radio_button_new_with_label(gtk_radio_button_get_group(GTK_RADIO_BUTTON(size_buttons[0])), "1500 x 1200");
+	size_buttons[1] = gtk_radio_button_new_with_label(gtk_radio_button_get_group(GTK_RADIO_BUTTON(size_buttons[0])), "1350 x 900");
+	size_buttons[2] = gtk_radio_button_new_with_label(gtk_radio_button_get_group(GTK_RADIO_BUTTON(size_buttons[0])), "2025 x 1350");
 	gtk_grid_attach(GTK_GRID(w_size_grid), GTK_WIDGET(size_buttons[0]), 0, 0, 1, 1);
 	gtk_grid_attach(GTK_GRID(w_size_grid), GTK_WIDGET(size_buttons[1]), 0, 1, 1, 1);
 	gtk_grid_attach(GTK_GRID(w_size_grid), GTK_WIDGET(size_buttons[2]), 0, 2, 1, 1);

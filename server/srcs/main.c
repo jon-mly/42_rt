@@ -6,7 +6,7 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:44 by jmlynarc          #+#    #+#             */
-/*   Updated: 2019/02/07 09:36:12 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/11 15:32:37 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ static	int		parse_arg2(t_env *e, char **av)
 			(ft_atoi(av[9]) >= 0 && ft_atoi(av[9]) <= 1) &&
 			(ft_atoi(av[10]) >= 0 && ft_atoi(av[10]) <= 500) &&
 			((ft_atoi(av[11]) == 900 && ft_atoi(av[12]) == 600)
-			|| (ft_atoi(av[11]) == 1200 && ft_atoi(av[12]) == 900)
-			|| (ft_atoi(av[11]) == 1500 && ft_atoi(av[12]) == 1200)))
+			|| (ft_atoi(av[11]) == 1350 && ft_atoi(av[12]) == 900)
+			|| (ft_atoi(av[11]) == 2025 && ft_atoi(av[12]) == 1350)))
 	{
 		e->scene.sett.depth = (unsigned int)ft_atoi(av[4]);
 		e->scene.sett.aliasing = (unsigned int)ft_atoi(av[5]);

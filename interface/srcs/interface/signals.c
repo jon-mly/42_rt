@@ -6,7 +6,7 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 21:20:29 by guillaume         #+#    #+#             */
-/*   Updated: 2019/02/07 09:23:49 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/11 15:31:35 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,8 @@ void	select_file(GtkWidget *w, gpointer user_data)
 	t_settings *settings = (t_settings*)user_data;
 
 	dialog = gtk_file_chooser_dialog_new ("Open File",
-										NULL,
-										action,
-										"_Cancel",
-										GTK_RESPONSE_CANCEL,
-										"_Open",
-										GTK_RESPONSE_ACCEPT,
-										NULL);
-
+		NULL,action, "_Cancel", GTK_RESPONSE_CANCEL, "_Open",
+		GTK_RESPONSE_ACCEPT, NULL);
 	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog),
 											"./rt_scenes/");
 	res = gtk_dialog_run (GTK_DIALOG (dialog));
@@ -163,15 +157,15 @@ void	update_render_size(GtkButton *w, gpointer user_data)
 		settings->render_w = 900;
 		settings->render_h = 600;
 	}
-	else if (!ft_strcmp("1200 x 900", w_label))
+	else if (!ft_strcmp("1350 x 900", w_label))
 	{
-		settings->render_w = 1200;
+		settings->render_w = 1350;
 		settings->render_h = 900;
 	}
-	else if (!ft_strcmp("1500 x 1200", w_label))
+	else if (!ft_strcmp("2025 x 1350", w_label))
 	{
-		settings->render_w = 1500;
-		settings->render_h = 1200;
+		settings->render_w = 2025;
+		settings->render_h = 1350;
 	}
 	else
 		err_dial(settings, -4, "erreur render size update");
