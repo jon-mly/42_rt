@@ -24,7 +24,7 @@ t_settings	*init_settings(void)
 	}
 	settings->err = 1;
 	settings->depth = 1;
-	settings->antialiasing = 0;
+	settings->antialiasing = 1;
 	settings->is_blur_shadows = FALSE;
 	settings->light_spread = 1;
 	settings->light_sep = 1;

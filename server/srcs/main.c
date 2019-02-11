@@ -39,7 +39,7 @@ static	int		parse_arg2(t_env *e, char **av)
 			(ft_atoi(av[7]) >= 0 && ft_atoi(av[7]) <= 3) &&
 			(ft_atoi(av[8]) >= 0 && ft_atoi(av[8]) <= 4) &&
 			(ft_atoi(av[9]) >= 0 && ft_atoi(av[9]) <= 1) &&
-			(ft_atoi(av[10]) >= 0 && ft_atoi(av[10]) <= 50) &&
+			(ft_atoi(av[10]) >= 0 && ft_atoi(av[10]) <= 500) &&
 			((ft_atoi(av[11]) == 900 && ft_atoi(av[12]) == 600)
 			|| (ft_atoi(av[11]) == 1200 && ft_atoi(av[12]) == 900)
 			|| (ft_atoi(av[11]) == 1500 && ft_atoi(av[12]) == 1200)))

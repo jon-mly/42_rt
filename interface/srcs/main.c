@@ -71,7 +71,7 @@ int	main(int ac, char **av)
 	g_signal_connect(G_OBJECT(iface_w[8]), "value-changed", G_CALLBACK(update_depth), (t_settings*)rt_set);
 	gtk_grid_attach(GTK_GRID(grid_widget), GTK_WIDGET(iface_w[8]), 1, 0, 1, 1);
 
-	iface_w[9] = gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, 0, 4, 1);
+	iface_w[9] = gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, 1, 4, 1);
 	gtk_range_set_value(GTK_RANGE(iface_w[9]), rt_set->antialiasing);
 	g_signal_connect(G_OBJECT(iface_w[9]), "value-changed", G_CALLBACK(update_antialiasing), (t_settings*)rt_set);
 	gtk_grid_attach(GTK_GRID(grid_widget), GTK_WIDGET(iface_w[9]), 1, 1, 1, 1);
@@ -98,7 +98,7 @@ int	main(int ac, char **av)
 	g_signal_connect(G_OBJECT(iface_w[13]), "toggled", G_CALLBACK(update_gl_enable), (t_settings*)rt_set);
 	gtk_grid_attach(GTK_GRID(grid_widget), GTK_WIDGET(iface_w[13]), 1, 5, 1, 1);
 
-	iface_w[14] = gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, 20, 50, 10);
+	iface_w[14] = gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, 20, 500, 10);
 	gtk_widget_set_sensitive(GTK_WIDGET(iface_w[14]), FALSE);
 	gtk_range_set_value(GTK_RANGE(iface_w[14]), rt_set->gl_sampling);
 	g_signal_connect(G_OBJECT(iface_w[14]), "value-changed", G_CALLBACK(update_glsampling), (t_settings*)rt_set);
