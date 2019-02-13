@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 18:30:29 by aabelque          #+#    #+#             */
-/*   Updated: 2019/02/06 20:13:17 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/13 10:25:39 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static	int					send_cam_scene(t_env *e)
 	e->err = send(e->srv.socket_cl, &e->camera, sizeof(t_camera), 0);
 	if (e->err == SOCKET_ERROR)
 		return (e->err);
-	printf("render_w send: %d\n", e->scene.sett.render_w);
 	e->err = send(e->srv.socket_cl, &e->scene.sett, sizeof(t_settings), 0);
 	if (e->err == SOCKET_ERROR)
 		return (e->err);
