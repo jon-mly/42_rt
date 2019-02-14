@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/13 10:24:58 by aabelque          #+#    #+#             */
-/*   Updated: 2019/02/13 10:25:21 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/14 23:44:28 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,18 +112,6 @@ int				main(int ac, char **av)
 	env = init_env(env, av[1]);
 	init_env_server(env);
 	create_srv(env);
-	printf("RT SETTINGS RECEIVED BY THE SERVER ARE **********************************\n");
-	printf("max depth %d\nantialiasing %d\nblur shadows enable: %d\nlight spread %d\nlight sep %d\nGl_enabled: %d\ngl_sampling %d\nwidth %d | height %d\n",
-														env->scene.sett.depth,
-														env->scene.sett.aliasing,
-														env->scene.sett.bshadows,
-														env->scene.sett.spread,
-														env->scene.sett.sep,
-														env->scene.sett.gl_enabled,
-														env->scene.sett.gl_sampling,
-														env->scene.sett.render_w,
-														env->scene.sett.render_h);
-	printf("**********************************\n");
 	if (pthread_create(&env->thr, NULL, waitcl, env))
 	{
 		ft_putendl("Error function pthread_create()");
