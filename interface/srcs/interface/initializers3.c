@@ -6,13 +6,13 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/14 23:38:45 by guillaume         #+#    #+#             */
-/*   Updated: 2019/02/14 23:39:13 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/15 13:55:03 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt_interface.h"
 
-t_inter	new_interface()
+t_inter	new_interface(void)
 {
 	t_inter	inter;
 
@@ -34,14 +34,20 @@ t_inter	new_interface()
 
 void	setup_grids(t_inter *inter)
 {
-	gtk_container_add(GTK_CONTAINER(inter->graph_frame), GTK_WIDGET(inter->grid_widget));
-	gtk_container_add(GTK_CONTAINER(inter->w_size_frame), GTK_WIDGET(inter->w_size_grid));
-	gtk_container_add(GTK_CONTAINER(inter->server_frame), GTK_WIDGET(inter->server_grid));
-
-	gtk_grid_attach(GTK_GRID(inter->master_grid), GTK_WIDGET(inter->w_size_frame), 0, 0, 1, 1);
-	gtk_grid_attach(GTK_GRID(inter->master_grid), GTK_WIDGET(inter->graph_frame), 0, 1, 1, 1);
-	gtk_grid_attach(GTK_GRID(inter->master_grid), GTK_WIDGET(inter->server_frame), 0, 2, 1, 1);
-	gtk_grid_attach(GTK_GRID(inter->master_grid), GTK_WIDGET(inter->iface_w[16]), 0, 3, 1, 1);
-
-	gtk_container_add(GTK_CONTAINER(inter->window), GTK_WIDGET(inter->master_grid));
+	gtk_container_add(GTK_CONTAINER(inter->graph_frame),
+			GTK_WIDGET(inter->grid_widget));
+	gtk_container_add(GTK_CONTAINER(inter->w_size_frame),
+			GTK_WIDGET(inter->w_size_grid));
+	gtk_container_add(GTK_CONTAINER(inter->server_frame),
+			GTK_WIDGET(inter->server_grid));
+	gtk_grid_attach(GTK_GRID(inter->master_grid),
+			GTK_WIDGET(inter->w_size_frame), 0, 0, 1, 1);
+	gtk_grid_attach(GTK_GRID(inter->master_grid),
+			GTK_WIDGET(inter->graph_frame), 0, 1, 1, 1);
+	gtk_grid_attach(GTK_GRID(inter->master_grid),
+			GTK_WIDGET(inter->server_frame), 0, 2, 1, 1);
+	gtk_grid_attach(GTK_GRID(inter->master_grid),
+			GTK_WIDGET(inter->iface_w[16]), 0, 3, 1, 1);
+	gtk_container_add(GTK_CONTAINER(inter->window),
+			GTK_WIDGET(inter->master_grid));
 }

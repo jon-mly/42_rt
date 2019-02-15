@@ -6,7 +6,7 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 15:29:01 by aabelque          #+#    #+#             */
-/*   Updated: 2019/02/07 10:20:02 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/15 14:44:44 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -367,7 +367,6 @@ void						opencl_init(t_opencl *opcl, t_env *env);
 void						create_prog(t_opencl *opcl);
 void						exit_error(t_env *env);
 void						exit_normally(t_env *env);
-// void						exit_usage(void);
 void						exit_invalid_file(void);
 t_env						*init_env(t_env *env, char *file_name);
 void						calculate_scene(t_env *env);

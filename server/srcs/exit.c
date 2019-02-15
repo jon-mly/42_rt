@@ -6,7 +6,7 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:36 by jmlynarc          #+#    #+#             */
-/*   Updated: 2019/02/07 10:14:09 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/15 14:46:00 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void		exit_normally(t_env *env)
 
 void		exit_usage(void)
 {
-	char *str1;
+	char	*str1;
 
 	str1 = ft_strdup("Usage : ");
 	str1 = ft_strjoin(str1,
@@ -48,12 +48,6 @@ void		exit_usage(void)
 	ft_strdel(&str1);
 	exit(0);
 }
-/* 
-void		exit_usage2(void)
-{
-	ft_putendl("Usage : ./client [IP address] -p [1024 > PORT < 65535]");
-	exit(0);
-} */
 
 void		exit_invalid_file(void)
 {
