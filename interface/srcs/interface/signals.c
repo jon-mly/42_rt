@@ -6,26 +6,23 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 21:20:29 by guillaume         #+#    #+#             */
-/*   Updated: 2019/02/15 14:24:38 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/15 15:06:15 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt_interface.h"
 
-void		select_file(GtkWidget *w, gpointer user_data)
+static void	run_dialog(t_settings *settings)
 {
-	GtkWidget				*dialog;
-	GtkFileChooserAction	action;
-	gint					res;
-	t_settings				*settings;
-	char					*filename;
-	GtkFileChooser			*chooser;
+	GtkWidget		*dialog;
+	GtkFileChooser	*chooser;
+	char			*filename;
+	gint			res;
 
-	settings = (t_settings*)user_data;
-	action = GTK_FILE_CHOOSER_ACTION_OPEN;
 	dialog = gtk_file_chooser_dialog_new("Open File",
-			NULL, action, "_Cancel", GTK_RESPONSE_CANCEL, "_Open",
-		GTK_RESPONSE_ACCEPT, NULL);
+			NULL, GTK_FILE_CHOOSER_ACTION_OPEN,
+			"_Cancel", GTK_RESPONSE_CANCEL, "_Open",
+			GTK_RESPONSE_ACCEPT, NULL);
 	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog),
 											"./rt_scenes/");
 	res = gtk_dialog_run(GTK_DIALOG(dialog));
@@ -37,6 +34,14 @@ void		select_file(GtkWidget *w, gpointer user_data)
 		g_free(filename);
 	}
 	gtk_widget_destroy(dialog);
+}
+
+void		select_file(GtkWidget *w, gpointer user_data)
+{
+	t_settings				*settings;
+
+	settings = (t_settings*)user_data;
+	run_dialog(settings);
 }
 
 void		blur_shadows_e_d(GtkWidget *blur_button, gpointer data)
