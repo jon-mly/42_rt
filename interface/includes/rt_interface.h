@@ -6,7 +6,7 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 16:25:13 by gmajstru          #+#    #+#             */
-/*   Updated: 2019/02/15 14:42:38 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/15 15:09:20 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,6 @@ void				setup_grids(t_inter *inter);
 void				err_dial(t_settings *settings, int err_code,
 						const gchar *msg);
 int					port_is_correct(unsigned int port);
+void				run_dialog(t_settings *settings);
+
 #endif
