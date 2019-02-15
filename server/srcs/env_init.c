@@ -6,7 +6,7 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:27 by jmlynarc          #+#    #+#             */
-/*   Updated: 2019/01/06 17:44:30 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/15 18:45:42 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void		setup_window(t_env *env)
 
 	env->mlx_ptr = mlx_init();
 	env->win_ptr = mlx_new_window(env->mlx_ptr, WIN_WIDTH, WIN_HEIGHT,
-		"RT v1");
+		"RT");
 	env->win_height = WIN_HEIGHT;
 	env->win_width = WIN_WIDTH;
 	if (env->mlx_ptr == NULL || env->win_ptr == NULL)
