@@ -50,7 +50,7 @@ MLX_FLAGS_LOCAL = -I $(MLX) -g -L $(MLX) -lmlx -framework OpenGL -framework \
 MATH_FLAG = -lm
 
 $(REP): $(O_SRCS)
-	gcc -g $(INCLUDE_FLAG) $(W_FLAGS) $(MLX_FLAGS_LOCAL) $(MATH_FLAG) $(SRC) $(LIBFT) -o $(NAME)
+	gcc $(INCLUDE_FLAG) $(W_FLAGS) $(MLX_FLAGS_LOCAL) $(MATH_FLAG) $(SRC) $(LIBFT) -o $(NAME)
 	mv $(NAME) ../
 	@echo "\033[3;32m[ ✔ ] Client ready.\033[0m"
 
