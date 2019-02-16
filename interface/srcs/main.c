@@ -6,11 +6,21 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 16:26:13 by gmajstru          #+#    #+#             */
-/*   Updated: 2019/02/14 23:39:00 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/16 10:11:00 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt_interface.h"
+
+static gboolean check_escape(GtkWidget *widget, GdkEventKey *event,
+	gpointer data)
+{
+  if (event->keyval == GDK_KEY_Escape) {
+    gtk_main_quit();
+    return TRUE;
+  }
+  return FALSE;
+}
 
 int	main(int ac, char **av)
 {
@@ -25,6 +35,8 @@ int	main(int ac, char **av)
 	init_size_w(inter.size_buttons, inter.w_size_grid, inter.rt_set);
 	init_server_w(inter.server_w, inter.server_grid, inter.rt_set);
 	setup_grids(&inter);
+	g_signal_connect(G_OBJECT(inter.window), "key_press_event",
+		G_CALLBACK(check_escape), NULL);
 	gtk_widget_show_all(GTK_WIDGET(inter.window));
 	gtk_main();
 	return (0);
