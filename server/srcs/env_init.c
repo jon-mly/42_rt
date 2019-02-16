@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:27 by jmlynarc          #+#    #+#             */
-/*   Updated: 2019/02/15 18:45:42 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/16 07:47:54 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ static void		setup_window(t_env *env)
 	int		endian;
 
 	env->mlx_ptr = mlx_init();
-	env->win_ptr = mlx_new_window(env->mlx_ptr, WIN_WIDTH, WIN_HEIGHT,
+	env->win_width = env->scene.sett.render_w;
+	env->win_height = env->scene.sett.render_h;
+	env->win_ptr = mlx_new_window(env->mlx_ptr, env->win_width, env->win_height,
 		"RT");
-	env->win_height = WIN_HEIGHT;
-	env->win_width = WIN_WIDTH;
 	if (env->mlx_ptr == NULL || env->win_ptr == NULL)
 		exit_error(env);
 	env->img_ptr = mlx_new_image(env->mlx_ptr, env->win_width, env->win_height);
-	env->img_width = WIN_WIDTH;
-	env->img_height = WIN_HEIGHT;
+	env->img_width = env->win_width;
+	env->img_height = env->win_height;
 	env->img_str = mlx_get_data_addr(env->img_ptr, &bpp, &s_l,
 		&endian);
 	if (env->img_ptr == NULL || env->img_str == NULL)

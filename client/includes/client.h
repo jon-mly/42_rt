@@ -6,7 +6,7 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 15:29:01 by aabelque          #+#    #+#             */
-/*   Updated: 2019/02/15 14:44:44 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/16 08:09:14 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@
 ** ======= macros
 */
 
-# define WIN_HEIGHT 600
-# define WIN_WIDTH 900
+# define DEFAULT_SIZE 100
 # define FOV 0.50
 
 # define KEY_ESC 53
@@ -359,7 +358,7 @@ void						deserialize_light(char *data, t_light *light);
 int							error_gpu(t_opencl *opcl);
 void						opencl_init2(t_opencl *opcl, t_env *e);
 void						opencl_draw(t_opencl *opcl, t_env *e);
-void						set_opencl_env(t_opencl *opcl);
+void						set_opencl_env(t_env *env, t_opencl *opcl);
 void						create_kernel(cl_program program,
 		cl_kernel *kernel, const char *func);
 char						*get_kernel_source(char *file);

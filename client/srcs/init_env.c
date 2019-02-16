@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/03 15:05:50 by aabelque          #+#    #+#             */
-/*   Updated: 2019/01/03 17:33:55 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/16 08:01:58 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ static	void	setup_window(t_env *env)
 	int		endian;
 
 	env->mlx_ptr = mlx_init();
-	env->win_ptr = mlx_new_window(env->mlx_ptr, WIN_WIDTH, WIN_HEIGHT,
+	env->win_ptr = mlx_new_window(env->mlx_ptr, DEFAULT_SIZE, DEFAULT_SIZE,
 			"Client RT");
-	env->win_height = WIN_HEIGHT;
-	env->win_width = WIN_WIDTH;
+	env->win_height = DEFAULT_SIZE;
+	env->win_width = DEFAULT_SIZE;
 	if (env->mlx_ptr == NULL || env->win_ptr == NULL)
 		exit_error(env);
 	env->img_ptr = mlx_new_image(env->mlx_ptr, env->win_width, env->win_height);
-	env->img_width = WIN_WIDTH;
-	env->img_height = WIN_HEIGHT;
+	env->img_width = DEFAULT_SIZE;
+	env->img_height = DEFAULT_SIZE;
 	env->img_str = mlx_get_data_addr(env->img_ptr, &bpp, &s_l, &endian);
 	if (env->img_ptr == NULL || env->img_str == NULL)
 		exit_error(env);
@@ -40,10 +40,10 @@ t_env			*init_env2(void)
 {
 	t_env	*env;
 
-	env->win_height = WIN_HEIGHT;
-	env->win_width = WIN_WIDTH;
-	env->img_width = WIN_WIDTH;
-	env->img_height = WIN_HEIGHT;
+	env->win_height = DEFAULT_SIZE;
+	env->win_width = DEFAULT_SIZE;
+	env->img_width = DEFAULT_SIZE;
+	env->img_height = DEFAULT_SIZE;
 	env->mlx_ptr = NULL;
 	env->img_ptr = NULL;
 	env->img_str = NULL;

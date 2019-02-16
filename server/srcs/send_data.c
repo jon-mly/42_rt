@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   send_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 18:30:29 by aabelque          #+#    #+#             */
-/*   Updated: 2019/02/13 10:25:39 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/16 07:58:11 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ static	int					send_nb_light_obj(t_env *e)
 	return (e->err);
 }
 
-static t_renderbds			bounds_at(int socket_index, int sockets_count)
+static t_renderbds			bounds_at(t_env *env, int socket_index, int sockets_count)
 {
 	t_renderbds		bounds;
 	float			top;
 	float			bottom;
 
-	top = WIN_HEIGHT * ((float)socket_index / (float)sockets_count);
-	bottom = WIN_HEIGHT * ((float)(socket_index + 1) / (float)sockets_count);
+	top = env->win_height * ((float)socket_index / (float)sockets_count);
+	bottom = env->win_height * ((float)(socket_index + 1) / (float)sockets_count);
 	bounds.top = (int)floor(top);
 	bounds.bottom = (int)floor(bottom) - 1;
 	return (bounds);
@@ -68,7 +68,7 @@ int							send_obj_light(t_env *e)
 	e->i = -1;
 	if ((e->err = send_nb_light_obj(e)) == SOCKET_ERROR)
 		return (e->err);
-	e->bounds = bounds_at(e->srv.crrnt_sckt_id, e->srv.nbclient);
+	e->bounds = bounds_at(e, e->srv.crrnt_sckt_id, e->srv.nbclient);
 	if ((e->err = send_render_bounds(e)) == SOCKET_ERROR)
 		return (e->err);
 	if ((e->err = send_cam_scene(e)) == SOCKET_ERROR)

@@ -6,7 +6,7 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 16:40:56 by aabelque          #+#    #+#             */
-/*   Updated: 2019/02/07 10:19:14 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/16 07:39:07 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ int				main(int ac, char **av)
 	env = init_env2();
 	init_env_client(env, av[1]);
 	create_client(env);
-	mlx_hook(env->win_ptr, 2, 0, handle_key_event, (void*)env);
-	mlx_hook(env->win_ptr, 17, 0, exit_properly, (void*)env);
-	mlx_loop_hook(env->mlx_ptr, expose_event, (void*)env);
-	set_opencl_env(&env->opcl);
-	if (pthread_create(&(env->thr), NULL, loop_client_lifecycle, env))
+	// mlx_hook(env->win_ptr, 2, 0, handle_key_event, (void*)env);
+	// mlx_hook(env->win_ptr, 17, 0, exit_properly, (void*)env);
+	// mlx_loop_hook(env->mlx_ptr, expose_event, (void*)env);
+/* 	if (pthread_create(&(env->thr), NULL, loop_client_lifecycle, env))
 		ft_error("Error launching client lifecycle : pthread_create");
 	if (pthread_join(env->thr, NULL))
-		ft_error("Error launching client lifecycle : pthread_join");
+		ft_error("Error launching client lifecycle : pthread_join"); */
+	loop_client_lifecycle(env);
 	mlx_loop(env->mlx_ptr);
 	return (0);
 }

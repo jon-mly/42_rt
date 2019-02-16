@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   connexion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 14:24:22 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/21 10:32:44 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/16 07:44:43 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void			*loop_data(void *arg)
 	char		*ptr;
 
 	e = (t_env *)arg;
-	e->size = WIN_WIDTH * WIN_HEIGHT * 4 * sizeof(char);
+	e->size = e->img_width * e->img_height * 4 * sizeof(char);
 	if ((tmp = (char*)malloc(e->size)) == NULL)
 		return (NULL);
 	ptr = tmp;
@@ -77,8 +77,8 @@ void			*loop_data(void *arg)
 		e->size -= e->err;
 		ptr += e->err;
 	}
-	e->offset = sizeof(char) * WIN_WIDTH * e->bounds.top * 4;
-	e->size = sizeof(char) * WIN_WIDTH * (1 + e->bounds.bottom
+	e->offset = sizeof(char) * e->img_width * e->bounds.top * 4;
+	e->size = sizeof(char) * e->img_width * (1 + e->bounds.bottom
 			- e->bounds.top) * 4;
 	ft_memmove(e->img_str + e->offset, tmp + e->offset, e->size);
 	free(tmp);

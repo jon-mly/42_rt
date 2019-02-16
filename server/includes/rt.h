@@ -6,7 +6,7 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
-/*   Updated: 2019/02/15 14:46:19 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/16 08:09:32 by guillaume        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@
 ** ======= macros
 */
 
-# define WIN_HEIGHT 600
-# define WIN_WIDTH 900
 # define FOV 0.50
 
 # define KEY_ESC 53
