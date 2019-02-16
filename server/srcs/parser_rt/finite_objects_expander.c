@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 10:16:15 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/21 11:24:30 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/16 17:13:25 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static	t_scene		create_cone_end(t_object cone, t_scene scene, int id)
 ** Assumes that the object given in parameter is finite.
 */
 
-t_scene				create_dependant_objects(t_object object, int fd,
+t_scene				create_dependant_objects(t_object object,
 		t_scene scene, int id)
 {
 	if (object.typpe == CYLINDER)

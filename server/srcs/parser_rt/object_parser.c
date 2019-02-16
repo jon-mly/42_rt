@@ -6,13 +6,13 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 15:41:10 by aabelque          #+#    #+#             */
-/*   Updated: 2019/01/06 17:26:57 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/16 17:09:11 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-static	void		parse_object5(int fd, t_object *object, char **line)
+static	void		parse_object5(t_object *object, char **line)
 {
 	if (line_len(line) == 2 && ft_strequ(line[0], "texture"))
 	{
@@ -39,7 +39,7 @@ static	void		parse_object5(int fd, t_object *object, char **line)
 	}
 }
 
-static	void		parse_object4(int fd, t_object *object, char **line)
+static	void		parse_object4(t_object *object, char **line)
 {
 	if (line_len(line) == 2 && ft_strequ(line[0], "refraction_index"))
 		object->refraction = fmax(ft_atoi(line[1]), 100.0) / 100.0;
@@ -59,7 +59,7 @@ static	void		parse_object4(int fd, t_object *object, char **line)
 		object->tau = ft_atof(line[1]);
 }
 
-static	void		parse_object3(int fd, t_object *object, char **line)
+static	void		parse_object3(t_object *object, char **line)
 {
 	if (line_len(line) == 4 && ft_strequ(line[0], "normal"))
 		object->normal = normalize_vector(vector(ft_atof(line[1]),
@@ -84,7 +84,7 @@ static	void		parse_object3(int fd, t_object *object, char **line)
 		object->transparency = fmin(fmax(ft_atof(line[1]) / 100.0, 0), 1);
 }
 
-static	void		parse_object2(int fd, t_object *object, char **line)
+static	void		parse_object2(t_object *object, char **line)
 {
 	if (line_len(line) == 4 && ft_strequ(line[0], "color"))
 		object->color = color(ft_atof(line[1]), ft_atof(line[2]),
@@ -116,10 +116,10 @@ t_object			parse_object(int fd, t_object *obj, int chx)
 	obj->covered = 0;
 	while ((line = split_new_line(fd, chx)) && !ft_strequ(line[0], "}"))
 	{
-		parse_object2(fd, obj, line);
-		parse_object3(fd, obj, line);
-		parse_object4(fd, obj, line);
-		parse_object5(fd, obj, line);
+		parse_object2(obj, line);
+		parse_object3(obj, line);
+		parse_object4(obj, line);
+		parse_object5(obj, line);
 		if (line_len(line) == 2 && ft_strequ(line[0], "bump_mapping"))
 		{
 			if (ft_strequ(line[1], "VERTICAL_SIN"))

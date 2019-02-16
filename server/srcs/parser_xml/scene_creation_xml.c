@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene_creation_xml.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
+/*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/06 16:10:34 by aabelque          #+#    #+#             */
-/*   Updated: 2019/02/07 10:56:57 by guillaume        ###   ########.fr       */
+/*   Created: 2019/02/16 16:48:12 by aabelque          #+#    #+#             */
+/*   Updated: 2019/02/16 17:13:26 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void			extend_scene2(int fd, t_scene *scene, char **line, int chx)
 			&& scene->objects[scene->objects_count - 1].covered)
 		*scene =
 			create_dependant_objects(scene->objects[scene->objects_count - 1],
-					fd, *scene, scene->objects_count - 1);
+					*scene, scene->objects_count - 1);
 }
 
 static t_scene		extend_scene(int fd, t_scene scene, char **line, t_env *env)
@@ -79,7 +79,7 @@ static t_scene		extend_scene(int fd, t_scene scene, char **line, t_env *env)
 	return (scene);
 }
 
-t_scene				create_scene_xml(t_env *env, char *file_name, int fd)
+t_scene				create_scene_xml(t_env *env, int fd)
 {
 	char			**line;
 	t_scene			scene;

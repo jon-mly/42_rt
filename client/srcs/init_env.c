@@ -6,7 +6,7 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/03 15:05:50 by aabelque          #+#    #+#             */
-/*   Updated: 2019/02/16 08:01:58 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/16 17:01:22 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,8 @@ static	void	setup_window(t_env *env)
 	env->endian = endian;
 }
 
-t_env			*init_env2(void)
+void			init_env2(t_env *env)
 {
-	t_env	*env;
-
 	env->win_height = DEFAULT_SIZE;
 	env->win_width = DEFAULT_SIZE;
 	env->img_width = DEFAULT_SIZE;
@@ -50,5 +48,4 @@ t_env			*init_env2(void)
 	env->win_ptr = NULL;
 	setup_window(env);
 	env->camera = init_camera(env);
-	return (env);
 }

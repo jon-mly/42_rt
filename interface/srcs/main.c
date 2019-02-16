@@ -6,25 +6,26 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 16:26:13 by gmajstru          #+#    #+#             */
-/*   Updated: 2019/02/16 10:11:00 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/16 17:18:14 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt_interface.h"
 
-static gboolean check_escape(GtkWidget *widget, GdkEventKey *event,
-	gpointer data)
+static gboolean		check_escape(GtkWidget *widget, GdkEventKey *event,
+		gpointer data)
 {
-  if (event->keyval == GDK_KEY_Escape) {
-    gtk_main_quit();
-    return TRUE;
-  }
-  return FALSE;
+	if (event->keyval == GDK_KEY_Escape)
+	{
+		gtk_main_quit();
+		return (TRUE);
+	}
+	return (FALSE);
 }
 
-int	main(int ac, char **av)
+int					main(int ac, char **av)
 {
-	t_inter inter;
+	t_inter	inter;
 
 	gtk_init(&ac, &av);
 	inter = new_interface();

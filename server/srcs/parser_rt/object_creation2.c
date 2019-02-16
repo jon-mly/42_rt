@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 12:00:40 by aabelque          #+#    #+#             */
-/*   Updated: 2019/01/07 14:28:54 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/16 17:07:01 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ t_object		add_new_sphere(int fd, int chx)
 
 t_object		add_new_plane(int fd, int chx)
 {
-	char		**line;
 	t_object	plane;
 
 	plane = get_template_object();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
+/*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/22 11:46:27 by jmlynarc          #+#    #+#             */
-/*   Updated: 2019/02/16 07:47:54 by guillaume        ###   ########.fr       */
+/*   Created: 2019/02/16 16:47:21 by aabelque          #+#    #+#             */
+/*   Updated: 2019/02/16 17:13:25 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ t_env			*init_env(t_env *env, char *file_name)
 	setup_window(env);
 	env->camera = init_camera(env);
 	if (env->chx == 1)
-		env->scene = create_scene_xml(env, file_name, fd);
+		env->scene = create_scene_xml(env, fd);
 	else
-		env->scene = create_scene(env, file_name, fd);
+		env->scene = create_scene(env, fd);
 	return (env);
 }

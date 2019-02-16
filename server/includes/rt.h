@@ -6,7 +6,7 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
-/*   Updated: 2019/02/16 08:09:32 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/16 17:23:48 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -408,9 +408,8 @@ t_light						*add_light_xml(int fd, t_light *existing_lights,
 		int count, int chx);
 t_object					add_new_object_xml(int fd, char *type, int chx);
 t_object					add_new_object(int fd, char *type, int chx);
-t_scene						create_scene_xml(t_env *env, char *file_name,
-		int fd);
-t_scene						create_scene(t_env *env, char *file_name, int fd);
+t_scene						create_scene_xml(t_env *env, int fd);
+t_scene						create_scene(t_env *env, int fd);
 t_object					cylinder_intersection(t_object ray,
 		t_object cylinder);
 t_object					cone_intersection(t_object ray, t_object cone,
@@ -443,10 +442,10 @@ t_object					*expand_objects(t_object *objects,
 		int previous_count);
 t_vector					point_from_vector(t_point origin,
 		t_vector direction, float norm);
-t_scene						create_dependant_objects(t_object object, int fd,
+t_scene						create_dependant_objects(t_object object,
 		t_scene scene, int id);
 t_scene						create_dependant_objects_xml(t_object object,
-		int fd, t_scene scene, int id);
+		t_scene scene, int id);
 t_vector					rotate_cylinder_angles(t_object cylinder,
 		t_vector vect, int reverse);
 t_vector					rotate_cone_angles(t_object cone, t_vector vect,

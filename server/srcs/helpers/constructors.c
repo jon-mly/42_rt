@@ -6,7 +6,7 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:03 by jmlynarc          #+#    #+#             */
-/*   Updated: 2019/01/13 14:15:53 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/16 17:02:27 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_object			get_template_object(void)
 		.normal = (t_vector){1, 0, 0},
 		.first_vect = (t_vector){1, 0, 0},
 		.second_vect = (t_vector){0, 1, 0},
-		.color = (t_color){200, 200, 200},
+		.color = (t_color){200, 200, 200, 1},
 		.typpe = SPHERE, .txt_type = NONE,
 		.bump_mapping = FLAT
 	});

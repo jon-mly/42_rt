@@ -6,7 +6,7 @@
 /*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 15:29:01 by aabelque          #+#    #+#             */
-/*   Updated: 2019/02/16 08:09:14 by guillaume        ###   ########.fr       */
+/*   Updated: 2019/02/16 17:01:21 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -350,7 +350,7 @@ void						*loop_data(void *arg);
 void						loop_recv(t_env *e);
 void						*waitcl(void *arg);
 void						exit_usage2(void);
-t_env						*init_env2(void);
+void						init_env2(t_env *env);
 void						deserialize_obj(char *data, t_object *obj);
 void						deserialize_pt(char *data, t_point *obj);
 void						deserialize_float(float *data, t_object *obj);
