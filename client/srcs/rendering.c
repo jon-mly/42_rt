@@ -40,8 +40,8 @@ static void		update_window2(t_env *env)
 
 static	void	update_window(t_env *env)
 {
-	mlx_destroy_window(env->mlx_ptr, env->win_ptr);
 	mlx_destroy_image(env->mlx_ptr, env->img_ptr);
+	mlx_destroy_window(env->mlx_ptr, env->win_ptr);
 	env->win_width = env->scene.sett.render_w;
 	env->win_height = env->scene.sett.render_h;
 	env->win_ptr = mlx_new_window(env->mlx_ptr, env->win_width,

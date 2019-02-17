@@ -26,6 +26,7 @@ static void		deinit_scene(t_scene scene)
 
 void			deinit_env(t_env *env)
 {
+	opencl_free(&env->opcl);
 	ft_putendl("Deinit triggered");
 	deinit_scene(env->scene);
 	ft_putendl("Scene is deinited");
@@ -33,6 +34,5 @@ void			deinit_env(t_env *env)
 		mlx_destroy_image(env->mlx_ptr, env->img_ptr);
 	if (env->win_ptr && env->mlx_ptr)
 		mlx_destroy_window(env->mlx_ptr, env->win_ptr);
-	ft_memdel((void**)(&(env->mlx_ptr)));
-	ft_memdel((void**)(env));
+	ft_memdel((void**)(&env));
 }

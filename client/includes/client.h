@@ -356,13 +356,14 @@ void						deserialize_pt(char *data, t_point *obj);
 void						deserialize_float(float *data, t_object *obj);
 void						deserialize_light(char *data, t_light *light);
 int							error_gpu(t_opencl *opcl);
+void						opencl_init(t_opencl *opcl, t_env *env);
 void						opencl_init2(t_opencl *opcl, t_env *e);
 void						opencl_draw(t_opencl *opcl, t_env *e);
+void						opencl_free(t_opencl *opcl);
 void						set_opencl_env(t_env *env, t_opencl *opcl);
 void						create_kernel(cl_program program,
 		cl_kernel *kernel, const char *func);
 char						*get_kernel_source(char *file);
-void						opencl_init(t_opencl *opcl, t_env *env);
 void						create_prog(t_opencl *opcl);
 void						exit_error(t_env *env);
 void						exit_normally(t_env *env);
