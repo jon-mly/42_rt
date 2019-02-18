@@ -71,6 +71,7 @@ t_object		add_new_cone_xml(int fd, int chx)
 	t_object	cone;
 
 	cone = get_template_object();
+	cone.direction = vector(0, 0, 1);
 	cone.typpe = CONE;
 	cone = parse_object_xml(fd, &cone, chx);
 	cone.direction = rotate_cone_angles(cone, cone.direction, 1);
@@ -95,6 +96,7 @@ t_object		add_new_cylinder_xml(int fd, int chx)
 	t_object	cylinder;
 
 	cylinder = get_template_object();
+	cylinder.direction = vector(0, 0, 1);
 	cylinder.typpe = CYLINDER;
 	cylinder = parse_object_xml(fd, &cylinder, chx);
 	cylinder.direction = rotate_cylinder_angles(cylinder,

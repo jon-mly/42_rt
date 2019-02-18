@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   finite_objects_expander.c                          :+:      :+:    :+:   */
+/*   finite_objects_expander_xml.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -19,7 +19,8 @@ static	t_scene		create_cylinders_ends(t_object cylinder, t_scene scene,
 	t_object		bottom_disc;
 
 	bottom_disc = (t_object){.typpe = DISC, .point = cylinder.point,
-		.normal = cylinder.direction,
+		.bump_mapping = cylinder.bump_mapping, .txt_type = cylinder.txt_type,
+		.txt_algo = cylinder.txt_algo, .normal = cylinder.direction,
 		.color = cylinder.color, .diffuse = cylinder.diffuse,
 		.brillance = cylinder.brillance,
 		.radius = cylinder.radius, .reflection = cylinder.reflection,
@@ -46,6 +47,7 @@ static	t_scene		create_cone_end(t_object cone, t_scene scene, int id)
 	t_object		top_disc;
 
 	top_disc = (t_object){.typpe = DISC, .normal = cone.direction,
+		.bump_mapping = cone.bump_mapping, .txt_type = cone.txt_type,
 		.color = cone.color, .diffuse = cone.diffuse,
 		.brillance = cone.brillance,
 		.reflection = cone.reflection, .transparency = cone.transparency,

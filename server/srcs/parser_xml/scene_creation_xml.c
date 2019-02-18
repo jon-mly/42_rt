@@ -48,7 +48,7 @@ static void			extend_scene2(int fd, t_scene *scene, char **line, int chx)
 	if (scene->objects[scene->objects_count - 1].finite
 			&& scene->objects[scene->objects_count - 1].covered)
 		*scene =
-			create_dependant_objects(scene->objects[scene->objects_count - 1],
+			create_dependant_objects_xml(scene->objects[scene->objects_count - 1],
 					*scene, scene->objects_count - 1);
 }
 
