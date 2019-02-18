@@ -74,9 +74,8 @@ transparency 0
 texture MARBLE
 }
 
-hyperboloid {
-rho 4
-sigma 20
+cone {
+pi_divider 10
 angles 0 90
 center -50 0 100
 color 255 255 255
@@ -99,15 +98,14 @@ transparency 95
 refraction_index 133
 }
 
-hyperboloid {
-rho 4
-sigma 20
+cone {
+pi_divider 10
 angles 0 90
 center 50 0 100
 color 255 255 255
 diffuse 0
 reflect 100
-brillance 10
+brillance 80
 transparency 95
 refraction_index 133
 }

@@ -28,7 +28,7 @@ GTK_INCLUDE = `pkg-config --cflags gtk+-3.0`
 GTK_LIB = `pkg-config --libs gtk+-3.0`
 
 $(REP): $(O_SRCS)
-	gcc -g $(INCLUDE_FLAG) $(GTK_INCLUDE) $(SRC) $(LIBFT) -o $(NAME) $(GTK_LIB)
+	gcc $(INCLUDE_FLAG) $(GTK_INCLUDE) $(SRC) $(LIBFT) -o $(NAME) $(GTK_LIB)
 	mv $(NAME) ../
 	@echo "\033[3;32m[ ✔ ] RT_interface ready.\033[0m"
 

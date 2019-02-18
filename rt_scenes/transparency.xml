@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
-<theme>
-	<color> 255 255 255 </color>
-	<power> 10 </power>
-</theme>
+<theme> 255 255 255 </theme>
+<power> 10 </power>
 <camera>
 	<position> 0 0 -100 </position>
 	<angles> 0 0 </angles>
@@ -26,6 +24,7 @@
 	<transparency> 0 </transparency>
 	<refraction_index> 100 </refraction_index>
 </plane>
+	<LEFT> 1 </LEFT>
 <plane>
 	<normal> 1 0 0 </normal>
 	<point> -150 0 0 </point>
@@ -54,9 +53,8 @@
 	<transparency> 0 </transparency>
 	<texture> MARBLE </texture>
 </plane>
-<hyperboloid>
-	<rho> 4 </rho>
-	<sigma> 20 </sigma>
+<cone>
+	<pi_divider> 10 </pi_divider>
 	<angles> 0 90 </angles>
 	<center> -50 0 100 </center>
 	<color> 255 255 255 </color>
@@ -65,7 +63,7 @@
 	<brillance> 80 </brillance>
 	<transparency> 95 </transparency>
 	<refraction_index> 133 </refraction_index>
-</hyperboloid>
+</cone>
 <cylinder>
 	<angles> -90 -90 </angles>
 	<position> 0 0 200 </position>
@@ -77,18 +75,17 @@
 	<transparency> 95 </transparency>
 	<refraction_index> 133 </refraction_index>
 </cylinder>
-<hyperboloid>
-	<rho> 4 </rho>
-	<sigma> 20 </sigma>
+<cone>
+	<pi_divider> 10 </pi_divider>
 	<angles> 0 90 </angles>
 	<center> 50 0 100 </center>
 	<color> 255 255 255 </color>
 	<diffuse> 0 </diffuse>
 	<reflect> 100 </reflect>
-	<brillance> 10 </brillance>
+	<brillance> 80 </brillance>
 	<transparency> 95 </transparency>
 	<refraction_index> 133 </refraction_index>
-</hyperboloid>
+</cone>
 <sphere>
 	<center> 0 0 100 </center>
 	<radius> 18 </radius>
@@ -102,6 +99,12 @@
 <light>
 	<type> OMNI </type>
 	<position> 0 40 270 </position>
+	<color> 255 255 255 </color>
+	<power> 800 </power>
+</light>
+<light>
+	<type> OMNI </type>
+	<position> 0 40 -105 </position>
 	<color> 255 255 255 </color>
 	<power> 800 </power>
 </light>
